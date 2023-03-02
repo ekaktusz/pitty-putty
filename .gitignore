@@ -1,0 +1,7 @@
+.vs
+build/*
+.DS_Store
+src/out
+include/SFML
+bin/
+out
