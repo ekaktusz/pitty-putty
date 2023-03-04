@@ -1,3 +1,6 @@
 [submodule "vendor/vcpkg"]
 	path = vendor/vcpkg
 	url = https://github.com/microsoft/vcpkg
+[submodule "vendor/bagla-engine"]
+	path = vendor/bagla-engine
+	url = https://github.com/ekaktusz/bagla-engine

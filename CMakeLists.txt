@@ -16,11 +16,16 @@ file(GLOB SOURCES
 )
 
 add_executable(PittyPutty ${SOURCES})
+add_subdirectory(vendor/bagla-engine)
+
+target_include_directories(PittyPutty PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/vendor/bagla-engine/include" )
+
 
 find_package(SFML COMPONENTS system window graphics audio network CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
 target_link_libraries(PittyPutty PRIVATE sfml-system sfml-network sfml-graphics sfml-window sfml-audio)
 target_link_libraries(PittyPutty PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
+target_link_libraries(PittyPutty PRIVATE bagla-engine)
 
 # target_precompile_headers(ProjectName PUBLIC "src/pch.h")
