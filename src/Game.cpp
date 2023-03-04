@@ -14,20 +14,20 @@ void Game::run()
 	sf::Event event;
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate{ sf::Time::Zero };
-	sf::Time FRAME_TIME = sf::seconds(1.f / 60.f); // max fps: 60
+	const sf::Time frameTime = sf::seconds(1.f / 60.f); // max fps: 60
 	
 	while (m_RenderWindow.isOpen())
 	{
 		sf::Time elapsedTime = clock.restart();
 		timeSinceLastUpdate += elapsedTime;
-		while (timeSinceLastUpdate > FRAME_TIME)
+		while (timeSinceLastUpdate > frameTime)
 		{
-			timeSinceLastUpdate -= FRAME_TIME;
+			timeSinceLastUpdate -= frameTime;
 			while (m_RenderWindow.pollEvent(event))
 			{
 				m_StateManager.handleEvent(event);
 			}
-			m_StateManager.update(FRAME_TIME);
+			m_StateManager.update(frameTime);
 		}
 		m_StateManager.draw();
 	}
