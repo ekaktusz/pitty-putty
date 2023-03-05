@@ -25,6 +25,23 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_GameTitle.setOrigin(rounded);
 	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2, 100 );
 
+	m_StartButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	m_StartButton.setSize({ 400, 50 });
+	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 300 });
+	m_StartButton.setString("start game");
+	m_StartButton.flushChanges();
+
+	m_SettingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	m_SettingsButton.setSize({ 400, 50 });
+	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 360 });
+	m_SettingsButton.setString("settings");
+	m_SettingsButton.flushChanges();
+
+	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	m_QuitButton.setSize({ 400, 50 });
+	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 420 });
+	m_QuitButton.setString("quit game");
+	m_QuitButton.flushChanges();
 
 	//m_GameTitle.setPosition(350, 10);
 }
@@ -34,6 +51,7 @@ void MenuState::loadAssets()
 	bgl::AssetManager::getInstance().loadTexture("../../assets/background/bg0.png", "menuBackground");
 	bgl::AssetManager::getInstance().loadMusic("../../assets/music/ludumdare38/track10.wav", "menuMusic");
 	bgl::AssetManager::getInstance().loadFont("../../assets/fonts/pixel_art_font.ttf", "pixelFont");
+	bgl::AssetManager::getInstance().loadFont("../../assets/fonts/upheaval.ttf", "upheaval");
 }
 
 void MenuState::update(const sf::Time& dt)
@@ -46,6 +64,9 @@ void MenuState::draw() const
 	m_RenderWindow.clear();
 	m_RenderWindow.draw(m_BackgroundSprite);
 	m_RenderWindow.draw(m_GameTitle);
+	m_RenderWindow.draw(m_StartButton);
+	m_RenderWindow.draw(m_SettingsButton);
+	m_RenderWindow.draw(m_QuitButton);
 	m_RenderWindow.display();
 }
 
@@ -56,4 +77,7 @@ void MenuState::handleEvent(const sf::Event& event)
 	{
 		m_RenderWindow.close();
 	}
+	m_StartButton.handleEvent(event);
+	m_SettingsButton.handleEvent(event);
+	m_QuitButton.handleEvent(event);
 }
