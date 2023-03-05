@@ -20,6 +20,9 @@ public:
 	void draw() const override;
 	void handleEvent(const sf::Event& event) override;
 
+	void onResume() override;
+	void onPause() override;
+
 private:
 	void loadAssets();
 	sf::Texture m_BackgroundTexture;

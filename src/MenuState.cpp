@@ -4,8 +4,10 @@
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <spdlog/spdlog.h>
 #include <filesystem>
+#include "GameState.h"
+#include <bagla-engine/states/StateManager.h>
 
-MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : State(stateManager, renderWindow) 
+MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow) 
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -30,6 +32,11 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 300 });
 	m_StartButton.setString("start game");
 	m_StartButton.flushChanges();
+	m_StartButton.setActionTodo([&]() {
+		spdlog::info("Switch to GameState: Starting the game");
+		std::unique_ptr<GameState> gameState = std::make_unique<GameState>(m_StateManager, m_RenderWindow);
+		m_StateManager.pushState(std::move(gameState));
+	});
 
 	m_SettingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_SettingsButton.setSize({ 400, 50 });
@@ -80,4 +87,14 @@ void MenuState::handleEvent(const sf::Event& event)
 	m_StartButton.handleEvent(event);
 	m_SettingsButton.handleEvent(event);
 	m_QuitButton.handleEvent(event);
+}
+
+void MenuState::onResume()
+{
+
+}
+
+void MenuState::onPause()
+{
+	m_BackgroundMusic->pause();
 }
