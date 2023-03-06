@@ -7,7 +7,7 @@
 #include "GameState.h"
 #include <bagla-engine/states/StateManager.h>
 
-MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow) 
+MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow), m_StartButton(renderWindow), m_SettingsButton(renderWindow), m_QuitButton(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -49,6 +49,10 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 420 });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.flushChanges();
+	m_QuitButton.setActionTodo([&]() {
+		spdlog::info("Quit game :(");
+		m_RenderWindow.close();
+	});
 
 	//m_GameTitle.setPosition(350, 10);
 }
@@ -63,7 +67,9 @@ void MenuState::loadAssets()
 
 void MenuState::update(const sf::Time& dt)
 {
-
+	m_StartButton.update(dt);
+	m_SettingsButton.update(dt);
+	m_QuitButton.update(dt);
 }
 
 void MenuState::draw() const
