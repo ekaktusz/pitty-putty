@@ -31,7 +31,6 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_StartButton.setSize({ 400, 50 });
 	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 300 });
 	m_StartButton.setString("start game");
-	m_StartButton.flushChanges();
 	m_StartButton.setActionTodo([&]() {
 		spdlog::info("Switch to GameState: Starting the game");
 		std::unique_ptr<GameState> gameState = std::make_unique<GameState>(m_StateManager, m_RenderWindow);
@@ -42,13 +41,11 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_SettingsButton.setSize({ 400, 50 });
 	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 360 });
 	m_SettingsButton.setString("settings");
-	m_SettingsButton.flushChanges();
 
 	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_QuitButton.setSize({ 400, 50 });
 	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 420 });
 	m_QuitButton.setString("quit game");
-	m_QuitButton.flushChanges();
 	m_QuitButton.setActionTodo([&]() {
 		spdlog::info("Quit game :(");
 		m_RenderWindow.close();
