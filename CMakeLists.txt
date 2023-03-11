@@ -18,7 +18,7 @@ file(GLOB SOURCES
 add_executable(PittyPutty ${SOURCES})
 add_subdirectory(vendor/bagla-engine)
 
-target_include_directories(PittyPutty PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/vendor/bagla-engine/include" )
+target_include_directories(PittyPutty PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/bagla-engine/include" )
 
 
 find_package(SFML COMPONENTS system window graphics audio network CONFIG REQUIRED)

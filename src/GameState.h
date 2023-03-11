@@ -3,6 +3,11 @@
 #include <bagla-engine/states/State.h>
 #include "Player.h"
 
+namespace bgl
+{
+	class Map;
+}
+
 class GameState : public bgl::State
 {
 public:
@@ -15,6 +20,11 @@ public:
 
 	void onResume() override;
 	void onPause() override;
+
+private:
+	void loadAssets();
+
 private:
 	Player m_Player1;
+	bgl::Map* m_Map;
 };
