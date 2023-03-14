@@ -10,3 +10,13 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_RectangleShape);
 }
+
+void Player::update(const sf::Time& dt)
+{
+
+}
+
+void Player::handleEvent(const sf::Event& event)
+{
+
+}

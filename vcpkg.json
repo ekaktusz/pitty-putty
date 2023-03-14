@@ -1,8 +1,9 @@
 {
-  "name": "gyaszmat",
+  "name": "pitty-putty",
   "version-string": "0.1.0",
   "dependencies": [
     "sfml",
-    "spdlog"
+    "spdlog",
+    "box2d"
   ]
 }

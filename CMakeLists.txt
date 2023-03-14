@@ -20,7 +20,6 @@ add_subdirectory(vendor/bagla-engine)
 
 target_include_directories(PittyPutty PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/bagla-engine/include" )
 
-
 find_package(SFML COMPONENTS system window graphics audio network CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
