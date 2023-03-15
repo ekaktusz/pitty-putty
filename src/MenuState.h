@@ -3,6 +3,7 @@
 #include <bagla-engine/states/State.h>
 #include <bagla-engine/gui/Button.h>
 #include <bagla-engine/gui/CheckBox.h>
+#include <bagla-engine/gui/Slider.h>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Audio/Music.hpp>
@@ -37,6 +38,7 @@ private:
 	bgl::Button m_QuitButton;
 
 	bgl::CheckBox m_MusicCheckBox;
+	bgl::Slider m_VolumeSlider;
 
 	sf::Music* m_BackgroundMusic;
 };

@@ -55,6 +55,9 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	m_MusicCheckBox.setSize(30);
 	m_MusicCheckBox.setPosition({ 100, 100 });
+
+	m_VolumeSlider.setPosition({100, 300});
+	m_VolumeSlider.setSize({ 300, 30 });
 }
 
 void MenuState::loadAssets()
@@ -71,6 +74,7 @@ void MenuState::update(const sf::Time& dt)
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
 	m_MusicCheckBox.update(dt);
+	m_VolumeSlider.update(dt);
 }
 
 void MenuState::draw() const
@@ -82,6 +86,7 @@ void MenuState::draw() const
 	m_RenderWindow.draw(m_SettingsButton);
 	m_RenderWindow.draw(m_QuitButton);
 	m_RenderWindow.draw(m_MusicCheckBox);
+	m_RenderWindow.draw(m_VolumeSlider);
 	m_RenderWindow.display();
 }
 
@@ -96,6 +101,7 @@ void MenuState::handleEvent(const sf::Event& event)
 	m_SettingsButton.handleEvent(event);
 	m_QuitButton.handleEvent(event);
 	m_MusicCheckBox.handleEvent(event);
+	m_VolumeSlider.handleEvent(event);
 }
 
 void MenuState::onResume()
