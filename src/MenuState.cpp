@@ -7,7 +7,13 @@
 #include "GameState.h"
 #include <bagla-engine/states/StateManager.h>
 
-MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow), m_StartButton(renderWindow), m_SettingsButton(renderWindow), m_QuitButton(renderWindow), m_MusicCheckBox(renderWindow)
+MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
+	bgl::State(stateManager, renderWindow),
+	m_StartButton(renderWindow),
+	m_SettingsButton(renderWindow),
+	m_QuitButton(renderWindow),
+	m_MusicCheckBox(renderWindow),
+	m_VolumeSlider(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
