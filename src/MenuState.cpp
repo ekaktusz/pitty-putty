@@ -7,7 +7,7 @@
 #include "GameState.h"
 #include <bagla-engine/states/StateManager.h>
 
-MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow), m_StartButton(renderWindow), m_SettingsButton(renderWindow), m_QuitButton(renderWindow)
+MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow), m_StartButton(renderWindow), m_SettingsButton(renderWindow), m_QuitButton(renderWindow), m_MusicCheckBox(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -52,6 +52,9 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	});
 
 	//m_GameTitle.setPosition(350, 10);
+
+	m_MusicCheckBox.setSize(30);
+	m_MusicCheckBox.setPosition({ 100, 100 });
 }
 
 void MenuState::loadAssets()
@@ -67,6 +70,7 @@ void MenuState::update(const sf::Time& dt)
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
+	m_MusicCheckBox.update(dt);
 }
 
 void MenuState::draw() const
@@ -77,6 +81,7 @@ void MenuState::draw() const
 	m_RenderWindow.draw(m_StartButton);
 	m_RenderWindow.draw(m_SettingsButton);
 	m_RenderWindow.draw(m_QuitButton);
+	m_RenderWindow.draw(m_MusicCheckBox);
 	m_RenderWindow.display();
 }
 
@@ -90,6 +95,7 @@ void MenuState::handleEvent(const sf::Event& event)
 	m_StartButton.handleEvent(event);
 	m_SettingsButton.handleEvent(event);
 	m_QuitButton.handleEvent(event);
+	m_MusicCheckBox.handleEvent(event);
 }
 
 void MenuState::onResume()

@@ -4,6 +4,7 @@
   "dependencies": [
     "sfml",
     "spdlog",
-    "box2d"
+    "box2d",
+    "nlohmann-json"
   ]
 }

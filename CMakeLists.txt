@@ -22,9 +22,11 @@ target_include_directories(PittyPutty PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendo
 
 find_package(SFML COMPONENTS system window graphics audio network CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 target_link_libraries(PittyPutty PRIVATE sfml-system sfml-network sfml-graphics sfml-window sfml-audio)
 target_link_libraries(PittyPutty PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
 target_link_libraries(PittyPutty PRIVATE bagla-engine)
+target_link_libraries(PittyPutty PRIVATE nlohmann_json::nlohmann_json)
 
 # target_precompile_headers(ProjectName PUBLIC "src/pch.h")
