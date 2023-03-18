@@ -64,6 +64,10 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	m_VolumeSlider.setPosition({100, 300});
 	m_VolumeSlider.setSize({ 300, 30 });
+	m_VolumeSlider.setOnProgressChange([&](float progress) {
+		spdlog::info("Progress changed.");
+		m_BackgroundMusic->setVolume(progress * 100);
+	});
 }
 
 void MenuState::loadAssets()

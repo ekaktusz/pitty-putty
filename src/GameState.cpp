@@ -4,6 +4,7 @@
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <bagla-engine/map/Map.h>
 #include <bagla-engine/map/TileLayer.h>
+#include <bagla-engine/states/StateManager.h>
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow), m_Map(nullptr)
 {
@@ -34,6 +35,13 @@ void GameState::handleEvent(const sf::Event& event)
 	if (event.type == sf::Event::Closed)
 	{
 		m_RenderWindow.close();
+	}
+	else if (event.type == sf::Event::KeyPressed)
+	{
+		if (event.key.code == sf::Keyboard::Escape)
+		{
+			m_StateManager.popState(); // TODO: will be pause
+		}
 	}
 }
 
