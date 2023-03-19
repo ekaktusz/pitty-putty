@@ -3,7 +3,7 @@
 #include <memory>
 #include <SFML/Window/Event.hpp>
 
-Game::Game() : m_RenderWindow{sf::VideoMode(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), Game::WINDOW_NAME}
+Game::Game() : m_RenderWindow{sf::VideoMode(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), Game::WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close }
 {
 	std::unique_ptr<MenuState> menuState = std::make_unique<MenuState>(m_StateManager, m_RenderWindow);
 	m_StateManager.pushState(std::move(menuState));

@@ -12,7 +12,6 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_StartButton(renderWindow),
 	m_SettingsButton(renderWindow),
 	m_QuitButton(renderWindow),
-	m_MusicCheckBox(renderWindow),
 	m_VolumeSlider(renderWindow)
 {
 	loadAssets();
@@ -59,9 +58,8 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	//m_GameTitle.setPosition(350, 10);
 
-	m_MusicCheckBox.setSize(30);
-	m_MusicCheckBox.setPosition({ 100, 100 });
-
+	m_VolumeSlider.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	m_VolumeSlider.setString("volume");
 	m_VolumeSlider.setPosition({100, 300});
 	m_VolumeSlider.setSize({ 300, 30 });
 	m_VolumeSlider.setOnProgressChange([&](float progress) {
@@ -83,7 +81,6 @@ void MenuState::update(const sf::Time& dt)
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
-	m_MusicCheckBox.update(dt);
 	m_VolumeSlider.update(dt);
 }
 
@@ -95,7 +92,6 @@ void MenuState::draw() const
 	m_RenderWindow.draw(m_StartButton);
 	m_RenderWindow.draw(m_SettingsButton);
 	m_RenderWindow.draw(m_QuitButton);
-	m_RenderWindow.draw(m_MusicCheckBox);
 	m_RenderWindow.draw(m_VolumeSlider);
 	m_RenderWindow.display();
 }
@@ -110,7 +106,6 @@ void MenuState::handleEvent(const sf::Event& event)
 	m_StartButton.handleEvent(event);
 	m_SettingsButton.handleEvent(event);
 	m_QuitButton.handleEvent(event);
-	m_MusicCheckBox.handleEvent(event);
 	m_VolumeSlider.handleEvent(event);
 }
 
