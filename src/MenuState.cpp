@@ -66,6 +66,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 		spdlog::info("Progress changed.");
 		m_BackgroundMusic->setVolume(progress * 100);
 	});
+	
 }
 
 void MenuState::loadAssets()
@@ -111,7 +112,7 @@ void MenuState::handleEvent(const sf::Event& event)
 
 void MenuState::onResume()
 {
-
+	m_BackgroundMusic->play();
 }
 
 void MenuState::onPause()
