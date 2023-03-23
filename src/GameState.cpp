@@ -5,6 +5,7 @@
 #include <bagla-engine/map/Map.h>
 #include <bagla-engine/map/TileLayer.h>
 #include <bagla-engine/states/StateManager.h>
+#include "PauseState.h"
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow), m_Map(nullptr)
 {
@@ -40,7 +41,8 @@ void GameState::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::Escape)
 		{
-			m_StateManager.popState(); // TODO: will be pause
+			std::unique_ptr<PauseState> pauseState = std::make_unique<PauseState>(m_StateManager, m_RenderWindow);
+			m_StateManager.pushState(std::move(pauseState));
 		}
 	}
 }
