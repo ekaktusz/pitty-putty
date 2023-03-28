@@ -6,8 +6,13 @@
 #include <bagla-engine/map/TileLayer.h>
 #include <bagla-engine/states/StateManager.h>
 #include "PauseState.h"
+#include <box2d/b2_world.h>
 
-GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : bgl::State(stateManager, renderWindow), m_Map(nullptr)
+GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
+	bgl::State(stateManager, renderWindow), 
+	m_World(new b2World({ 0.0f, -40.f })),
+	m_Player1{*m_World},
+	m_Map(nullptr)
 {
 	loadAssets();
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
@@ -20,7 +25,11 @@ GameState::~GameState()
 
 void GameState::update(const sf::Time& dt)
 {
-
+	float timeStep = 1.0f / 60.0f;
+	int32 velocityIterations = 8;
+	int32 positionIterations = 3;
+	m_World->Step(timeStep, velocityIterations, positionIterations);
+	m_Player1.update(dt);
 }
 
 void GameState::draw() const

@@ -25,6 +25,7 @@ private:
 	void loadAssets();
 
 private:
+	b2World* m_World;
 	Player m_Player1;
 	bgl::Map* m_Map;
 };
