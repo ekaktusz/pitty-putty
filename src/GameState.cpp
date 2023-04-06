@@ -25,9 +25,9 @@ GameState::~GameState()
 
 void GameState::update(const sf::Time& dt)
 {
-	float timeStep = 1.0f / 60.0f;
-	int32 velocityIterations = 8;
-	int32 positionIterations = 3;
+	constexpr float timeStep = 1.0f / 60.0f;
+	constexpr int32 velocityIterations = 8;
+	constexpr int32 positionIterations = 3;
 	m_World->Step(timeStep, velocityIterations, positionIterations);
 	m_Player1.update(dt);
 }

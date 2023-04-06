@@ -14,8 +14,17 @@ public:
 
 private:
 	void syncPhysics();
+	void applyGravity(const sf::Time& dt);
 
 private:
+	float x = 0;
+	float y = 0;
+	float dx = 0;
+	float dy = 0;
+	float acceleration = 4000;
+	float max_speed = 200;
+	float friction = 3500;
+
 	sf::RectangleShape m_RectangleShape;
 	bgl::RigidBody m_RigidBody;
 };
