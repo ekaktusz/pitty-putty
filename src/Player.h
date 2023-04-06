@@ -17,10 +17,9 @@ private:
 	void applyGravity(const sf::Time& dt);
 
 private:
-	float x = 0;
-	float y = 0;
-	float dx = 0;
-	float dy = 0;
+	sf::Vector2f m_Position;
+	sf::Vector2f m_Velocity;
+
 	float acceleration = 4000;
 	float max_speed = 200;
 	float friction = 3500;

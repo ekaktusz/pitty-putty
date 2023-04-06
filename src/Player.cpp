@@ -16,11 +16,11 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Player::update(const sf::Time& dt)
 {
-	m_RectangleShape.setPosition(x, y);
+	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		dx = std::min(dx + acceleration * dt.asSeconds(), max_speed);
+		m_Velocity.x = std::min(m_Velocity.x + acceleration * dt.asSeconds(), max_speed);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
@@ -28,13 +28,13 @@ void Player::update(const sf::Time& dt)
 	}
 	else
 	{
-		if (dx > 0)
+		if (m_Velocity.x > 0)
 		{
-			dx = std::max(dx - friction * dt.asSeconds(), 0.f);
+			m_Velocity.x = std::max(m_Velocity.x - friction * dt.asSeconds(), 0.f);
 		}
-		else if (dx < 0)
+		else if (m_Velocity.x < 0)
 		{
-			dx = std::min(dx + friction * dt.asSeconds(), 0.f);
+			m_Velocity.x = std::min(m_Velocity.x + friction * dt.asSeconds(), 0.f);
 		}
 	}
 
@@ -48,9 +48,9 @@ void Player::handleEvent(const sf::Event& event)
 
 void Player::syncPhysics()
 {
-	x = m_RigidBody.getPosition().x;
-	y = m_RigidBody.getPosition().y;
-	m_RigidBody.setLinearVelocity({ dx, dy });
+	m_Position.x = m_RigidBody.getPosition().x;
+	m_Position.y = m_RigidBody.getPosition().y;
+	m_RigidBody.setLinearVelocity({ m_Velocity.x, m_Velocity.y });
 }
 
 void Player::applyGravity(const sf::Time& dt)
