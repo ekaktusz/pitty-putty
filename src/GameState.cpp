@@ -68,5 +68,5 @@ void GameState::onPause()
 
 void GameState::loadAssets()
 {
-	bgl::AssetManager::getInstance().loadMap("../../assets/maps/testmap.tmx", "testmap");
+	bgl::AssetManager::getInstance().loadMap("../../assets/maps/testmap.tmx", "testmap", m_World);
 }
