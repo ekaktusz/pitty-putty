@@ -8,7 +8,7 @@ class Game
 public:
 	static constexpr unsigned int WINDOW_WIDTH = 1270;
 	static constexpr unsigned int WINDOW_HEIGHT = 720;
-	static constexpr std::string WINDOW_NAME = "PittyPutty";
+	const std::string WINDOW_NAME = "PittyPutty";
 
 	Game();
 	void run();
