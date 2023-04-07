@@ -4,9 +4,10 @@
 #include <algorithm>
 #include <SFML/System/Time.hpp>
 
-Player::Player(b2World& world) : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, world)
+Player::Player(b2World& world) : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, world, true, 1.f)
 {
 	m_RectangleShape.setPosition(100, 100);
+	m_RigidBody.setGravityScale(0.f);
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -16,11 +17,12 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Player::update(const sf::Time& dt)
 {
+	syncPhysics();
 	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		m_Velocity.x = std::min(m_Velocity.x + acceleration * dt.asSeconds(), max_speed);
+		m_Velocity.x = std::min(m_Velocity.x + s_Acceleration * dt.asSeconds(), s_MaxSpeed);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
@@ -30,15 +32,15 @@ void Player::update(const sf::Time& dt)
 	{
 		if (m_Velocity.x > 0)
 		{
-			m_Velocity.x = std::max(m_Velocity.x - friction * dt.asSeconds(), 0.f);
+			m_Velocity.x = std::max(m_Velocity.x - s_Friction * dt.asSeconds(), 0.f);
 		}
 		else if (m_Velocity.x < 0)
 		{
-			m_Velocity.x = std::min(m_Velocity.x + friction * dt.asSeconds(), 0.f);
+			m_Velocity.x = std::min(m_Velocity.x + s_Friction * dt.asSeconds(), 0.f);
 		}
 	}
 
-	syncPhysics();
+	applyGravity(dt);
 }
 
 void Player::handleEvent(const sf::Event& event)
@@ -55,4 +57,5 @@ void Player::syncPhysics()
 
 void Player::applyGravity(const sf::Time& dt)
 {
+	m_Velocity.y -= s_Gravity * dt.asSeconds();
 }

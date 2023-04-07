@@ -20,9 +20,10 @@ private:
 	sf::Vector2f m_Position;
 	sf::Vector2f m_Velocity;
 
-	float acceleration = 4000;
-	float max_speed = 200;
-	float friction = 3500;
+	static constexpr float s_Acceleration = 4000;
+	static constexpr float s_MaxSpeed = 200;
+	static constexpr float s_Friction = 3500;
+	static constexpr float s_Gravity = 100;
 
 	sf::RectangleShape m_RectangleShape;
 	bgl::RigidBody m_RigidBody;
