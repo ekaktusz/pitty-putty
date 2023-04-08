@@ -3,6 +3,8 @@
 #include <bagla-engine/states/State.h>
 #include "Player.h"
 
+#include <bagla-engine/physics/ContactListener.h>
+
 namespace bgl
 {
 	class Map;
@@ -28,4 +30,6 @@ private:
 	b2World* m_World;
 	Player m_Player1;
 	bgl::Map* m_Map;
+
+	bgl::ContactListener m_ContactListener;
 };

@@ -3,11 +3,15 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <algorithm>
 #include <SFML/System/Time.hpp>
+#include <spdlog/spdlog.h>
 
 Player::Player(b2World& world) : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, world, true, 1.f)
 {
 	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);
+	m_RigidBody.setOnContact([&](bgl::RigidBody* other) {
+		spdlog::info("hellloooo");
+	});
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

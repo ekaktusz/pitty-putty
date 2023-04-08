@@ -16,6 +16,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 {
 	loadAssets();
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
+	m_World->SetContactListener(&m_ContactListener);
 }
 
 GameState::~GameState()
