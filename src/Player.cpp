@@ -34,14 +34,7 @@ void Player::update(const sf::Time& dt)
 	}
 	else
 	{
-		if (m_Velocity.x > 0)
-		{
-			m_Velocity.x = std::max(m_Velocity.x - s_Friction * dt.asSeconds(), 0.f);
-		}
-		else if (m_Velocity.x < 0)
-		{
-			m_Velocity.x = std::min(m_Velocity.x + s_Friction * dt.asSeconds(), 0.f);
-		}
+		applyFriction(dt);
 	}
 
 	applyGravity(dt);
@@ -62,4 +55,16 @@ void Player::syncPhysics()
 void Player::applyGravity(const sf::Time& dt)
 {
 	m_Velocity.y -= s_Gravity * dt.asSeconds();
+}
+
+void Player::applyFriction(const sf::Time& dt)
+{
+	if (m_Velocity.x > 0)
+	{
+		m_Velocity.x = std::max(m_Velocity.x - s_Friction * dt.asSeconds(), 0.f);
+	}
+	else if (m_Velocity.x < 0)
+	{
+		m_Velocity.x = std::min(m_Velocity.x + s_Friction * dt.asSeconds(), 0.f);
+	}
 }
