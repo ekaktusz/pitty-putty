@@ -15,6 +15,7 @@ public:
 private:
 	void syncPhysics();
 	void applyGravity(const sf::Time& dt);
+	void applyFriction(const sf::Time& dt);
 
 private:
 	sf::Vector2f m_Position;
