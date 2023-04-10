@@ -32,6 +32,10 @@ void Player::update(const sf::Time& dt)
 	{
 		m_Velocity.x = std::max(m_Velocity.x - s_Acceleration * dt.asSeconds(), -s_MaxSpeed);
 	}
+	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && m_Grounded)
+	{
+		jump();
+	}
 	else
 	{
 		applyFriction(dt);
@@ -42,7 +46,6 @@ void Player::update(const sf::Time& dt)
 
 void Player::handleEvent(const sf::Event& event)
 {
-
 }
 
 void Player::syncPhysics()
@@ -80,4 +83,11 @@ void Player::onContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 		m_Grounded = true;
 		m_Velocity.y = 0;
 	}
+}
+
+void Player::jump()
+{
+	spdlog::info("jumped");
+	m_Velocity.y = s_JumpSpeed;
+	m_Grounded = false;
 }
