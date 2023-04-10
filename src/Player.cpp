@@ -9,8 +9,8 @@ Player::Player(b2World& world) : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 
 {
 	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);
-	m_RigidBody.setOnContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
-		onContact(other, collisionNormal);
+	m_RigidBody.setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
+		beginContact(other, collisionNormal);
 	});
 }
 
@@ -28,19 +28,16 @@ void Player::update(const sf::Time& dt)
 	{
 		m_Velocity.x = std::min(m_Velocity.x + s_Acceleration * dt.asSeconds(), s_MaxSpeed);
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		m_Velocity.x = std::max(m_Velocity.x - s_Acceleration * dt.asSeconds(), -s_MaxSpeed);
 	}
-	else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && m_Grounded)
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && m_Grounded)
 	{
 		jump();
 	}
-	else
-	{
-		applyFriction(dt);
-	}
-
+	
+	applyFriction(dt);
 	applyGravity(dt);
 }
 
@@ -75,7 +72,7 @@ void Player::applyFriction(const sf::Time& dt)
 	}
 }
 
-void Player::onContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
+void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
 	spdlog::info("hellloooo");
 	if (collisionNormal.y < 0)
