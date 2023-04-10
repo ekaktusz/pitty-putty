@@ -16,14 +16,16 @@ private:
 	void syncPhysics();
 	void applyGravity(const sf::Time& dt);
 	void applyFriction(const sf::Time& dt);
+	void onContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
 
 private:
 	sf::Vector2f m_Position;
 	sf::Vector2f m_Velocity;
+	bool m_Grounded = false;
 
-	static constexpr float s_Acceleration = 4000;
-	static constexpr float s_MaxSpeed = 200;
-	static constexpr float s_Friction = 3500;
+	static constexpr float s_Acceleration = 400;
+	static constexpr float s_MaxSpeed = 20;
+	static constexpr float s_Friction = 350;
 	static constexpr float s_Gravity = 100;
 
 	sf::RectangleShape m_RectangleShape;

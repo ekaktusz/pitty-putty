@@ -9,8 +9,8 @@ Player::Player(b2World& world) : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 
 {
 	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);
-	m_RigidBody.setOnContact([&](bgl::RigidBody* other) {
-		spdlog::info("hellloooo");
+	m_RigidBody.setOnContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
+		onContact(other, collisionNormal);
 	});
 }
 
@@ -54,7 +54,10 @@ void Player::syncPhysics()
 
 void Player::applyGravity(const sf::Time& dt)
 {
-	m_Velocity.y -= s_Gravity * dt.asSeconds();
+	if (!m_Grounded)
+	{
+		m_Velocity.y -= s_Gravity * dt.asSeconds();
+	}
 }
 
 void Player::applyFriction(const sf::Time& dt)
@@ -66,5 +69,15 @@ void Player::applyFriction(const sf::Time& dt)
 	else if (m_Velocity.x < 0)
 	{
 		m_Velocity.x = std::min(m_Velocity.x + s_Friction * dt.asSeconds(), 0.f);
+	}
+}
+
+void Player::onContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
+{
+	spdlog::info("hellloooo");
+	if (collisionNormal.y < 0)
+	{
+		m_Grounded = true;
+		m_Velocity.y = 0;
 	}
 }
