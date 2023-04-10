@@ -9,8 +9,13 @@ Player::Player(b2World& world) : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 
 {
 	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);
+	
 	m_RigidBody.setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		beginContact(other, collisionNormal);
+	});
+
+	m_RigidBody.setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
+		endContact(other, collisionNormal);
 	});
 }
 
@@ -80,6 +85,11 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 		m_Grounded = true;
 		m_Velocity.y = 0;
 	}
+}
+
+void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
+{
+	m_Grounded = false;
 }
 
 void Player::jump()

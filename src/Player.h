@@ -17,6 +17,7 @@ private:
 	void applyGravity(const sf::Time& dt);
 	void applyFriction(const sf::Time& dt);
 	void beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
+	void endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
 
 	void jump();
 
