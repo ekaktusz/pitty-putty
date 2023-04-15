@@ -6,7 +6,6 @@
 #include <bagla-engine/map/TileLayer.h>
 #include <bagla-engine/states/StateManager.h>
 #include "PauseState.h"
-#include <box2d/b2_world.h>
 #include <bagla-engine/physics/PhysicsWorld.h>
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
@@ -34,6 +33,7 @@ void GameState::draw() const
 	m_RenderWindow.clear();
 	m_RenderWindow.draw(m_Player1);
 	m_RenderWindow.draw(m_Map->getTileLayer("backlayer"));
+	m_RenderWindow.draw(m_PhysicsWorld);
 	m_RenderWindow.display();
 }
 
