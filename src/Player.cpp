@@ -5,7 +5,7 @@
 #include <SFML/System/Time.hpp>
 #include <spdlog/spdlog.h>
 
-Player::Player(b2World& world) : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, world, true, 1.f)
+Player::Player() : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, true, 1.f)
 {
 	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);

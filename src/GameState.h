@@ -5,9 +5,11 @@
 
 #include <bagla-engine/physics/ContactListener.h>
 
+
 namespace bgl
 {
 	class Map;
+	class PhysicsWorld;
 }
 
 class GameState : public bgl::State
@@ -27,9 +29,10 @@ private:
 	void loadAssets();
 
 private:
-	b2World* m_World;
 	Player m_Player1;
 	bgl::Map* m_Map;
 
 	bgl::ContactListener m_ContactListener;
+
+	bgl::PhysicsWorld& m_PhysicsWorld;
 };

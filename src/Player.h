@@ -7,7 +7,7 @@
 class Player : public bgl::GameObject
 {
 public:
-	Player(b2World& world);
+	Player();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void update(const sf::Time& dt) override;
 	void handleEvent(const sf::Event& event) override;

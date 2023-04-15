@@ -7,16 +7,15 @@
 #include <bagla-engine/states/StateManager.h>
 #include "PauseState.h"
 #include <box2d/b2_world.h>
+#include <bagla-engine/physics/PhysicsWorld.h>
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
-	bgl::State(stateManager, renderWindow), 
-	m_World(new b2World({ 0.0f, -40.f })),
-	m_Player1{*m_World},
-	m_Map(nullptr)
+	bgl::State(stateManager, renderWindow),
+	m_Map(nullptr),
+	m_PhysicsWorld(bgl::PhysicsWorld::getInstance())
 {
 	loadAssets();
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
-	m_World->SetContactListener(&m_ContactListener);
 }
 
 GameState::~GameState()
@@ -26,11 +25,8 @@ GameState::~GameState()
 
 void GameState::update(const sf::Time& dt)
 {
-	constexpr float timeStep = 1.0f / 60.0f;
-	constexpr int32 velocityIterations = 8;
-	constexpr int32 positionIterations = 3;
-	m_World->Step(timeStep, velocityIterations, positionIterations);
 	m_Player1.update(dt);
+	m_PhysicsWorld.update(dt);
 }
 
 void GameState::draw() const
@@ -69,5 +65,5 @@ void GameState::onPause()
 
 void GameState::loadAssets()
 {
-	bgl::AssetManager::getInstance().loadMap("../../assets/maps/testmap.tmx", "testmap", m_World);
+	bgl::AssetManager::getInstance().loadMap("../../assets/maps/testmap.tmx", "testmap");
 }
