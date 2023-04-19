@@ -66,6 +66,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 		spdlog::info("Progress changed.");
 		m_BackgroundMusic->setVolume(progress * 100);
 	});
+	m_VolumeSlider.setProgress(0.f);
 	
 }
 

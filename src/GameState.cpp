@@ -15,6 +15,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 {
 	loadAssets();
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
+	bgl::PhysicsWorld::getInstance().initDebugDraw(renderWindow);
 }
 
 GameState::~GameState()
