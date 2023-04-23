@@ -1,9 +1,9 @@
 #pragma once
 
-#include <bagla-engine/states/State.h>
 #include "Player.h"
 
-#include <bagla-engine/physics/ContactListener.h>
+#include <bagla-engine/states/State.h>
+#include <bagla-engine/camera/Camera.h>
 
 
 namespace bgl
@@ -29,10 +29,10 @@ private:
 	void loadAssets();
 
 private:
+	bgl::Camera m_Camera;
+
 	Player m_Player1;
 	bgl::Map* m_Map;
-
-	bgl::ContactListener m_ContactListener;
 
 	bgl::PhysicsWorld& m_PhysicsWorld;
 };

@@ -7,15 +7,19 @@
 #include <bagla-engine/states/StateManager.h>
 #include "PauseState.h"
 #include <bagla-engine/physics/PhysicsWorld.h>
+#include "Game.h"
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
+	m_Camera(renderWindow),
 	m_Map(nullptr),
 	m_PhysicsWorld(bgl::PhysicsWorld::getInstance())
 {
 	loadAssets();
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
-	bgl::PhysicsWorld::getInstance().initDebugDraw(renderWindow);
+	//bgl::PhysicsWorld::getInstance().initDebugDraw(renderWindow);
+	m_Camera.setWorldBoundaries(0, 0, 10000, 10000);
+	//renderWindow.setView(sf::View({ 0.f, 0.f }, { Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT }));
 }
 
 GameState::~GameState()
@@ -27,14 +31,15 @@ void GameState::update(const sf::Time& dt)
 {
 	m_Player1.update(dt);
 	m_PhysicsWorld.update(dt);
+	m_Camera.update(dt);
 }
 
 void GameState::draw() const
 {
 	m_RenderWindow.clear();
+	m_RenderWindow.draw(m_PhysicsWorld);
 	m_RenderWindow.draw(m_Player1);
 	m_RenderWindow.draw(m_Map->getTileLayer("backlayer"));
-	m_RenderWindow.draw(m_PhysicsWorld);
 	m_RenderWindow.display();
 }
 
