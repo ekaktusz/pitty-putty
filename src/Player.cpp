@@ -50,6 +50,11 @@ void Player::handleEvent(const sf::Event& event)
 {
 }
 
+sf::Vector2f Player::getCenterPosition() const
+{
+	return m_Position + m_RectangleShape.getSize() / 2.f;
+}
+
 void Player::syncPhysics()
 {
 	m_Position.x = m_RigidBody.getPosition().x;

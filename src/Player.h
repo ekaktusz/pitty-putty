@@ -12,6 +12,8 @@ public:
 	void update(const sf::Time& dt) override;
 	void handleEvent(const sf::Event& event) override;
 
+	sf::Vector2f getCenterPosition() const;
+
 private:
 	void syncPhysics();
 	void applyGravity(const sf::Time& dt);
