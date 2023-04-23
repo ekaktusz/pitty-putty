@@ -30,7 +30,8 @@ GameState::~GameState()
 void GameState::update(const sf::Time& dt)
 {
 	m_Player1.update(dt);
-	m_Camera.setCenterPosition(m_Player1.getCenterPosition());
+	const sf::Vector2f offset = m_Player1.getCenterPosition() - m_Camera.getCenterPosition();
+	m_Camera.move(offset * dt.asSeconds() * 10.f);
 	m_PhysicsWorld.update(dt);
 	//m_Camera.update(dt);
 }
