@@ -68,6 +68,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	});
 	m_VolumeSlider.setProgress(0.f);
 	
+	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
 }
 
 void MenuState::loadAssets()

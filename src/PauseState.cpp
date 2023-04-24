@@ -8,7 +8,8 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	bgl::State(stateManager, renderWindow),
 	m_CountinueButton(renderWindow),
 	m_SettingsButton(renderWindow),
-	m_QuitButton(renderWindow)
+	m_QuitButton(renderWindow),
+	m_ReturnToMainButton(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -42,14 +43,25 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 360 });
 	m_SettingsButton.setString("settings");
 
+	m_ReturnToMainButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	m_ReturnToMainButton.setSize({ 400, 50 });
+	m_ReturnToMainButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 420 });
+	m_ReturnToMainButton.setString("return to main menu");
+	m_ReturnToMainButton.setActionTodo([&]() {
+		spdlog::info("Switch to MenuState: Starting the game");
+		m_StateManager.resetToFirstState();
+	});
+
 	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_QuitButton.setSize({ 400, 50 });
-	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 420 });
+	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 480 });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.setActionTodo([&]() {
 		spdlog::info("Quit game :(");
 		m_RenderWindow.close();
-	});
+		});
+
+	m_RenderWindow.setView(sf::View(static_cast<sf::Vector2f>(m_RenderWindow.getSize() / 2u), static_cast<sf::Vector2f>(m_RenderWindow.getSize())));
 }
 
 PauseState::~PauseState()
@@ -67,6 +79,7 @@ void PauseState::update(const sf::Time& dt)
 	m_CountinueButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
+	m_ReturnToMainButton.update(dt);
 }
 
 void PauseState::draw() const
@@ -77,6 +90,7 @@ void PauseState::draw() const
 	m_RenderWindow.draw(m_CountinueButton);
 	m_RenderWindow.draw(m_SettingsButton);
 	m_RenderWindow.draw(m_QuitButton);
+	m_RenderWindow.draw(m_ReturnToMainButton);
 	m_RenderWindow.display();
 }
 
@@ -96,6 +110,7 @@ void PauseState::handleEvent(const sf::Event& event)
 	m_CountinueButton.handleEvent(event);
 	m_SettingsButton.handleEvent(event);
 	m_QuitButton.handleEvent(event);
+	m_ReturnToMainButton.handleEvent(event);
 }
 
 void PauseState::onResume()

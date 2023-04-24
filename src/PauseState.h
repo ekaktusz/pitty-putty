@@ -37,6 +37,7 @@ private:
 	bgl::Button m_CountinueButton;
 	bgl::Button m_SettingsButton;
 	bgl::Button m_QuitButton;
+	bgl::Button m_ReturnToMainButton;
 
 	sf::Music* m_BackgroundMusic;
 };
