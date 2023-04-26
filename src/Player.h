@@ -3,6 +3,9 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <bagla-engine/GameObject.h>
 #include <bagla-engine/physics/RigidBody.h>
+#include <bagla-engine/animation/Animation.h>
+
+#include <memory>
 
 class Player : public bgl::GameObject
 {
@@ -24,16 +27,18 @@ private:
 	void jump();
 
 private:
-	sf::Vector2f m_Position;
-	sf::Vector2f m_Velocity;
-	bool m_Grounded = false;
-
 	static constexpr float s_Acceleration = 4000 * 1.5;
 	static constexpr float s_MaxSpeed = 200 * 1.5;
 	static constexpr float s_Friction = 3500 * 1.5;
 	static constexpr float s_Gravity = 1000 * 1.5;
 	static constexpr float s_JumpSpeed = 500 * 1.5;
 
+	sf::Vector2f m_Position;
+	sf::Vector2f m_Velocity;
+	bool m_Grounded = false;
+
 	sf::RectangleShape m_RectangleShape;
 	bgl::RigidBody m_RigidBody;
+
+	std::unique_ptr<bgl::Animation> m_Animation;
 };

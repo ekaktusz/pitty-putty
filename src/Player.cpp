@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <SFML/System/Time.hpp>
 #include <spdlog/spdlog.h>
+#include <bagla-engine/animation/Animation.h>
+#include <bagla-engine/asset-manager/AssetManager.h>
 
 Player::Player() : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, true, 1.f)
 {
@@ -17,6 +19,8 @@ Player::Player() : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, true,
 	m_RigidBody.setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		endContact(other, collisionNormal);
 	});
+	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
+	m_Animation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2u(0,0), sf::Vector2u(0, 0), sf::Vector2u(0, 0), sf::seconds(0.5f));
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
