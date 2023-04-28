@@ -72,5 +72,4 @@ void GameState::onPause()
 void GameState::loadAssets()
 {
 	bgl::AssetManager::getInstance().loadMap("../../assets/maps/testmap.tmx", "testmap");
-	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 }
