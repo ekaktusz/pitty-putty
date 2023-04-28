@@ -22,7 +22,7 @@ Player::Player() : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, true,
 
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
-	m_Animation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48,48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.5f));
+	m_Animation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48,48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -36,6 +36,7 @@ void Player::update(const sf::Time& dt)
 	syncPhysics();
 	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
 	m_Animation->setPosition(m_Position.x, m_Position.y);
+	m_Animation->update(dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		m_Velocity.x = std::min(m_Velocity.x + s_Acceleration * dt.asSeconds(), s_MaxSpeed);
