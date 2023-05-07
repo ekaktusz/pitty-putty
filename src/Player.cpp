@@ -7,7 +7,7 @@
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
 
-Player::Player() : m_RectangleShape({120, 50}), m_RigidBody(0, 0, 120, 50, true, 1.f)
+Player::Player() : m_RectangleShape({48, 48}), m_RigidBody(0, 0, 38, 38, true, 1.f)
 {
 	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);
@@ -35,7 +35,7 @@ void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
 	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
-	m_Animation->setPosition(m_Position.x, m_Position.y);
+	m_Animation->setPosition(m_Position.x - 5, m_Position.y - 5);
 	m_Animation->update(dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{

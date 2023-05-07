@@ -22,7 +22,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 GameState::~GameState()
 {
-
+	
 }
 
 void GameState::update(const sf::Time& dt)
