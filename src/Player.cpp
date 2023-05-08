@@ -7,7 +7,7 @@
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
 
-Player::Player() : m_RectangleShape({48, 48}), m_RigidBody(0, 0, 38, 38, true, 1.f)
+Player::Player() : m_RectangleShape({96, 96}), m_RigidBody(0, 0, 96, 96, true, 1.f)
 {
 	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);
@@ -23,6 +23,7 @@ Player::Player() : m_RectangleShape({48, 48}), m_RigidBody(0, 0, 38, 38, true, 1
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
 	m_Animation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48,48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
+	m_Animation->setScale(2.f, 2.f);
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -35,7 +36,7 @@ void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
 	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
-	m_Animation->setPosition(m_Position.x - 5, m_Position.y - 5);
+	m_Animation->setPosition(m_Position.x, m_Position.y);
 	m_Animation->update(dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
