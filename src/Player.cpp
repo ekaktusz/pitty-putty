@@ -45,18 +45,8 @@ void Player::update(const sf::Time& dt)
 	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
 	m_CurrentAnimation->setPosition(m_Position.x, m_Position.y);
 	m_CurrentAnimation->update(dt);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		m_Velocity.x = std::min(m_Velocity.x + s_Acceleration * dt.asSeconds(), s_MaxSpeed);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		m_Velocity.x = std::max(m_Velocity.x - s_Acceleration * dt.asSeconds(), -s_MaxSpeed);
-	}
-	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && m_Grounded)
-	{
-		jump();
-	}
+	updateKeyboard(dt);
+
 
 	if (m_Velocity.x != 0) 
 	{
@@ -69,6 +59,22 @@ void Player::update(const sf::Time& dt)
 	
 	applyFriction(dt);
 	applyGravity(dt);
+}
+
+void Player::updateKeyboard(const sf::Time& dt)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		m_Velocity.x = std::min(m_Velocity.x + s_Acceleration * dt.asSeconds(), s_MaxSpeed);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		m_Velocity.x = std::max(m_Velocity.x - s_Acceleration * dt.asSeconds(), -s_MaxSpeed);
+	}
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && m_Grounded)
+	{
+		jump();
+	}
 }
 
 void Player::handleEvent(const sf::Event& event)

@@ -12,7 +12,10 @@ class Player : public bgl::GameObject
 public:
 	Player();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	
 	void update(const sf::Time& dt) override;
+	void updateKeyboard(const sf::Time& dt);
+
 	void handleEvent(const sf::Event& event) override;
 
 	sf::Vector2f getCenterPosition() const;
