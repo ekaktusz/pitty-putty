@@ -40,5 +40,8 @@ private:
 	sf::RectangleShape m_RectangleShape;
 	bgl::RigidBody m_RigidBody;
 
-	std::unique_ptr<bgl::Animation> m_Animation;
+	std::unique_ptr<bgl::Animation> m_IdleAnimation;
+	std::unique_ptr<bgl::Animation> m_RunningAnimation;
+
+	bgl::Animation* m_CurrentAnimation = nullptr;
 };
