@@ -3,7 +3,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <bagla-engine/GameObject.h>
 #include <bagla-engine/physics/RigidBody.h>
-#include <bagla-engine/animation/Animation.h>
+#include <bagla-engine/animation/AnimationComponent.h>
 
 #include <memory>
 
@@ -43,8 +43,5 @@ private:
 	sf::RectangleShape m_RectangleShape;
 	bgl::RigidBody m_RigidBody;
 
-	std::unique_ptr<bgl::Animation> m_IdleAnimation;
-	std::unique_ptr<bgl::Animation> m_RunningAnimation;
-
-	bgl::Animation* m_CurrentAnimation = nullptr;
+	bgl::AnimationComponent m_AnimationComponent;
 };

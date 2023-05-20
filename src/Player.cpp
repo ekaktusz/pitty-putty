@@ -22,41 +22,40 @@ Player::Player() : m_RectangleShape({96, 96}), m_RigidBody(0, 0, 96, 96, true, 1
 
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
-	m_IdleAnimation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48,48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
-	m_IdleAnimation->setScale(1.5f, 1.5f);
-
+	auto idleAnimation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48,48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
+	
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Run.png", "yellow-run");
 	const sf::Texture& runningAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-run");
-	m_RunningAnimation = std::make_unique<bgl::Animation>(runningAnimationTexture, sf::Vector2i(48, 48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
-	m_RunningAnimation->setScale(1.5f, 1.5f);
+	auto runningAnimation = std::make_unique<bgl::Animation>(runningAnimationTexture, sf::Vector2i(48, 48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
 
-	m_CurrentAnimation = &*m_IdleAnimation;
+	m_AnimationComponent.addAnimation("idle", std::move(idleAnimation));
+	m_AnimationComponent.addAnimation("running", std::move(runningAnimation));
+	m_AnimationComponent.setScale(1.5f, 1.5f);
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_RectangleShape);
-	target.draw(*m_CurrentAnimation);
+	target.draw(m_AnimationComponent);
 }
 
 void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
 	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
-	m_CurrentAnimation->setPosition(m_Position.x, m_Position.y);
-	m_CurrentAnimation->update(dt);
+	m_AnimationComponent.setPosition(m_Position.x, m_Position.y);
+	m_AnimationComponent.update(dt);
 	updateKeyboard(dt);
-
 
 	if (m_Velocity.x != 0) 
 	{
-		m_CurrentAnimation = &*m_RunningAnimation;
+		m_AnimationComponent.setCurrentAnimation("running");
 	}
 	else
 	{
-		m_CurrentAnimation = &*m_IdleAnimation;
+		m_AnimationComponent.setCurrentAnimation("idle");
 	}
-	
+
 	applyFriction(dt);
 	applyGravity(dt);
 }
