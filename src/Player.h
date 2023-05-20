@@ -43,5 +43,8 @@ private:
 	sf::RectangleShape m_RectangleShape;
 	bgl::RigidBody m_RigidBody;
 
+	enum class Direction {LEFT, RIGHT};
+	Direction m_Direction;
+
 	bgl::AnimationComponent m_AnimationComponent;
 };

@@ -50,6 +50,7 @@ void Player::update(const sf::Time& dt)
 	if (m_Velocity.x != 0) 
 	{
 		m_AnimationComponent.setCurrentAnimation("running");
+		m_Direction = m_Velocity.x < 0 ? Direction::LEFT : Direction::RIGHT;
 	}
 	else
 	{
