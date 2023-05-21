@@ -59,6 +59,15 @@ void Player::update(const sf::Time& dt)
 
 	applyFriction(dt);
 	applyGravity(dt);
+
+	if (m_Direction == Direction::RIGHT)
+	{
+		m_AnimationComponent.flipHorizontally(false);
+	}
+	else
+	{
+		m_AnimationComponent.flipHorizontally(true);
+	}
 }
 
 void Player::updateKeyboard(const sf::Time& dt)
