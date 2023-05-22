@@ -7,7 +7,7 @@
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
 
-Player::Player() : m_RigidBody(0, 0, 48 * 1.5, 48 * 1.5, true, 1.f)
+Player::Player() : m_RigidBody(0, 0, 48 * 1.5, 48 * 1.5 - 10, true, 1.f)
 {
 	m_RigidBody.setGravityScale(0.f);
 	
@@ -18,6 +18,7 @@ Player::Player() : m_RigidBody(0, 0, 48 * 1.5, 48 * 1.5, true, 1.f)
 	m_RigidBody.setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		endContact(other, collisionNormal);
 	});
+
 
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
@@ -125,6 +126,10 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 	if (collisionNormal.y < 0)
 	{
 		m_Grounded = true;
+		m_Velocity.y = 0;
+	}
+	else if (collisionNormal.y > 0)
+	{
 		m_Velocity.y = 0;
 	}
 }
