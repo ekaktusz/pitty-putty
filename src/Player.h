@@ -40,11 +40,10 @@ private:
 	sf::Vector2f m_Velocity;
 	bool m_Grounded = false;
 
-	sf::RectangleShape m_RectangleShape;
 	bgl::RigidBody m_RigidBody;
 
 	enum class Direction {LEFT, RIGHT};
-	Direction m_Direction;
+	Direction m_Direction = Direction::RIGHT;
 
 	bgl::AnimationComponent m_AnimationComponent;
 };

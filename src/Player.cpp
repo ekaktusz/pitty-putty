@@ -7,9 +7,8 @@
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
 
-Player::Player() : m_RectangleShape({96, 96}), m_RigidBody(0, 0, 96, 96, true, 1.f)
+Player::Player() : m_RigidBody(0, 0, 48 * 1.5, 48 * 1.5, true, 1.f)
 {
-	m_RectangleShape.setPosition(100, 100);
 	m_RigidBody.setGravityScale(0.f);
 	
 	m_RigidBody.setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
@@ -35,14 +34,12 @@ Player::Player() : m_RectangleShape({96, 96}), m_RigidBody(0, 0, 96, 96, true, 1
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(m_RectangleShape);
 	target.draw(m_AnimationComponent);
 }
 
 void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
-	m_RectangleShape.setPosition(m_Position.x, m_Position.y);
 	m_AnimationComponent.setPosition(m_Position.x, m_Position.y);
 	m_AnimationComponent.update(dt);
 	updateKeyboard(dt);
@@ -92,7 +89,7 @@ void Player::handleEvent(const sf::Event& event)
 
 sf::Vector2f Player::getCenterPosition() const
 {
-	return m_Position + m_RectangleShape.getSize() / 2.f;
+	return m_Position + m_RigidBody.getSize() / 2.f;
 }
 
 void Player::syncPhysics()
