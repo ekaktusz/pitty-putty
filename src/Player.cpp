@@ -7,7 +7,7 @@
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
 
-Player::Player() : m_RigidBody(0, 0, 48 * 1.5, 48 * 1.5 - 10, true, 1.f)
+Player::Player() : m_RigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f)
 {
 	m_RigidBody.setGravityScale(0.f);
 	
@@ -41,7 +41,8 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
-	m_AnimationComponent.setPosition(m_Position.x, m_Position.y);
+	static const sf::Vector2f animationOffset{-10,-10};
+	m_AnimationComponent.setPosition(m_Position + animationOffset);
 	m_AnimationComponent.update(dt);
 	updateKeyboard(dt);
 
