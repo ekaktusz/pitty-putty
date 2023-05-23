@@ -9,15 +9,17 @@
 class Bullet : public bgl::GameObject
 {
 public:
-	Bullet(float x, float y);
-	Bullet(sf::Vector2f position);
+	enum class Direction {LEFT, RIGHT};
+
+	Bullet(float x, float y, Direction direction);
+	Bullet(sf::Vector2f position, Direction direction);
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void handleEvent(const sf::Event& event) override;
 
 private:
-	void initialize();
+	void initialize(Direction direction);
 
 private:
 	sf::Vector2f m_Position;

@@ -3,22 +3,21 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
-Bullet::Bullet(float x, float y) : m_RigidBody(x, y, 5, 5), m_BulletShape({ 5.f, 5.f })
+Bullet::Bullet(float x, float y, Direction direction) : m_RigidBody(x, y, 5, 5), m_BulletShape({ 5.f, 5.f })
 {
-	initialize();
+	initialize(direction);
 
 }
 
-Bullet::Bullet(sf::Vector2f position) : m_RigidBody(position.x, position.y, 5, 5), m_BulletShape({ 5.f, 5.f })
+Bullet::Bullet(sf::Vector2f position, Direction direction) : m_RigidBody(position.x, position.y, 5, 5), m_BulletShape({ 5.f, 5.f })
 {
-	initialize();
+	initialize(direction);
 }
 
-void Bullet::initialize()
+void Bullet::initialize(Direction direction)
 {
 	m_RigidBody.setGravityScale(0);
-	m_RigidBody.setLinearVelocity({ 50, 0 });
-
+	m_RigidBody.setLinearVelocity({ direction == Direction::RIGHT ? 50.f : -50.f, 0.f });
 	m_BulletShape.setFillColor(sf::Color::Green);
 }
 

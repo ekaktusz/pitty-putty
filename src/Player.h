@@ -4,6 +4,7 @@
 #include <bagla-engine/GameObject.h>
 #include <bagla-engine/physics/RigidBody.h>
 #include <bagla-engine/animation/AnimationComponent.h>
+#include "Bullet.h"
 
 #include <memory>
 
@@ -46,4 +47,6 @@ private:
 	Direction m_Direction = Direction::RIGHT;
 
 	bgl::AnimationComponent m_AnimationComponent;
+
+	std::vector<Bullet> m_Bullets;
 };

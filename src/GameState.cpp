@@ -57,6 +57,7 @@ void GameState::handleEvent(const sf::Event& event)
 			m_StateManager.pushState(std::move(pauseState));
 		}
 	}
+	m_Player1.handleEvent(event);
 }
 
 void GameState::onResume()

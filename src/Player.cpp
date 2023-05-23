@@ -6,6 +6,7 @@
 #include <spdlog/spdlog.h>
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
+#include <SFML/Window/Event.hpp>
 
 Player::Player() : m_RigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f)
 {
@@ -36,6 +37,11 @@ Player::Player() : m_RigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f)
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_AnimationComponent);
+
+	for (const auto& bullet : m_Bullets)
+	{
+		target.draw(bullet);
+	}
 }
 
 void Player::update(const sf::Time& dt)
@@ -67,6 +73,11 @@ void Player::update(const sf::Time& dt)
 	{
 		m_AnimationComponent.flipHorizontally(true);
 	}
+
+	for (auto& bullet : m_Bullets)
+	{
+		bullet.update(dt);
+	}
 }
 
 void Player::updateKeyboard(const sf::Time& dt)
@@ -87,6 +98,14 @@ void Player::updateKeyboard(const sf::Time& dt)
 
 void Player::handleEvent(const sf::Event& event)
 {
+	if (event.type == sf::Event::KeyPressed)
+	{
+		if (event.key.code == sf::Keyboard::T)
+		{
+			m_Bullets.push_back(Bullet(m_Position, Bullet::Direction::RIGHT));
+			spdlog::info("shoot");
+		}
+	}
 }
 
 sf::Vector2f Player::getCenterPosition() const
