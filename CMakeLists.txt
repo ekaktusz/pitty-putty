@@ -15,7 +15,7 @@ file(GLOB SOURCES
     src/*.cpp
 )
 
-add_executable(PittyPutty ${SOURCES})
+add_executable(PittyPutty ${SOURCES} "src/Bullet.h" "src/Bullet.cpp")
 add_subdirectory(vendor/bagla-engine)
 
 target_include_directories(PittyPutty PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/bagla-engine/include" )

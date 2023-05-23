@@ -14,7 +14,7 @@ Player::Player() : m_RigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f)
 	m_RigidBody.setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		beginContact(other, collisionNormal);
 	});
-
+	
 	m_RigidBody.setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		endContact(other, collisionNormal);
 	});
