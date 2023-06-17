@@ -10,6 +10,8 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/vcpkg/scripts/build
 
 project(PittyPutty)
 
+#set(CMAKE_CXX_FLAGS_DEBUG "/MDd /ZI /Ob0 /Od /RTC1")
+
 file(GLOB SOURCES
     src/*.h
     src/*.cpp
@@ -24,6 +26,9 @@ find_package(SFML COMPONENTS system window graphics audio network CONFIG REQUIRE
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Tweeny CONFIG REQUIRED)
+
+target_link_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:/INCREMENTAL>)
+target_compile_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:/ZI>)
 
 target_link_libraries(PittyPutty PRIVATE sfml-system sfml-network sfml-graphics sfml-window sfml-audio)
 target_link_libraries(PittyPutty PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
