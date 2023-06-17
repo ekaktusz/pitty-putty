@@ -104,7 +104,7 @@ void Player::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::T)
 		{
-			m_Bullets.push_back(new Bullet(m_Position, Bullet::Direction::RIGHT));
+			m_Bullets.push_back(new Bullet(m_Position.x + m_RigidBody->getSize().x + 30, m_Position.y + m_RigidBody->getSize().y/2, Bullet::Direction::RIGHT));
 			spdlog::info("shoot");
 		}
 	}
