@@ -13,6 +13,8 @@ public:
 
 	Bullet(float x, float y, Direction direction);
 	Bullet(sf::Vector2f position, Direction direction);
+	Bullet(const Bullet& bullet);
+	~Bullet();
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -29,7 +31,7 @@ private:
 	sf::Time m_Duration;
 	sf::Clock m_CurrentAge;
 
-	bgl::RigidBody m_RigidBody;
+	bgl::RigidBody* m_RigidBody;
 
 	sf::RectangleShape m_BulletShape;
 };

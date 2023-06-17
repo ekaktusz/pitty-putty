@@ -7,16 +7,18 @@
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <SFML/Window/Event.hpp>
+#include <bagla-engine/physics/PhysicsWorld.h>
 
-Player::Player() : m_RigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f)
+Player::Player()
 {
-	m_RigidBody.setGravityScale(0.f);
+	m_RigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f);
+	m_RigidBody->setGravityScale(0.f);
 	
-	m_RigidBody.setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
+	m_RigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		beginContact(other, collisionNormal);
 	});
 	
-	m_RigidBody.setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
+	m_RigidBody->setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		endContact(other, collisionNormal);
 	});
 
@@ -40,7 +42,7 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	for (const auto& bullet : m_Bullets)
 	{
-		target.draw(bullet);
+		target.draw(*bullet);
 	}
 }
 
@@ -76,7 +78,7 @@ void Player::update(const sf::Time& dt)
 
 	for (auto& bullet : m_Bullets)
 	{
-		bullet.update(dt);
+		bullet->update(dt);
 	}
 }
 
@@ -102,7 +104,7 @@ void Player::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::T)
 		{
-			m_Bullets.push_back(Bullet(m_Position, Bullet::Direction::RIGHT));
+			m_Bullets.push_back(new Bullet(m_Position, Bullet::Direction::RIGHT));
 			spdlog::info("shoot");
 		}
 	}
@@ -110,14 +112,14 @@ void Player::handleEvent(const sf::Event& event)
 
 sf::Vector2f Player::getCenterPosition() const
 {
-	return m_Position + m_RigidBody.getSize() / 2.f;
+	return m_Position + m_RigidBody->getSize() / 2.f;
 }
 
 void Player::syncPhysics()
 {
-	m_Position.x = m_RigidBody.getPosition().x;
-	m_Position.y = m_RigidBody.getPosition().y;
-	m_RigidBody.setLinearVelocity({ m_Velocity.x, m_Velocity.y });
+	m_Position.x = m_RigidBody->getPosition().x;
+	m_Position.y = m_RigidBody->getPosition().y;
+	m_RigidBody->setLinearVelocity({ m_Velocity.x, m_Velocity.y });
 }
 
 void Player::applyGravity(const sf::Time& dt)
