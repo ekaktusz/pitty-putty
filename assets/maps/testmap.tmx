@@ -108,6 +108,9 @@
 </data>
  </layer>
  <objectgroup id="2" name="solid">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
   <object id="1" x="16" y="144" width="208" height="32"/>
   <object id="3" x="277.333" y="129" width="75" height="28"/>
   <object id="4" x="283.667" y="157.667" width="62.3333" height="82.3333"/>
