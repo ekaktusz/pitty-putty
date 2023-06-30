@@ -13,7 +13,6 @@ Player::Player()
 {
 	m_RigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f);
 	m_RigidBody->setGravityScale(0.f);
-	
 	m_RigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		beginContact(other, collisionNormal);
 	});
@@ -144,7 +143,7 @@ void Player::applyFriction(const sf::Time& dt)
 
 void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
-	spdlog::info("hellloooo");
+	spdlog::info("Player beginContact");
 	if (collisionNormal.y < 0)
 	{
 		m_Grounded = true;
@@ -158,6 +157,7 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 
 void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
+	spdlog::info("Player endContact");
 	m_Grounded = false;
 }
 
