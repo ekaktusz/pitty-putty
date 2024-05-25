@@ -6,6 +6,7 @@
 #include <filesystem>
 #include "GameState.h"
 #include <bagla-engine/states/StateManager.h>
+#include "SettingsState.h"
 
 MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
@@ -46,6 +47,11 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_SettingsButton.setSize({ 400, 50 });
 	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 360 });
 	m_SettingsButton.setString("settings");
+	m_SettingsButton.setActionTodo([&]() {
+		spdlog::debug("settings button pressed.");
+		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(m_StateManager, m_RenderWindow);
+		m_StateManager.pushState(std::move(settingsState));
+	});
 
 	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_QuitButton.setSize({ 400, 50 });
@@ -68,7 +74,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	});
 	m_VolumeSlider.setProgress(0.f);
 	
-	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
+	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));	
 }
 
 void MenuState::loadAssets()
