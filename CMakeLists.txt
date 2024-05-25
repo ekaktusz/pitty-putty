@@ -10,16 +10,15 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/vcpkg/scripts/build
 
 project(PittyPutty)
 
-#set(CMAKE_CXX_FLAGS_DEBUG "/MDd /ZI /Ob0 /Od /RTC1")
-
 file(GLOB SOURCES
     src/*.h
     src/*.cpp
 )
 
-add_executable(PittyPutty ${SOURCES} "src/Bullet.h" "src/Bullet.cpp")
-add_subdirectory(vendor/bagla-engine)
+add_executable(PittyPutty ${SOURCES})
 
+# Setup bägla
+add_subdirectory(vendor/bagla-engine)
 target_include_directories(PittyPutty PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/bagla-engine/include" )
 
 find_package(SFML COMPONENTS system window graphics audio network CONFIG REQUIRED)
@@ -28,8 +27,14 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Tweeny CONFIG REQUIRED)
 
 if (WIN32)
-  target_link_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:/INCREMENTAL>)
-  target_compile_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:/ZI>)
+    # For Visual Studio hot reload
+    target_link_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:/INCREMENTAL>)
+    target_compile_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:/ZI>)
+    #set(CMAKE_CXX_FLAGS_DEBUG "/MDd /ZI /Ob0 /Od /RTC1")
+    
+    # To copy .dll files in the output folder. (tmxlite)
+    set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 endif()
 
 target_link_libraries(PittyPutty PRIVATE sfml-system sfml-network sfml-graphics sfml-window sfml-audio)
