@@ -1,5 +1,5 @@
 if [ $# -eq 0 ]; then
-    cmake -DCMAKE_BUILD_TYPE=Debug -H. -Bout/build
+    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -H. -Bout/build
     make -j 8 -C out/build
 fi
 

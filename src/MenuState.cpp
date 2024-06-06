@@ -10,10 +10,10 @@
 
 MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
-	m_StartButton(renderWindow),
-	m_SettingsButton(renderWindow),
-	m_QuitButton(renderWindow),
-	m_VolumeSlider(renderWindow)
+																						m_StartButton(renderWindow),
+																						m_SettingsButton(renderWindow),
+																						m_QuitButton(renderWindow),
+																						m_VolumeSlider(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -23,7 +23,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_GameTitle.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
 	m_GameTitle.setCharacterSize(100);
 	m_GameTitle.setString("Pitty Putty");
-	m_GameTitle.setColor(sf::Color::White);
+	m_GameTitle.setFillColor(sf::Color::White);
 	m_GameTitle.setOutlineColor(sf::Color::Black);
 	m_GameTitle.setOutlineThickness(5);
 
@@ -63,7 +63,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 		m_RenderWindow.close();
 	});
 
-	//m_GameTitle.setPosition(350, 10);
+	// m_GameTitle.setPosition(350, 10);
 
 	m_VolumeSlider.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_VolumeSlider.setString("volume");
@@ -74,8 +74,8 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 		m_BackgroundMusic->setVolume(progress * 100);
 	});
 	m_VolumeSlider.setProgress(0.f);
-	
-	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));	
+
+	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
 }
 
 void MenuState::loadAssets()
@@ -126,6 +126,4 @@ void MenuState::onResume()
 
 void MenuState::onPause()
 {
-	
 }
- 

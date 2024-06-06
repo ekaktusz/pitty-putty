@@ -6,10 +6,10 @@
 
 PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
 	bgl::State(stateManager, renderWindow),
-	m_CountinueButton(renderWindow),
-	m_SettingsButton(renderWindow),
-	m_QuitButton(renderWindow),
-	m_ReturnToMainButton(renderWindow)
+																						  m_CountinueButton(renderWindow),
+																						  m_SettingsButton(renderWindow),
+																						  m_QuitButton(renderWindow),
+																						  m_ReturnToMainButton(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -19,7 +19,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_GameTitle.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
 	m_GameTitle.setCharacterSize(100);
 	m_GameTitle.setString("paused");
-	m_GameTitle.setColor(sf::Color::White);
+	m_GameTitle.setFillColor(sf::Color::White);
 	m_GameTitle.setOutlineColor(sf::Color::Black);
 	m_GameTitle.setOutlineThickness(5);
 
@@ -59,7 +59,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_QuitButton.setActionTodo([&]() {
 		spdlog::info("Quit game :(");
 		m_RenderWindow.close();
-		});
+	});
 
 	m_RenderWindow.setView(sf::View(static_cast<sf::Vector2f>(m_RenderWindow.getSize() / 2u), static_cast<sf::Vector2f>(m_RenderWindow.getSize())));
 }

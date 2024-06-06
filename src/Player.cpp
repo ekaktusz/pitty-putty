@@ -19,7 +19,7 @@ Player::Player()
 	m_RigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		beginContact(other, collisionNormal);
 	});
-	
+
 	m_RigidBody->setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		endContact(other, collisionNormal);
 	});
@@ -28,7 +28,7 @@ Player::Player()
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
 	auto idleAnimation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48,48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
-	
+
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Run.png", "yellow-run");
 	const sf::Texture& runningAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-run");
 	auto runningAnimation = std::make_unique<bgl::Animation>(runningAnimationTexture, sf::Vector2i(48, 48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
@@ -51,12 +51,12 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
-	static const sf::Vector2f animationOffset{-10,-10};
+	static const sf::Vector2f animationOffset{-10, -10};
 	m_AnimationComponent.setPosition(m_Position + animationOffset);
 	m_AnimationComponent.update(dt);
 	updateKeyboard(dt);
 
-	if (m_Velocity.x != 0) 
+	if (m_Velocity.x != 0)
 	{
 		m_AnimationComponent.setCurrentAnimation("running");
 		m_Direction = m_Velocity.x < 0 ? Direction::LEFT : Direction::RIGHT;
@@ -119,7 +119,7 @@ sf::Vector2f Player::getCenterPosition() const
 
 void Player::syncPhysics()
 {
-	//spdlog::info("vx: " + std::to_string(m_Velocity.x) + " vy: " + std::to_string(m_Velocity.y));
+	// spdlog::info("vx: " + std::to_string(m_Velocity.x) + " vy: " + std::to_string(m_Velocity.y));
 	m_Position.x = m_RigidBody->getPosition().x;
 	m_Position.y = m_RigidBody->getPosition().y;
 	m_RigidBody->setLinearVelocity({ m_Velocity.x, m_Velocity.y });
@@ -148,13 +148,17 @@ void Player::applyFriction(const sf::Time& dt)
 void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
 	spdlog::info("Player beginContact");
-	
+
 	std::any userCustomData = rigidBody->getUserCustomData();
-	if (userCustomData.has_value()) 
+	if (userCustomData.has_value())
 	{
 		if (userCustomData.type() == typeid(std::string))
 		{
-			spdlog::info(std::any_cast<std::string>(userCustomData));
+			std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
+			if (userCustomDataString != "solid")
+			{
+				return;
+			}
 		}
 	}
 
