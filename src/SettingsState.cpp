@@ -3,11 +3,16 @@
 #include <spdlog/spdlog.h>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <bagla-engine/asset-manager/AssetManager.h>
+#include <SFML/System/Time.hpp>
+#include <SFML/Audio/Music.hpp>
 
 SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow)
 	: bgl::State(stateManager, renderWindow)
 {
 	spdlog::info("state created");
+	m_BackgroundMusic = &bgl::AssetManager::getInstance().getMusic("menuMusic");
+	m_BackgroundMusic->play();
 }
 
 void SettingsState::update(const sf::Time& dt)
