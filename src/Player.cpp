@@ -176,6 +176,20 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
 	spdlog::info("Player endContact");
+
+	std::any userCustomData = rigidBody->getUserCustomData();
+	if (userCustomData.has_value())
+	{
+		if (userCustomData.type() == typeid(std::string))
+		{
+			std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
+			if (userCustomDataString != "solid")
+			{
+				return;
+			}
+		}
+	}
+
 	m_Grounded = false;
 }
 
