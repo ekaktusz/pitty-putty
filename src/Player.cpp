@@ -8,6 +8,9 @@
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <SFML/Window/Event.hpp>
 #include <bagla-engine/physics/PhysicsWorld.h>
+#include "RigidBodyType.h"
+#include <any>
+#include <string>
 
 Player::Player()
 {
@@ -20,7 +23,7 @@ Player::Player()
 	m_RigidBody->setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
 		endContact(other, collisionNormal);
 	});
-
+	m_RigidBody->setUserCustomData(RigidBodyType::Player);
 
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
@@ -116,6 +119,7 @@ sf::Vector2f Player::getCenterPosition() const
 
 void Player::syncPhysics()
 {
+	//spdlog::info("vx: " + std::to_string(m_Velocity.x) + " vy: " + std::to_string(m_Velocity.y));
 	m_Position.x = m_RigidBody->getPosition().x;
 	m_Position.y = m_RigidBody->getPosition().y;
 	m_RigidBody->setLinearVelocity({ m_Velocity.x, m_Velocity.y });
@@ -144,6 +148,16 @@ void Player::applyFriction(const sf::Time& dt)
 void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
 	spdlog::info("Player beginContact");
+	
+	std::any userCustomData = rigidBody->getUserCustomData();
+	if (userCustomData.has_value()) 
+	{
+		if (userCustomData.type() == typeid(std::string))
+		{
+			spdlog::info(std::any_cast<std::string>(userCustomData));
+		}
+	}
+
 	if (collisionNormal.y < 0)
 	{
 		m_Grounded = true;

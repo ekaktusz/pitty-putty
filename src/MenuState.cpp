@@ -39,6 +39,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_StartButton.setString("start game");
 	m_StartButton.setActionTodo([&]() {
 		spdlog::info("Switch to GameState: Starting the game");
+		m_BackgroundMusic->pause();
 		std::unique_ptr<GameState> gameState = std::make_unique<GameState>(m_StateManager, m_RenderWindow);
 		m_StateManager.pushState(std::move(gameState));
 	});
@@ -125,5 +126,6 @@ void MenuState::onResume()
 
 void MenuState::onPause()
 {
-	m_BackgroundMusic->pause();
+	
 }
+ 
