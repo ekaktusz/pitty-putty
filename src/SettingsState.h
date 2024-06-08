@@ -3,6 +3,10 @@
 #include <bagla-engine/states/State.h>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/Window/Event.hpp>
+#include <gui/Slider.h>
 
 namespace bgl
 {
@@ -24,6 +28,8 @@ public:
 
 private:
 	sf::Music* m_BackgroundMusic;
+
+	bgl::Slider m_VolumeSlider;
 
 	sf::Texture m_BackgroundTexture;
 	sf::Sprite m_BackgroundSprite;

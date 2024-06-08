@@ -18,6 +18,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	loadAssets();
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
 	m_Camera.setWorldBoundaries(0, 0, 10000, 10000);
+	//m_PhysicsWorld.initDebugDraw(renderWindow);
 }
 
 GameState::~GameState()

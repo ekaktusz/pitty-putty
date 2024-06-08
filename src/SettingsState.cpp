@@ -1,28 +1,48 @@
 #include "SettingsState.h"
-#include <bagla-engine/states/StateManager.h>
-#include <spdlog/spdlog.h>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <bagla-engine/asset-manager/AssetManager.h>
+#include <bagla-engine/states/StateManager.h>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
+#include <SFML/Window/Event.hpp>
+#include <spdlog/spdlog.h>
+#include <states/State.h>
 #include <SFML/Audio/Music.hpp>
 
 SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow)
-	: bgl::State(stateManager, renderWindow)
+	: bgl::State(stateManager, renderWindow), m_VolumeSlider(renderWindow)
 {
 	spdlog::info("state created");
+	bgl::AssetManager::getInstance().loadTexture("../../assets/background/bg_settings.png", "settingsBackground");
+	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("settingsBackground");
+	m_BackgroundSprite.setTexture(m_BackgroundTexture);
+
+
+	// Background music is already loaded from menu state
 	m_BackgroundMusic = &bgl::AssetManager::getInstance().getMusic("menuMusic");
-	m_BackgroundMusic->play();
+
+	m_VolumeSlider.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	m_VolumeSlider.setString("volume");
+	m_VolumeSlider.setSize({ 300, 30 });
+	m_VolumeSlider.setPosition({ m_RenderWindow.getSize().x / 2 - m_VolumeSlider.getSize().x / 2 , 360 });
+	m_VolumeSlider.setOnProgressChange([&](float progress) {
+		spdlog::info("Progress changed.");
+		m_BackgroundMusic->setVolume(progress * 100);
+		});
+	m_VolumeSlider.setProgress(m_BackgroundMusic->getVolume() / 100.f);
 }
 
 void SettingsState::update(const sf::Time& dt)
 {
-	
+	m_VolumeSlider.update(dt);
 }
 
 void SettingsState::draw() const
 {
+	m_RenderWindow.clear();
 
+	m_RenderWindow.draw(m_BackgroundSprite);
+	m_RenderWindow.draw(m_VolumeSlider);
+	m_RenderWindow.display();
 }
 
 void SettingsState::handleEvent(const sf::Event& event)
@@ -31,4 +51,5 @@ void SettingsState::handleEvent(const sf::Event& event)
 	{
 		m_RenderWindow.close();
 	}
+	m_VolumeSlider.handleEvent(event);
 }

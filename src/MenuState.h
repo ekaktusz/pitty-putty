@@ -37,7 +37,5 @@ private:
 	bgl::Button m_SettingsButton;
 	bgl::Button m_QuitButton;
 
-	bgl::Slider m_VolumeSlider;
-
 	sf::Music* m_BackgroundMusic;
 };

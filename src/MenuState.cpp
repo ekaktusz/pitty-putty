@@ -1,24 +1,24 @@
+#include "GameState.h"
 #include "MenuState.h"
+#include "SettingsState.h"
+#include <bagla-engine/asset-manager/AssetManager.h>
+#include <bagla-engine/states/StateManager.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
-#include <bagla-engine/asset-manager/AssetManager.h>
 #include <spdlog/spdlog.h>
-#include <filesystem>
-#include "GameState.h"
-#include <bagla-engine/states/StateManager.h>
-#include "SettingsState.h"
 
 MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
 																						m_StartButton(renderWindow),
 																						m_SettingsButton(renderWindow),
-																						m_QuitButton(renderWindow),
-																						m_VolumeSlider(renderWindow)
+																						m_QuitButton(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
 	m_BackgroundSprite.setTexture(m_BackgroundTexture);
 	m_BackgroundMusic = &bgl::AssetManager::getInstance().getMusic("menuMusic");
+	m_BackgroundMusic->setVolume(50);
+	m_BackgroundMusic->setLoop(true);
 	m_BackgroundMusic->play();
 	m_GameTitle.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
 	m_GameTitle.setCharacterSize(100);
@@ -65,16 +65,6 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	// m_GameTitle.setPosition(350, 10);
 
-	m_VolumeSlider.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_VolumeSlider.setString("volume");
-	m_VolumeSlider.setPosition({100, 300});
-	m_VolumeSlider.setSize({ 300, 30 });
-	m_VolumeSlider.setOnProgressChange([&](float progress) {
-		spdlog::info("Progress changed.");
-		m_BackgroundMusic->setVolume(progress * 100);
-	});
-	m_VolumeSlider.setProgress(0.f);
-
 	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
 }
 
@@ -91,7 +81,6 @@ void MenuState::update(const sf::Time& dt)
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
-	m_VolumeSlider.update(dt);
 }
 
 void MenuState::draw() const
@@ -102,7 +91,6 @@ void MenuState::draw() const
 	m_RenderWindow.draw(m_StartButton);
 	m_RenderWindow.draw(m_SettingsButton);
 	m_RenderWindow.draw(m_QuitButton);
-	m_RenderWindow.draw(m_VolumeSlider);
 	m_RenderWindow.display();
 }
 
@@ -116,7 +104,6 @@ void MenuState::handleEvent(const sf::Event& event)
 	m_StartButton.handleEvent(event);
 	m_SettingsButton.handleEvent(event);
 	m_QuitButton.handleEvent(event);
-	m_VolumeSlider.handleEvent(event);
 }
 
 void MenuState::onResume()
