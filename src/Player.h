@@ -12,6 +12,7 @@ class Player : public bgl::GameObject
 {
 public:
 	Player();
+	~Player();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	
 	void update(const sf::Time& dt) override;

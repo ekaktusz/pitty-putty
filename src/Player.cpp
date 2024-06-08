@@ -40,6 +40,11 @@ Player::Player()
 	m_AnimationComponent.setScale(1.5f, 1.5f);
 }
 
+Player::~Player()
+{
+	bgl::PhysicsWorld::getInstance().destroyRigidBody(m_RigidBody);
+}
+
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_AnimationComponent);
