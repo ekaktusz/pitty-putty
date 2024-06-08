@@ -9,9 +9,9 @@
 
 MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
-																						m_StartButton(renderWindow),
-																						m_SettingsButton(renderWindow),
-																						m_QuitButton(renderWindow)
+	m_StartButton(renderWindow),
+	m_SettingsButton(renderWindow),
+	m_QuitButton(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -56,7 +56,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_QuitButton.setSize({ 400, 50 });
-	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 420 });
+	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_QuitButton.getSize().x / 2 , 420 });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.setActionTodo([&]() {
 		spdlog::info("Quit game :(");

@@ -9,7 +9,10 @@
 #include <SFML/Audio/Music.hpp>
 
 SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow)
-	: bgl::State(stateManager, renderWindow), m_VolumeSlider(renderWindow)
+	: 
+	bgl::State(stateManager, renderWindow), 
+	m_VolumeSlider(renderWindow),
+	m_BackButton(renderWindow)
 {
 	spdlog::info("state created");
 	bgl::AssetManager::getInstance().loadTexture("../../assets/background/bg_settings.png", "settingsBackground");
@@ -29,11 +32,21 @@ SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& 
 		m_BackgroundMusic->setVolume(progress * 100);
 		});
 	m_VolumeSlider.setProgress(m_BackgroundMusic->getVolume() / 100.f);
+
+	m_BackButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	m_BackButton.setSize({ 50, 50 });
+	m_BackButton.setPosition({ 30 , 30 });
+	m_BackButton.setString("<");
+	m_BackButton.setActionTodo([&]() {
+		m_StateManager.popState();
+	});
+
 }
 
 void SettingsState::update(const sf::Time& dt)
 {
 	m_VolumeSlider.update(dt);
+	m_BackButton.update(dt);
 }
 
 void SettingsState::draw() const
@@ -42,6 +55,8 @@ void SettingsState::draw() const
 
 	m_RenderWindow.draw(m_BackgroundSprite);
 	m_RenderWindow.draw(m_VolumeSlider);
+	m_RenderWindow.draw(m_BackButton);
+
 	m_RenderWindow.display();
 }
 
@@ -52,4 +67,5 @@ void SettingsState::handleEvent(const sf::Event& event)
 		m_RenderWindow.close();
 	}
 	m_VolumeSlider.handleEvent(event);
+	m_BackButton.handleEvent(event);
 }

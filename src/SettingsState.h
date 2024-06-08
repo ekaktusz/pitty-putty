@@ -1,12 +1,13 @@
 #pragma once
 
+#include <bagla-engine/gui/Button.h>
+#include <bagla-engine/gui/Slider.h>
 #include <bagla-engine/states/State.h>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
-#include <gui/Slider.h>
 
 namespace bgl
 {
@@ -30,6 +31,8 @@ private:
 	sf::Music* m_BackgroundMusic;
 
 	bgl::Slider m_VolumeSlider;
+
+	bgl::Button m_BackButton;
 
 	sf::Texture m_BackgroundTexture;
 	sf::Sprite m_BackgroundSprite;
