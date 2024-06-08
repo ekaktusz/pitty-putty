@@ -2,6 +2,10 @@
 #include "MenuState.h"
 #include <memory>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/VideoMode.hpp>
+#include <SFML/Window/WindowStyle.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 
 Game::Game() : m_RenderWindow{sf::VideoMode(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), Game::WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close }
 {

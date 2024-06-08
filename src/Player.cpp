@@ -1,16 +1,18 @@
 #include "Player.h"
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Window/Keyboard.hpp>
+#include "RigidBodyType.h"
 #include <algorithm>
-#include <SFML/System/Time.hpp>
-#include <spdlog/spdlog.h>
+#include <any>
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
-#include <SFML/Window/Event.hpp>
 #include <bagla-engine/physics/PhysicsWorld.h>
-#include "RigidBodyType.h"
-#include <any>
+#include <physics/RigidBody.h>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <spdlog/spdlog.h>
 #include <string>
+#include <memory>
 
 Player::Player()
 {
@@ -150,17 +152,22 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 	spdlog::info("Player beginContact");
 
 	std::any userCustomData = rigidBody->getUserCustomData();
-	if (userCustomData.has_value())
+	if (!userCustomData.has_value())
 	{
-		if (userCustomData.type() == typeid(std::string))
+		spdlog::info("collision started with not solid");
+		return;
+		/*if (userCustomData.type() == typeid(std::string))
 		{
 			std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
 			if (userCustomDataString != "solid")
 			{
+				spdlog::info("collision started with not solid");
 				return;
 			}
-		}
+		}*/
 	}
+
+	spdlog::info("collision started with solid");
 
 	if (collisionNormal.y < 0)
 	{
@@ -178,18 +185,21 @@ void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 	spdlog::info("Player endContact");
 
 	std::any userCustomData = rigidBody->getUserCustomData();
-	if (userCustomData.has_value())
+	if (!userCustomData.has_value())
 	{
-		if (userCustomData.type() == typeid(std::string))
+		spdlog::info("collision ended with not solid");
+		return;
+		/*if (userCustomData.type() == typeid(std::string))
 		{
 			std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
 			if (userCustomDataString != "solid")
 			{
+				spdlog::info("collision ended with not solid");
 				return;
 			}
-		}
+		}*/
 	}
-
+	spdlog::info("collision ended with solid");
 	m_Grounded = false;
 }
 
