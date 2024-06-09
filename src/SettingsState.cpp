@@ -1,18 +1,26 @@
 #include "SettingsState.h"
+
 #include <bagla-engine/asset-manager/AssetManager.h>
+#include <bagla-engine/states/State.h>
 #include <bagla-engine/states/StateManager.h>
+
+#include <SFML/Audio/Music.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include <spdlog/spdlog.h>
-#include <states/State.h>
-#include <SFML/Audio/Music.hpp>
+
+#include <cmath>
 
 SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow)
 	: 
 	bgl::State(stateManager, renderWindow), 
 	m_VolumeSlider(renderWindow),
-	m_BackButton(renderWindow)
+	m_BackButton(renderWindow),
+	m_Title()
 {
 	spdlog::info("state created");
 	bgl::AssetManager::getInstance().loadTexture("../../assets/background/bg_settings.png", "settingsBackground");
@@ -41,12 +49,25 @@ SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& 
 		m_StateManager.popState();
 	});
 
+	m_Title.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
+	m_Title.setCharacterSize(100);
+	m_Title.setString("settings");
+	m_Title.setFillColor(sf::Color::White);
+	m_Title.setOutlineColor(sf::Color::Black);
+	m_Title.setOutlineThickness(5);
+
+	sf::Vector2f center{ m_Title.getGlobalBounds().width / 2.f, m_Title.getGlobalBounds().height / 2.f };
+	sf::Vector2f localBounds{ center.x + m_Title.getLocalBounds().left, center.y + m_Title.getLocalBounds().top };
+	sf::Vector2f rounded{ std::round(localBounds.x), std::round(localBounds.y) };
+	m_Title.setOrigin(rounded);
+	m_Title.setPosition(m_RenderWindow.getSize().x / 2, 100);
 }
 
 void SettingsState::update(const sf::Time& dt)
 {
 	m_VolumeSlider.update(dt);
 	m_BackButton.update(dt);
+
 }
 
 void SettingsState::draw() const
@@ -56,6 +77,7 @@ void SettingsState::draw() const
 	m_RenderWindow.draw(m_BackgroundSprite);
 	m_RenderWindow.draw(m_VolumeSlider);
 	m_RenderWindow.draw(m_BackButton);
+	m_RenderWindow.draw(m_Title);
 
 	m_RenderWindow.display();
 }

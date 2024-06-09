@@ -8,6 +8,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 namespace bgl
 {
@@ -36,4 +37,6 @@ private:
 
 	sf::Texture m_BackgroundTexture;
 	sf::Sprite m_BackgroundSprite;
+
+	sf::Text m_Title;
 };

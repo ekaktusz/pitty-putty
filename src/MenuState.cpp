@@ -1,11 +1,23 @@
 #include "GameState.h"
 #include "MenuState.h"
 #include "SettingsState.h"
+
 #include <bagla-engine/asset-manager/AssetManager.h>
+#include <bagla-engine/states/State.h>
 #include <bagla-engine/states/StateManager.h>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
+
 #include <spdlog/spdlog.h>
+
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Event.hpp>
+
+#include <cmath>
+#include <memory>
+#include <string>
+#include <type_traits>
 
 MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
