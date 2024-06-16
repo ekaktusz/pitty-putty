@@ -43,6 +43,7 @@ private:
 	bool m_Grounded = false;
 
 	bgl::RigidBody* m_RigidBody;
+	bgl::RigidBody* m_CurrentGroundBody;
 
 	enum class Direction {LEFT, RIGHT};
 	Direction m_Direction = Direction::RIGHT;

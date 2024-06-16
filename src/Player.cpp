@@ -159,17 +159,21 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 	std::any userCustomData = rigidBody->getUserCustomData();
 	if (!userCustomData.has_value())
 	{
+		spdlog::warn("no usercustomdata in collision");
+		return;
+	}
+
+	if (userCustomData.type() != typeid(std::string))
+	{
+		spdlog::warn("invalid type of custom data");
+		return;
+	}
+
+	std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
+	if (userCustomDataString != "solid")
+	{
 		spdlog::info("collision started with not solid");
 		return;
-		/*if (userCustomData.type() == typeid(std::string))
-		{
-			std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
-			if (userCustomDataString != "solid")
-			{
-				spdlog::info("collision started with not solid");
-				return;
-			}
-		}*/
 	}
 
 	spdlog::info("collision started with solid");
@@ -177,6 +181,7 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 	if (collisionNormal.y < 0)
 	{
 		m_Grounded = true;
+		m_CurrentGroundBody = rigidBody;
 		m_Velocity.y = 0;
 	}
 	else if (collisionNormal.y > 0)
@@ -192,20 +197,28 @@ void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 	std::any userCustomData = rigidBody->getUserCustomData();
 	if (!userCustomData.has_value())
 	{
-		spdlog::info("collision ended with not solid");
+		spdlog::warn("no usercustomdata in collision");
 		return;
-		/*if (userCustomData.type() == typeid(std::string))
-		{
-			std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
-			if (userCustomDataString != "solid")
-			{
-				spdlog::info("collision ended with not solid");
-				return;
-			}
-		}*/
 	}
+
+	if (userCustomData.type() != typeid(std::string))
+	{
+		spdlog::warn("invalid type of custom data");
+		return;
+	}
+
+	std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
+	if (userCustomDataString != "solid")
+	{
+		spdlog::info("collision started with not solid");
+		return;
+	}
+
 	spdlog::info("collision ended with solid");
-	m_Grounded = false;
+	if (m_CurrentGroundBody == rigidBody)
+	{
+		m_Grounded = false;
+	}
 }
 
 void Player::jump()
