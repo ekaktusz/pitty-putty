@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "RigidBodyType.h"
+#include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <any>
 #include <bagla-engine/animation/Animation.h>
@@ -122,6 +123,12 @@ void Player::handleEvent(const sf::Event& event)
 sf::Vector2f Player::getCenterPosition() const
 {
 	return m_Position + m_RigidBody->getSize() / 2.f;
+}
+
+void Player::setPosition(sf::Vector2f position) 
+{
+	m_Position = position;
+	m_RigidBody->setPosition(position);
 }
 
 void Player::syncPhysics()

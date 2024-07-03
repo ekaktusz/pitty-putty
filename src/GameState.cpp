@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <bagla-engine/map/Map.h>
@@ -8,6 +9,8 @@
 #include "PauseState.h"
 #include <bagla-engine/physics/PhysicsWorld.h>
 #include "Game.h"
+#include "tmxlite/ObjectTypes.hpp"
+#include <spdlog/spdlog.h>
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
@@ -19,10 +22,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
 	m_Camera.setWorldBoundaries(0, 0, 10000, 10000);
 
-	const bgl::ObjectLayer& playerStartingPositionLayer = m_Map->getObjectLayer("starting_pos");
-
-	
-	
+	m_Player1.setPosition(getPlayerStartingPosition());	
 	//m_PhysicsWorld.initDebugDraw(renderWindow);
 }
 
@@ -79,4 +79,13 @@ void GameState::onPause()
 void GameState::loadAssets()
 {
 	bgl::AssetManager::getInstance().loadMap("../../assets/maps/testmap.tmx", "testmap");
+}
+
+sf::Vector2f GameState::getPlayerStartingPosition() const
+{
+	const bgl::ObjectLayer& playerStartingPositionLayer = m_Map->getObjectLayer("starting_pos");
+	
+	const tmx::Object& object = playerStartingPositionLayer.getFirstObject();
+
+	return { object.getPosition().x, object.getPosition().y };
 }

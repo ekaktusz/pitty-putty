@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <bagla-engine/GameObject.h>
 #include <bagla-engine/physics/RigidBody.h>
 #include <bagla-engine/animation/AnimationComponent.h>
@@ -21,6 +22,7 @@ public:
 	void handleEvent(const sf::Event& event) override;
 
 	sf::Vector2f getCenterPosition() const;
+	void setPosition(sf::Vector2f position);
 
 private:
 	void syncPhysics();
@@ -30,6 +32,7 @@ private:
 	void endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
 
 	void jump();
+
 
 private:
 	static constexpr float s_Acceleration = 4000 * 1.5;

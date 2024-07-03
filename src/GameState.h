@@ -28,6 +28,8 @@ public:
 private:
 	void loadAssets();
 
+	sf::Vector2f getPlayerStartingPosition() const;
+
 private:
 	bgl::Camera m_Camera;
 
