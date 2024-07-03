@@ -1,6 +1,8 @@
 #include "PauseState.h"
+#include "SettingsState.h"
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <bagla-engine/states/StateManager.h>
+#include <memory>
 #include <spdlog/spdlog.h>
 #include <SFML/Window/Event.hpp>
 
@@ -31,7 +33,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 
 	m_CountinueButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_CountinueButton.setSize({ 400, 50 });
-	m_CountinueButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 300 });
+	m_CountinueButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f , 300.f});
 	m_CountinueButton.setString("continue game");
 	m_CountinueButton.setActionTodo([&]() {
 		spdlog::info("Switch to GameState: Starting the game");
@@ -40,12 +42,17 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 
 	m_SettingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_SettingsButton.setSize({ 400, 50 });
-	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 360 });
+	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f , 360.f });
 	m_SettingsButton.setString("settings");
+	m_SettingsButton.setActionTodo([&]() {
+		spdlog::debug("Settings button pressed!");
+		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(m_StateManager, m_RenderWindow);
+		m_StateManager.pushState(std::move(settingsState));
+	});
 
 	m_ReturnToMainButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_ReturnToMainButton.setSize({ 400, 50 });
-	m_ReturnToMainButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 420 });
+	m_ReturnToMainButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f , 420.f });
 	m_ReturnToMainButton.setString("return to main menu");
 	m_ReturnToMainButton.setActionTodo([&]() {
 		spdlog::info("Switch to MenuState: Starting the game");
@@ -115,10 +122,13 @@ void PauseState::handleEvent(const sf::Event& event)
 
 void PauseState::onResume()
 {
-	m_BackgroundMusic->play();
+	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing) 
+	{
+		m_BackgroundMusic->play();
+	}
 }
 
 void PauseState::onPause()
 {
-	m_BackgroundMusic->pause();
+	//m_BackgroundMusic->pause();
 }

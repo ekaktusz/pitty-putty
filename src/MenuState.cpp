@@ -43,11 +43,11 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	sf::Vector2f localBounds{ center.x + m_GameTitle.getLocalBounds().left, center.y + m_GameTitle.getLocalBounds().top };
 	sf::Vector2f rounded{std::round(localBounds.x), std::round(localBounds.y)};
 	m_GameTitle.setOrigin(rounded);
-	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2, 100 );
+	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2.f, 100.f );
 
 	m_StartButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_StartButton.setSize({ 400, 50 });
-	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 300 });
+	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_StartButton.getSize().x / 2.f , 300.f });
 	m_StartButton.setString("start game");
 	m_StartButton.setActionTodo([&]() {
 		spdlog::info("Switch to GameState: Starting the game");
@@ -68,7 +68,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_QuitButton.setSize({ 400, 50 });
-	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_QuitButton.getSize().x / 2 , 420 });
+	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_QuitButton.getSize().x / 2.f , 420.f });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.setActionTodo([&]() {
 		spdlog::info("Quit game :(");
@@ -120,7 +120,10 @@ void MenuState::handleEvent(const sf::Event& event)
 
 void MenuState::onResume()
 {
-	m_BackgroundMusic->play();
+	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing) 
+	{
+		m_BackgroundMusic->play();
+	}
 }
 
 void MenuState::onPause()
