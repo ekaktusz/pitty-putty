@@ -53,5 +53,5 @@ private:
 
 	bgl::AnimationComponent m_AnimationComponent;
 
-	std::vector<Bullet*> m_Bullets;
+	std::vector<Bullet> m_Bullets;
 };

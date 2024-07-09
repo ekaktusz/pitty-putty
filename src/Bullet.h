@@ -9,19 +9,16 @@
 class Bullet : public bgl::GameObject
 {
 public:
-	enum class Direction {LEFT, RIGHT};
-
-	Bullet(float x, float y, Direction direction);
-	Bullet(sf::Vector2f position, Direction direction);
-	Bullet(const Bullet& bullet);
+	Bullet(sf::Vector2f position, sf::Vector2f velocity);
+	Bullet(const Bullet& otherBullet) = delete;
+	Bullet& operator=(const Bullet&) = delete;
+	Bullet& operator=(Bullet&& otherBullet);
+	Bullet(Bullet&& otherBullet) noexcept;
 	~Bullet();
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void handleEvent(const sf::Event& event) override;
-
-private:
-	void initialize(Direction direction);
 
 private:
 	sf::Vector2f m_Position;

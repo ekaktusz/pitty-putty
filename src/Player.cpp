@@ -52,7 +52,7 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	for (const auto& bullet : m_Bullets)
 	{
-		target.draw(*bullet);
+		target.draw(bullet);
 	}
 }
 
@@ -88,7 +88,7 @@ void Player::update(const sf::Time& dt)
 
 	for (auto& bullet : m_Bullets)
 	{
-		bullet->update(dt);
+		bullet.update(dt);
 	}
 }
 
@@ -114,7 +114,7 @@ void Player::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::T)
 		{
-			m_Bullets.push_back(new Bullet(m_Position.x + m_RigidBody->getSize().x + 30, m_Position.y + m_RigidBody->getSize().y/2, Bullet::Direction::RIGHT));
+			m_Bullets.push_back(Bullet({m_Position.x + m_RigidBody->getSize().x + 30, m_Position.y + m_RigidBody->getSize().y/2}, {50.f, 0.f}));
 			spdlog::info("shoot");
 		}
 	}
