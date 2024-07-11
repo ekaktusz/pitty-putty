@@ -90,6 +90,7 @@ void MenuState::loadAssets()
 
 void MenuState::update(const sf::Time& dt)
 {
+	m_StartButton.setCornerRadius(20.f);
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
