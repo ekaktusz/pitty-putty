@@ -49,6 +49,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_StartButton.setSize({ 400, 50 });
 	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_StartButton.getSize().x / 2.f , 300.f });
 	m_StartButton.setString("start game");
+	m_StartButton.setCornerRadius(10.f);
 	m_StartButton.setActionTodo([&]() {
 		spdlog::info("Switch to GameState: Starting the game");
 		m_BackgroundMusic->pause();
@@ -90,7 +91,6 @@ void MenuState::loadAssets()
 
 void MenuState::update(const sf::Time& dt)
 {
-	m_StartButton.setCornerRadius(20.f);
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);

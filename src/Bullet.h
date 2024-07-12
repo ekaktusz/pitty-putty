@@ -12,9 +12,9 @@ public:
 	Bullet(sf::Vector2f position, sf::Vector2f velocity);
 	Bullet(const Bullet& otherBullet) = delete;
 	Bullet& operator=(const Bullet&) = delete;
-	Bullet& operator=(Bullet&& otherBullet);
+	Bullet& operator=(Bullet&& otherBullet) noexcept;
 	Bullet(Bullet&& otherBullet) noexcept;
-	~Bullet();
+	virtual ~Bullet();
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

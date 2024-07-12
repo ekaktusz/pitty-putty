@@ -17,7 +17,7 @@ Bullet::Bullet(Bullet&& otherBullet) noexcept
 	*this = std::move(otherBullet);
 }
 
-Bullet& Bullet::operator=(Bullet&& otherBullet)
+Bullet& Bullet::operator=(Bullet&& otherBullet) noexcept
 {
 	if (this != &otherBullet)
     {
