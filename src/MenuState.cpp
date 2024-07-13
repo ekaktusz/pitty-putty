@@ -24,8 +24,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	bgl::State(stateManager, renderWindow),
 	m_StartButton(renderWindow),
 	m_SettingsButton(renderWindow),
-	m_QuitButton(renderWindow),
-	m_StateTransition({static_cast<float>(renderWindow.getSize().x), static_cast<float>(renderWindow.getSize().y)})
+	m_QuitButton(renderWindow)
 {
 	
 	loadAssets();
@@ -81,6 +80,8 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	// m_GameTitle.setPosition(350, 10);
 
+	m_OpenTransition.start();
+
 	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
 }
 
@@ -94,7 +95,7 @@ void MenuState::loadAssets()
 
 void MenuState::update(const sf::Time& dt)
 {
-	m_StateTransition.update(dt);
+	m_OpenTransition.update(dt);
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
@@ -108,7 +109,7 @@ void MenuState::draw() const
 	m_RenderWindow.draw(m_StartButton);
 	m_RenderWindow.draw(m_SettingsButton);
 	m_RenderWindow.draw(m_QuitButton);
-	m_RenderWindow.draw(m_StateTransition);
+	m_RenderWindow.draw(m_OpenTransition);
 	m_RenderWindow.display();
 }
 

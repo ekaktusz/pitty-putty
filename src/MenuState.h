@@ -39,6 +39,4 @@ private:
 	bgl::Button m_QuitButton;
 
 	sf::Music* m_BackgroundMusic;
-
-	bgl::StateTransition m_StateTransition;
 };
