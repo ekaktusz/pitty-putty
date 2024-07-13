@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Clock.hpp>
 #include <bagla-engine/states/State.h>
 #include <bagla-engine/gui/Button.h>
 #include <bagla-engine/gui/CheckBox.h>
@@ -38,4 +40,8 @@ private:
 	bgl::Button m_QuitButton;
 
 	sf::Music* m_BackgroundMusic;
+
+	sf::RectangleShape m_TransitionBackground;
+	sf::Clock m_TransitionClock;
+	sf::Time m_TransitionDuration = sf::seconds(2.f);
 };

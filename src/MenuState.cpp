@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "MathExtensions.h"
 #include "MenuState.h"
 #include "SettingsState.h"
 
@@ -25,6 +26,9 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_SettingsButton(renderWindow),
 	m_QuitButton(renderWindow)
 {
+	m_TransitionBackground = sf::RectangleShape({static_cast<float>(m_RenderWindow.getSize().x), static_cast<float>(m_RenderWindow.getSize().y)});
+	m_TransitionBackground.setFillColor(sf::Color(0,0,0,255));
+	
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
 	m_BackgroundSprite.setTexture(m_BackgroundTexture);
@@ -91,6 +95,10 @@ void MenuState::loadAssets()
 
 void MenuState::update(const sf::Time& dt)
 {
+	if (m_TransitionClock.getElapsedTime() < m_TransitionDuration) 
+	{
+		m_TransitionBackground.setFillColor(sf::Color(0,0,0, bgl::mapValue(m_TransitionClock.getElapsedTime().asSeconds(), 0.f, m_TransitionDuration.asSeconds(), 0.f, 255.f)));
+	}
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
@@ -104,6 +112,7 @@ void MenuState::draw() const
 	m_RenderWindow.draw(m_StartButton);
 	m_RenderWindow.draw(m_SettingsButton);
 	m_RenderWindow.draw(m_QuitButton);
+	m_RenderWindow.draw(m_TransitionBackground);
 	m_RenderWindow.display();
 }
 
