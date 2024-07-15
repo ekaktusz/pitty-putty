@@ -78,6 +78,8 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	// m_GameTitle.setPosition(350, 10);
 
+	m_OpenTransition.start();
+
 	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
 }
 
@@ -94,6 +96,7 @@ void MenuState::update(const sf::Time& dt)
 	m_StartButton.update(dt);
 	m_SettingsButton.update(dt);
 	m_QuitButton.update(dt);
+	m_OpenTransition.update(dt);
 }
 
 void MenuState::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -104,6 +107,7 @@ void MenuState::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	target.draw(m_StartButton);
 	target.draw(m_SettingsButton);
 	target.draw(m_QuitButton);
+	target.draw(m_OpenTransition);
 }
 
 
