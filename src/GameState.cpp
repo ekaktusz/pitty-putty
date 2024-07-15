@@ -40,13 +40,12 @@ void GameState::update(const sf::Time& dt)
 	//m_Camera.update(dt);
 }
 
-void GameState::draw() const
+void GameState::draw(sf::RenderTarget &target, sf::RenderStates states)const
 {
-	m_RenderWindow.clear();
-	m_RenderWindow.draw(m_PhysicsWorld);
-	m_RenderWindow.draw(m_Player1);
-	m_RenderWindow.draw(m_Map->getTileLayer("backlayer"));
-	m_RenderWindow.display();
+	target.clear();
+	target.draw(m_PhysicsWorld);
+	target.draw(m_Player1);
+	target.draw(m_Map->getTileLayer("backlayer"));
 }
 
 void GameState::handleEvent(const sf::Event& event)
