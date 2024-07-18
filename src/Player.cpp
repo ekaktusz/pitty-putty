@@ -14,6 +14,7 @@
 #include <spdlog/spdlog.h>
 #include <string>
 #include <memory>
+#include "BulletManager.h"
 
 Player::Player()
 {
@@ -49,11 +50,6 @@ Player::~Player()
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_AnimationComponent);
-
-	for (const auto& bullet : m_Bullets)
-	{
-		target.draw(bullet);
-	}
 }
 
 void Player::update(const sf::Time& dt)
@@ -85,11 +81,6 @@ void Player::update(const sf::Time& dt)
 	{
 		m_AnimationComponent.flipHorizontally(true);
 	}
-
-	for (auto& bullet : m_Bullets)
-	{
-		bullet.update(dt);
-	}
 }
 
 void Player::updateKeyboard(const sf::Time& dt)
@@ -114,10 +105,10 @@ void Player::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::T)
 		{
-			const sf::Vector2f bulletVelocity{ (m_Direction == Direction::RIGHT ? 1 : -1) * 200.f, 0.f };
+			const sf::Vector2f bulletVelocity{ (m_Direction == Direction::RIGHT ? 1 : -1) * 400.f, 0.f };
 			const float bulletXPosition = getCenterPosition().x + (m_Direction == Direction::RIGHT ? 1 : -1) * 20;
 			const sf::Vector2f bulletStartingPosition{ bulletXPosition ,  getCenterPosition().y - 5 };
-			m_Bullets.push_back(Bullet(bulletStartingPosition, bulletVelocity));
+			BulletManager::getInstance().createBullet(bulletStartingPosition, bulletVelocity);
 			spdlog::info("shoot");
 		}
 	}

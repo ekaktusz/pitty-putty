@@ -11,6 +11,7 @@
 #include "Game.h"
 #include "tmxlite/ObjectTypes.hpp"
 #include <spdlog/spdlog.h>
+#include "BulletManager.h"
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
@@ -33,6 +34,7 @@ void GameState::update(const sf::Time& dt)
 	const sf::Vector2f offset = m_Player1.getCenterPosition() - m_Camera.getCenterPosition();
 	m_Camera.move(offset * dt.asSeconds() * 10.f);
 	m_PhysicsWorld.update(dt);
+	BulletManager::getInstance().update(dt);
 	//m_Camera.update(dt);
 }
 
@@ -42,6 +44,7 @@ void GameState::draw(sf::RenderTarget &target, sf::RenderStates states)const
 	target.draw(m_PhysicsWorld);
 	target.draw(m_Player1);
 	target.draw(m_Map->getTileLayer("backlayer"));
+	target.draw(BulletManager::getInstance());
 }
 
 void GameState::handleEvent(const sf::Event& event)
@@ -59,6 +62,7 @@ void GameState::handleEvent(const sf::Event& event)
 		}
 	}
 	m_Player1.handleEvent(event);
+	BulletManager::getInstance().handleEvent(event);
 }
 
 void GameState::onResume()

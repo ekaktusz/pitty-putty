@@ -5,12 +5,13 @@
 #include <bagla-engine/states/State.h>
 #include <bagla-engine/camera/Camera.h>
 
-
 namespace bgl
 {
 	class Map;
 	class PhysicsWorld;
 }
+
+class BulletManager;
 
 class GameState : public bgl::State
 {
