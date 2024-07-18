@@ -24,6 +24,7 @@ public:
 
 	void onResume() override;
 	void onPause() override;
+	void onStart() override;
 
 private:
 	void loadAssets();
