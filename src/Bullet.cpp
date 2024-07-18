@@ -9,6 +9,7 @@ Bullet::Bullet(sf::Vector2f position, sf::Vector2f velocity) : m_Position(positi
 	m_RigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(position.x, position.y, 5, 5);
 	m_RigidBody->setGravityScale(0);
 	m_RigidBody->setLinearVelocity(velocity);
+	m_RigidBody->setSensor(true);
 	m_BulletShape.setFillColor(sf::Color::Green);
 }
 

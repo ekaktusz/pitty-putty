@@ -114,7 +114,10 @@ void Player::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::T)
 		{
-			m_Bullets.push_back(Bullet({m_Position.x + m_RigidBody->getSize().x + 30, m_Position.y + m_RigidBody->getSize().y/2}, {200.f, 0.f}));
+			const sf::Vector2f bulletVelocity{ (m_Direction == Direction::RIGHT ? 1 : -1) * 200.f, 0.f };
+			const float bulletXPosition = getCenterPosition().x + (m_Direction == Direction::RIGHT ? 1 : -1) * 20;
+			const sf::Vector2f bulletStartingPosition{ bulletXPosition ,  getCenterPosition().y - 5 };
+			m_Bullets.push_back(Bullet(bulletStartingPosition, bulletVelocity));
 			spdlog::info("shoot");
 		}
 	}
