@@ -13,6 +13,6 @@ public:
 	Game();
 	void run();
 private:
-	bgl::StateManager m_StateManager;
 	sf::RenderWindow m_RenderWindow;
+	bgl::StateManager m_StateManager;
 };

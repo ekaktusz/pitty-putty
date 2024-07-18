@@ -96,15 +96,14 @@ void MenuState::update(const sf::Time& dt)
 	m_QuitButton.update(dt);
 }
 
-void MenuState::draw() const
+void MenuState::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	m_RenderWindow.clear();
-	m_RenderWindow.draw(m_BackgroundSprite);
-	m_RenderWindow.draw(m_GameTitle);
-	m_RenderWindow.draw(m_StartButton);
-	m_RenderWindow.draw(m_SettingsButton);
-	m_RenderWindow.draw(m_QuitButton);
-	m_RenderWindow.display();
+	target.clear();
+	target.draw(m_BackgroundSprite);
+	target.draw(m_GameTitle);
+	target.draw(m_StartButton);
+	target.draw(m_SettingsButton);
+	target.draw(m_QuitButton);
 }
 
 

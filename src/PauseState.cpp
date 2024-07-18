@@ -89,16 +89,15 @@ void PauseState::update(const sf::Time& dt)
 	m_ReturnToMainButton.update(dt);
 }
 
-void PauseState::draw() const
+void PauseState::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	m_RenderWindow.clear();
-	m_RenderWindow.draw(m_BackgroundSprite);
-	m_RenderWindow.draw(m_GameTitle);
-	m_RenderWindow.draw(m_CountinueButton);
-	m_RenderWindow.draw(m_SettingsButton);
-	m_RenderWindow.draw(m_QuitButton);
-	m_RenderWindow.draw(m_ReturnToMainButton);
-	m_RenderWindow.display();
+	target.clear();
+	target.draw(m_BackgroundSprite);
+	target.draw(m_GameTitle);
+	target.draw(m_CountinueButton);
+	target.draw(m_SettingsButton);
+	target.draw(m_QuitButton);
+	target.draw(m_ReturnToMainButton);
 }
 
 void PauseState::handleEvent(const sf::Event& event)

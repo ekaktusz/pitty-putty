@@ -70,16 +70,13 @@ void SettingsState::update(const sf::Time& dt)
 
 }
 
-void SettingsState::draw() const
+void SettingsState::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	m_RenderWindow.clear();
-
-	m_RenderWindow.draw(m_BackgroundSprite);
-	m_RenderWindow.draw(m_VolumeSlider);
-	m_RenderWindow.draw(m_BackButton);
-	m_RenderWindow.draw(m_Title);
-
-	m_RenderWindow.display();
+	target.clear();
+	target.draw(m_BackgroundSprite);
+	target.draw(m_VolumeSlider);
+	target.draw(m_BackButton);
+	target.draw(m_Title);
 }
 
 void SettingsState::handleEvent(const sf::Event& event)

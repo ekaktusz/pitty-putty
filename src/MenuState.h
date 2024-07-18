@@ -19,7 +19,7 @@ class MenuState : public bgl::State
 public:
 	MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow);
 	void update(const sf::Time& dt) override;
-	void draw() const override;
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	void handleEvent(const sf::Event& event) override;
 
 	void onResume() override;
