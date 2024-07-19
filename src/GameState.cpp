@@ -20,6 +20,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_PhysicsWorld(bgl::PhysicsWorld::getInstance())
 {
 	loadAssets();
+	m_ParallaxBackground.initialize(bgl::AssetManager::getInstance().getTexture("parallax_bg1"));
 	//m_PhysicsWorld.initDebugDraw(renderWindow);
 }
 
@@ -35,12 +36,15 @@ void GameState::update(const sf::Time& dt)
 	m_Camera.move(offset * dt.asSeconds() * 10.f);
 	m_PhysicsWorld.update(dt);
 	BulletManager::getInstance().update(dt);
+
+	m_ParallaxBackground.setPosition(m_Camera.getPosition());
 	//m_Camera.update(dt);
 }
 
 void GameState::draw(sf::RenderTarget &target, sf::RenderStates states)const
 {
 	target.clear();
+	target.draw(m_ParallaxBackground);
 	target.draw(m_PhysicsWorld);
 	target.draw(m_Player1);
 	target.draw(m_Map->getTileLayer("backlayer"));
@@ -82,11 +86,14 @@ void GameState::onStart()
 	m_Camera.attach(m_RenderWindow);
 
 	m_Player1.setPosition(getPlayerStartingPosition());
+	const sf::Vector2f scale { m_RenderWindow.getSize().x / m_ParallaxBackground.getGlobalBounds().width, m_RenderWindow.getSize().y / m_ParallaxBackground.getGlobalBounds().height };
+	m_ParallaxBackground.setScale(scale);
 }
 
 void GameState::loadAssets()
 {
 	bgl::AssetManager::getInstance().loadMap("../../assets/maps/testmap.tmx", "testmap");
+	bgl::AssetManager::getInstance().loadTexture("../../assets/background/parallax_space/parallax-space-background.png", "parallax_bg1");
 }
 
 sf::Vector2f GameState::getPlayerStartingPosition() const
