@@ -34,7 +34,7 @@ public:
 	void setPlayerVelocity(sf::Vector2f velocity)
 	{
 		m_playerVelocity = velocity;
-		m_playerVelocity.y *= 0;
+		m_playerVelocity *= 0.f;
 	}
 
 	void update(const sf::Time& dt)
@@ -51,8 +51,8 @@ public:
 	}
 
 private:
-	static constexpr size_t LAYER_COUNT = 3;
-	static constexpr size_t STARS_PER_LAYER = 500;
+	static constexpr size_t LAYER_COUNT = 5;
+	static constexpr size_t STARS_PER_LAYER = 300;
 	sf::Vector2f m_position;
 	sf::Vector2f m_playerVelocity;
 
