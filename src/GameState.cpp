@@ -36,7 +36,7 @@ void GameState::update(const sf::Time& dt)
 	m_PhysicsWorld.update(dt);
 	BulletManager::getInstance().update(dt);
 
-	m_starBackground.setVelocity( (- 0.1f) * m_Player1.getVelocity());
+	m_starBackground.setPlayerVelocity( (- 0.1f) * m_Player1.getVelocity());
 	m_starBackground.setPosition(m_Camera.getPosition());
 	m_starBackground.update(dt);
 	//m_Camera.update(dt);
@@ -83,7 +83,9 @@ void GameState::onPause()
 void GameState::onStart()
 {
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
-	m_Camera.setWorldBoundaries(0, 0, 10000, 10000);
+	
+
+	m_Camera.setWorldBoundaries(0, 0, m_Map->getSize().x, m_Map->getSize().y);
 	m_Camera.attach(m_RenderWindow);
 
 	m_Player1.setPosition(getPlayerStartingPosition());

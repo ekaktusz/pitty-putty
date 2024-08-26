@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 class StarBackground : public sf::Drawable
 {
@@ -30,9 +31,10 @@ public:
 		}
 	}
 
-	void setVelocity(sf::Vector2f velocity)
+	void setPlayerVelocity(sf::Vector2f velocity)
 	{
-		m_velocity = velocity;
+		m_playerVelocity = velocity;
+		m_playerVelocity.y *= 0;
 	}
 
 	void update(const sf::Time& dt)
@@ -51,18 +53,17 @@ public:
 private:
 	static constexpr size_t LAYER_COUNT = 3;
 	static constexpr size_t STARS_PER_LAYER = 500;
-
 	sf::Vector2f m_position;
+	sf::Vector2f m_playerVelocity;
 
 	struct StarLayer
 	{
 		sf::VertexArray vertices;
-		float speed;
+		sf::Vector2f defaultSpeed;
 		float size;
 	};
 
 	std::array<StarLayer, LAYER_COUNT> m_layers;
-	sf::Vector2f m_velocity;
 
 	sf::Color getRandomStarColor()
 	{
@@ -85,26 +86,29 @@ private:
 		{
 			m_layers[i].vertices.setPrimitiveType(sf::Points);
 			m_layers[i].vertices.resize(STARS_PER_LAYER);
-			m_layers[i].speed = 0.1f + 0.2f * i;  // Adjust speed for each layer
+			m_layers[i].defaultSpeed.x = 5.0f + 5.0f * i;  // Default speed for each layer
+			m_layers[i].defaultSpeed.y = 5.0f + 5.0f * i;  // Default speed for each layer
 			m_layers[i].size = 1.0f + 0.5f * i;   // Adjust size for each layer
 
 			for (size_t j = 0; j < STARS_PER_LAYER; ++j)
 			{
-				float x = (float) bgl::randomInt(0, Game::WINDOW_WIDTH);
-				float y = (float) bgl::randomInt(0, Game::WINDOW_HEIGHT);
+				float x = (float)bgl::randomInt(0, Game::WINDOW_WIDTH);
+				float y = (float)bgl::randomInt(0, Game::WINDOW_HEIGHT);
 
 				m_layers[i].vertices[j].position = sf::Vector2f(x, y);
-				m_layers[i].vertices[j].color = getRandomStarColor() ;
+				m_layers[i].vertices[j].color = getRandomStarColor();
 			}
 		}
 	}
 
 	void updateLayer(StarLayer& layer, const sf::Time& dt)
 	{
+		sf::Vector2f totalVelocity = m_playerVelocity - layer.defaultSpeed;
+
 		for (size_t i = 0; i < STARS_PER_LAYER; ++i)
 		{
 			sf::Vector2f& pos = layer.vertices[i].position;
-			pos += m_velocity * layer.speed * dt.asSeconds();
+			pos += totalVelocity * dt.asSeconds();
 
 			// Wrap stars around the screen
 			if (pos.x < 0 - m_position.x) pos.x = Game::WINDOW_WIDTH;
