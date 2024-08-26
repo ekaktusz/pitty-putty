@@ -5,6 +5,7 @@
 #include <bagla-engine/states/State.h>
 #include <bagla-engine/camera/Camera.h>
 #include "StarBackground.h"
+#include <SFML/Graphics/Text.hpp>
 
 namespace bgl
 {
@@ -40,6 +41,8 @@ private:
 	bgl::Map* m_Map;
 
 	bgl::PhysicsWorld& m_PhysicsWorld;
+
+	sf::Text m_fpsCounter;
 
 	StarBackground m_starBackground;
 };

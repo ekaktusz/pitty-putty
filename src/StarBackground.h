@@ -34,7 +34,7 @@ public:
 	void setPlayerVelocity(sf::Vector2f velocity)
 	{
 		m_playerVelocity = velocity;
-		m_playerVelocity *= 0.f;
+		m_playerVelocity.y *= 0;
 	}
 
 	void update(const sf::Time& dt)

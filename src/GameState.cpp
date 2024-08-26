@@ -21,6 +21,11 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 {
 	loadAssets();
 	//m_PhysicsWorld.initDebugDraw(renderWindow);
+
+	m_fpsCounter.setString("buttonString");
+	m_fpsCounter.setPosition(20, 20);
+	m_fpsCounter.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	//m_fpsCounter.setFont(;
 }
 
 GameState::~GameState()
@@ -39,6 +44,8 @@ void GameState::update(const sf::Time& dt)
 	m_starBackground.setPlayerVelocity( (- 0.1f) * m_Player1.getVelocity());
 	m_starBackground.setPosition(m_Camera.getPosition());
 	m_starBackground.update(dt);
+
+	m_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
 	//m_Camera.update(dt);
 }
 
@@ -50,6 +57,7 @@ void GameState::draw(sf::RenderTarget &target, sf::RenderStates states)const
 	target.draw(m_Player1);
 	target.draw(m_Map->getTileLayer("backlayer"));
 	target.draw(BulletManager::getInstance());
+	target.draw(m_fpsCounter);
 }
 
 void GameState::handleEvent(const sf::Event& event)
