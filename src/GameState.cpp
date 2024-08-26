@@ -35,6 +35,9 @@ void GameState::update(const sf::Time& dt)
 	m_Camera.move(offset * dt.asSeconds() * 10.f);
 	m_PhysicsWorld.update(dt);
 	BulletManager::getInstance().update(dt);
+
+	m_starBackground.setVelocity( (- 0.1f) * m_Player1.getVelocity());
+	m_starBackground.update(dt);
 	//m_Camera.update(dt);
 }
 
@@ -44,6 +47,7 @@ void GameState::draw(sf::RenderTarget &target, sf::RenderStates states)const
 	target.draw(m_PhysicsWorld);
 	target.draw(m_Player1);
 	target.draw(m_Map->getTileLayer("backlayer"));
+	target.draw(m_starBackground);
 	target.draw(BulletManager::getInstance());
 }
 

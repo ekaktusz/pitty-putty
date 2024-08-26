@@ -23,6 +23,8 @@ public:
 	sf::Vector2f getCenterPosition() const;
 	void setPosition(sf::Vector2f position);
 
+	sf::Vector2f getVelocity() const;
+
 private:
 	void syncPhysics();
 	void applyGravity(const sf::Time& dt);

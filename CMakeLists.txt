@@ -22,7 +22,7 @@ file(GLOB SOURCES
     src/*.cpp
 )
 
-add_executable(PittyPutty ${SOURCES} "src/BulletManager.cpp")
+add_executable(PittyPutty ${SOURCES} "src/BulletManager.cpp" "src/StarBackground.h")
 
 # Setup b�gla
 add_subdirectory(vendor/bagla-engine)

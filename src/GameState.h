@@ -4,6 +4,7 @@
 
 #include <bagla-engine/states/State.h>
 #include <bagla-engine/camera/Camera.h>
+#include "StarBackground.h"
 
 namespace bgl
 {
@@ -39,4 +40,6 @@ private:
 	bgl::Map* m_Map;
 
 	bgl::PhysicsWorld& m_PhysicsWorld;
+
+	StarBackground m_starBackground;
 };

@@ -125,6 +125,11 @@ void Player::setPosition(sf::Vector2f position)
 	m_RigidBody->setPosition(position);
 }
 
+sf::Vector2f Player::getVelocity() const
+{
+	return m_Velocity;
+}
+
 void Player::syncPhysics()
 {
 	// spdlog::info("vx: " + std::to_string(m_Velocity.x) + " vy: " + std::to_string(m_Velocity.y));
