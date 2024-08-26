@@ -4,14 +4,20 @@
 #include <SFML/Window/Event.hpp>
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <bagla-engine/map/Map.h>
-#include <bagla-engine/map/TileLayer.h>
 #include <bagla-engine/states/StateManager.h>
 #include "PauseState.h"
 #include <bagla-engine/physics/PhysicsWorld.h>
-#include "Game.h"
-#include "tmxlite/ObjectTypes.hpp"
-#include <spdlog/spdlog.h>
 #include "BulletManager.h"
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <map/ObjectLayer.h>
+#include <states/State.h>
+#include <tmxlite/Object.hpp>
+#include <memory>
+#include <type_traits>
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
 	bgl::State(stateManager, renderWindow),
@@ -20,8 +26,16 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_PhysicsWorld(bgl::PhysicsWorld::getInstance())
 {
 	loadAssets();
-	m_ParallaxBackground.initialize(bgl::AssetManager::getInstance().getTexture("parallax_bg1"));
-	//m_PhysicsWorld.initDebugDraw(renderWindow);
+
+	// init parallax background
+
+	auto parallaxLayer1 = std::make_unique<bgl::ParallaxLayer>(bgl::AssetManager::getInstance().getTexture("parallax_bg1"), 1.f);
+
+	const sf::FloatRect& globalBoundsRect = parallaxLayer1->getGlobalBounds();
+	const sf::Vector2f scale{ m_RenderWindow.getSize().x / globalBoundsRect.width, m_RenderWindow.getSize().x / globalBoundsRect.width };
+	parallaxLayer1->setScale(scale);
+
+	m_ParallaxBackground.addLayer(std::move(parallaxLayer1));
 }
 
 GameState::~GameState()
@@ -86,8 +100,7 @@ void GameState::onStart()
 	m_Camera.attach(m_RenderWindow);
 
 	m_Player1.setPosition(getPlayerStartingPosition());
-	const sf::Vector2f scale { m_RenderWindow.getSize().x / m_ParallaxBackground.getGlobalBounds().width, m_RenderWindow.getSize().y / m_ParallaxBackground.getGlobalBounds().height };
-	m_ParallaxBackground.setScale(scale);
+	
 }
 
 void GameState::loadAssets()
