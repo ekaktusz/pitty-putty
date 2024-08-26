@@ -45,10 +45,10 @@ void GameState::update(const sf::Time& dt)
 void GameState::draw(sf::RenderTarget &target, sf::RenderStates states)const
 {
 	target.clear();
+	target.draw(m_starBackground);
 	target.draw(m_PhysicsWorld);
 	target.draw(m_Player1);
 	target.draw(m_Map->getTileLayer("backlayer"));
-	target.draw(m_starBackground);
 	target.draw(BulletManager::getInstance());
 }
 
