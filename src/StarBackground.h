@@ -4,18 +4,23 @@
 #include <array>
 #include <bagla-engine/MathExtensions.h>
 #include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Drawable.hpp> 1329
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Color.hpp>
 
+#include "PlanetGraphics.h"
+
 class StarBackground : public sf::Drawable
 {
 public:
-	StarBackground()
+	StarBackground() = default;
+
+	explicit StarBackground(sf::Vector2f size) : m_size(size)
 	{
 		initializeLayers();
+		m_planetGraphics.setPosition({ 150.f, 150.f });
 	}
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override
@@ -29,6 +34,8 @@ public:
 			}
 			target.draw(offsetVertices, states);
 		}
+
+		target.draw(m_planetGraphics);
 	}
 
 	void setPlayerVelocity(sf::Vector2f velocity)
@@ -43,6 +50,8 @@ public:
 		{
 			updateLayer(layer, dt);
 		}
+
+		m_planetGraphics.update(dt);
 	}
 
 	void setPosition(sf::Vector2f position)
@@ -50,11 +59,15 @@ public:
 		m_position = position;
 	}
 
+
 private:
 	static constexpr size_t LAYER_COUNT = 5;
-	static constexpr size_t STARS_PER_LAYER = 300;
+	static constexpr size_t STARS_PER_LAYER = 1000;
 	sf::Vector2f m_position;
+	sf::Vector2f m_size{ Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT };
 	sf::Vector2f m_playerVelocity;
+
+	PlanetGraphics m_planetGraphics;
 
 	struct StarLayer
 	{
@@ -65,7 +78,7 @@ private:
 
 	std::array<StarLayer, LAYER_COUNT> m_layers;
 
-	sf::Color getRandomStarColor()
+	sf::Color getRandomStarColor() const
 	{
 		int colorChoice = bgl::randomInt(0, 4);
 		sf::Uint8 brightness = bgl::randomInt(150, 255);
@@ -92,8 +105,8 @@ private:
 
 			for (size_t j = 0; j < STARS_PER_LAYER; ++j)
 			{
-				float x = (float)bgl::randomInt(0, Game::WINDOW_WIDTH);
-				float y = (float)bgl::randomInt(0, Game::WINDOW_HEIGHT);
+				float x = (float)bgl::randomInt(0, m_size.x);
+				float y = (float)bgl::randomInt(0, m_size.y);
 
 				m_layers[i].vertices[j].position = sf::Vector2f(x, y);
 				m_layers[i].vertices[j].color = getRandomStarColor();
@@ -111,10 +124,10 @@ private:
 			pos += totalVelocity * dt.asSeconds();
 
 			// Wrap stars around the screen
-			if (pos.x < 0 - m_position.x) pos.x = Game::WINDOW_WIDTH;
-			if (pos.x > Game::WINDOW_WIDTH) pos.x = 0;
-			if (pos.y < 0) pos.y = Game::WINDOW_HEIGHT;
-			if (pos.y > Game::WINDOW_HEIGHT) pos.y = 0;
+			if (pos.x < 0 - m_position.x) pos.x = m_size.x;
+			if (pos.x > m_size.x) pos.x = 0;
+			if (pos.y < 0) pos.y = m_size.y;
+			if (pos.y > m_size.y) pos.y = 0;
 		}
 	}
 };

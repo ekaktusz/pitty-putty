@@ -25,6 +25,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_fpsCounter.setString("buttonString");
 	m_fpsCounter.setPosition(20, 20);
 	m_fpsCounter.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	
 	//m_fpsCounter.setFont(;
 }
 
@@ -42,7 +43,7 @@ void GameState::update(const sf::Time& dt)
 	BulletManager::getInstance().update(dt);
 
 	m_starBackground.setPlayerVelocity( (- 0.1f) * m_Player1.getVelocity());
-	m_starBackground.setPosition(m_Camera.getPosition());
+	
 	m_starBackground.update(dt);
 
 	m_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
@@ -95,6 +96,8 @@ void GameState::onStart()
 
 	m_Camera.setWorldBoundaries(0, 0, m_Map->getSize().x, m_Map->getSize().y);
 	m_Camera.attach(m_RenderWindow);
+
+	m_starBackground = StarBackground(m_Map->getSize());
 
 	m_Player1.setPosition(getPlayerStartingPosition());
 }
