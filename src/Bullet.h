@@ -18,7 +18,7 @@ public:
 	Bullet& operator=(const Bullet&) = delete;
 	Bullet& operator=(Bullet&& otherBullet) noexcept;
 	Bullet(Bullet&& otherBullet) noexcept;
-	virtual ~Bullet();
+	~Bullet() override;
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

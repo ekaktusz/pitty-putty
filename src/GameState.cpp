@@ -26,7 +26,6 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	//m_PhysicsWorld.initDebugDraw(renderWindow);
 
 	m_fpsCounter.setString("buttonString");
-	m_fpsCounter.setPosition(20, 20);
 	m_fpsCounter.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 
 	//m_fpsCounter.setFont(;
@@ -45,6 +44,7 @@ void GameState::update(const sf::Time& dt)
 
 	m_starBackground.update(dt);
 
+	m_fpsCounter.setPosition(sf::Vector2f(20.f, 20.f) + m_Camera.getPosition());
 	m_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
 	//m_Camera.update(dt);
 }

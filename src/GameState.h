@@ -1,17 +1,20 @@
 #pragma once
 
 #include "Player.h"
-
 #include "StarBackground.h"
-#include <SFML/Graphics/Text.hpp>
+
 #include <bagla-engine/camera/Camera.h>
 #include <bagla-engine/states/State.h>
+
+#include <SFML/Graphics/Text.hpp>
 
 namespace bgl
 {
 class Map;
 class PhysicsWorld;
+class StateManager;
 }
+
 
 class BulletManager;
 
