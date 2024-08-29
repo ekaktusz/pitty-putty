@@ -41,8 +41,6 @@ void GameState::update(const sf::Time& dt)
 	m_Camera.move(offset * dt.asSeconds() * 10.f);
 	m_PhysicsWorld.update(dt);
 	BulletManager::getInstance().update(dt);
-
-	m_starBackground.setPlayerVelocity( (- 0.1f) * m_Player1.getVelocity());
 	
 	m_starBackground.update(dt);
 

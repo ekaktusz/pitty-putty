@@ -2,8 +2,6 @@
 
 cmake_minimum_required(VERSION 3.25)
 
-message(" wsl:  ${WSL}")
-
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -30,8 +28,7 @@ target_include_directories(PittyPutty PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendo
 
 find_package(SFML COMPONENTS system window graphics audio network CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(Tweeny CONFIG REQUIRED)
+find_package(effolkronium_random CONFIG REQUIRED)
 
 if (WIN32)
     # For Visual Studio hot reload
@@ -40,10 +37,13 @@ if (WIN32)
     #set(CMAKE_CXX_FLAGS_DEBUG "/MDd /ZI /Ob0 /Od /RTC1")
 endif()
 
-target_link_libraries(PittyPutty PRIVATE sfml-system sfml-network sfml-graphics sfml-window sfml-audio)
-target_link_libraries(PittyPutty PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
-target_link_libraries(PittyPutty PRIVATE bagla-engine)
-target_link_libraries(PittyPutty PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(PittyPutty PRIVATE tweeny)
+target_link_libraries(PittyPutty PRIVATE
+    sfml-system sfml-network sfml-graphics sfml-window sfml-audio
+    spdlog::spdlog spdlog::spdlog_header_only
+    bagla-engine
+    effolkronium_random
+)
+
+message(" wsl:  ${WSL}")
 
 #target_precompile_headers(ProjectName PUBLIC "src/pch.h")

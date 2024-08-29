@@ -5,7 +5,6 @@
     "sfml",
     "spdlog",
     "box2d",
-    "nlohmann-json",
-    "tweeny"
+    "effolkronium-random"
   ]
 }

@@ -1,4 +1,6 @@
 #include "StarBackground.h"
+#include "effolkronium/random.hpp"
+
 
 StarBackground::StarBackground(sf::Vector2f size) : m_size(size)
 {
@@ -18,12 +20,6 @@ void StarBackground::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	}
 }
 
-void StarBackground::setPlayerVelocity(sf::Vector2f velocity)
-{
-	m_playerVelocity = velocity;
-	m_playerVelocity.y *= 0;
-}
-
 void StarBackground::update(const sf::Time& dt)
 {
 	for (auto& layer : m_layers)
@@ -37,20 +33,27 @@ void StarBackground::setPosition(sf::Vector2f position)
 	m_position = position;
 }
 
+static sf::Color getRandomStarColor()
+{
+	const std::array<sf::Color, 4> colorOptions = {sf::Color::White, sf::Color::Yellow, sf::Color::Cyan, sf::Color::Magenta};
+	const size_t colorChoice = effolkronium::random_static::get(0, 3);
+	return colorOptions[colorChoice];
+}
+
 void StarBackground::initializeLayers()
 {
 	for (size_t i = 0; i < LAYER_COUNT; ++i)
 	{
 		m_layers[i].vertices.setPrimitiveType(sf::Points);
 		m_layers[i].vertices.resize(STARS_PER_LAYER);
-		m_layers[i].defaultSpeed.x = 5.0f + 5.0f * i;  // Default speed for each layer
-		m_layers[i].defaultSpeed.y = 5.0f + 5.0f * i;  // Default speed for each layer
+		m_layers[i].velocity.x = 5.0f + 5.0f * i;  // Default speed for each layer
+		m_layers[i].velocity.y = 5.0f + 5.0f * i;  // Default speed for each layer
 		m_layers[i].size = 1.0f + 0.5f * i;   // Adjust size for each layer
 
 		for (size_t j = 0; j < STARS_PER_LAYER; ++j)
 		{
-			float x = (float)bgl::randomInt(0, m_size.x);
-			float y = (float)bgl::randomInt(0, m_size.y);
+			const float x = effolkronium::random_static::get(0.f, m_size.x);
+			const float y = effolkronium::random_static::get(0.f, m_size.y);
 
 			m_layers[i].vertices[j].position = sf::Vector2f(x, y);
 			m_layers[i].vertices[j].color = getRandomStarColor();
@@ -58,29 +61,12 @@ void StarBackground::initializeLayers()
 	}
 }
 
-static sf::Color getRandomStarColor()
-{
-	int colorChoice = bgl::randomInt(0, 4);
-	sf::Uint8 brightness = bgl::randomInt(150, 255);
-
-	switch (colorChoice)
-	{
-	case 0: return sf::Color(brightness, brightness, brightness); // White
-	case 1: return sf::Color(brightness, brightness, bgl::randomInt(200, 255)); // Light Blue
-	case 2: return sf::Color(brightness, bgl::randomInt(200, 255), bgl::randomInt(150, 200)); // Light Orange
-	case 3: return sf::Color(bgl::randomInt(200, 255), brightness, bgl::randomInt(200, 255)); // Light Purple
-	default: return sf::Color(brightness, bgl::randomInt(200, 255), brightness); // Light Green
-	}
-}
-
 void StarBackground::updateLayer(StarLayer& layer, const sf::Time& dt)
 {
-	sf::Vector2f totalVelocity = m_playerVelocity - layer.defaultSpeed;
-
 	for (size_t i = 0; i < STARS_PER_LAYER; ++i)
 	{
 		sf::Vector2f& pos = layer.vertices[i].position;
-		pos += totalVelocity * dt.asSeconds();
+		pos += layer.velocity * dt.asSeconds();
 
 		// Wrap stars around the screen
 		if (pos.x < 0 - m_position.x) pos.x = m_size.x;
