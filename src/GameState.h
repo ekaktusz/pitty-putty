@@ -1,17 +1,20 @@
 #pragma once
 
 #include "Player.h"
+#include "StarBackground.h"
 
-#include <bagla-engine/states/State.h>
 #include <bagla-engine/camera/Camera.h>
-#include <bagla-engine/graphics/ParallaxBackground.h>
+#include <bagla-engine/states/State.h>
 
+#include <SFML/Graphics/Text.hpp>
 
 namespace bgl
 {
-	class Map;
-	class PhysicsWorld;
+class Map;
+class PhysicsWorld;
+class StateManager;
 }
+
 
 class BulletManager;
 
@@ -22,7 +25,7 @@ public:
 	~GameState();
 
 	void update(const sf::Time& dt) override;
-	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void handleEvent(const sf::Event& event) override;
 
 	void onResume() override;
@@ -42,5 +45,7 @@ private:
 
 	bgl::PhysicsWorld& m_PhysicsWorld;
 
-	bgl::ParallaxBackground m_ParallaxBackground;
+	sf::Text m_fpsCounter;
+
+	StarBackground m_starBackground;
 };

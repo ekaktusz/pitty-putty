@@ -1,19 +1,19 @@
 #include "BulletManager.h"
 
+#include "Bullet.h"
+
+#include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <spdlog/spdlog.h>
 
-#include <sstream>
-#include <string>
+#include <memory>
+#include <vector>
 
 void BulletManager::update(const sf::Time& dt)
 {
-	m_Bullets.erase(
-		std::remove_if(m_Bullets.begin(), m_Bullets.end(),
-			[](const auto& b) { return b->isExpired(); }),
-		m_Bullets.end());
+
+	std::erase_if(m_Bullets, [](const auto& b) { return b->isExpired(); });
 
 	for (auto& bullet : m_Bullets)
 	{

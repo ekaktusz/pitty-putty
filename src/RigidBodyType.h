@@ -2,5 +2,7 @@
 
 enum class RigidBodyType
 {
-	Player, Bullet, Environment
+	Player,
+	Bullet,
+	Environment
 };

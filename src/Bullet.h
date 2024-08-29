@@ -18,7 +18,7 @@ public:
 	Bullet& operator=(const Bullet&) = delete;
 	Bullet& operator=(Bullet&& otherBullet) noexcept;
 	Bullet(Bullet&& otherBullet) noexcept;
-	virtual ~Bullet();
+	~Bullet() override;
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -28,12 +28,11 @@ public:
 
 	void beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
 
-
 private:
 	sf::Vector2f m_Position;
 	sf::Vector2f m_Size;
 	sf::Vector2f m_Velocity;
-	
+
 	sf::Time m_Duration = sf::seconds(5.f);
 	sf::Clock m_CurrentAge;
 

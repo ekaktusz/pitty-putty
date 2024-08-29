@@ -6,14 +6,14 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/System/Vector2.hpp>
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace sf
 {
-	class Time;
-	class Event;
-	class RenderTarget;
+class Time;
+class Event;
+class RenderTarget;
 }
 
 class BulletManager : public bgl::GameObject
