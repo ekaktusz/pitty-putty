@@ -1,17 +1,17 @@
 #include "PauseState.h"
 #include "SettingsState.h"
+#include <SFML/Window/Event.hpp>
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <bagla-engine/states/StateManager.h>
 #include <memory>
 #include <spdlog/spdlog.h>
-#include <SFML/Window/Event.hpp>
 
 PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
 	bgl::State(stateManager, renderWindow),
-																						  m_CountinueButton(renderWindow),
-																						  m_SettingsButton(renderWindow),
-																						  m_QuitButton(renderWindow),
-																						  m_ReturnToMainButton(renderWindow)
+	m_CountinueButton(renderWindow),
+	m_SettingsButton(renderWindow),
+	m_QuitButton(renderWindow),
+	m_ReturnToMainButton(renderWindow)
 {
 	loadAssets();
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
@@ -25,15 +25,15 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_GameTitle.setOutlineColor(sf::Color::Black);
 	m_GameTitle.setOutlineThickness(5);
 
-	sf::Vector2f center{ m_GameTitle.getGlobalBounds().width / 2.f, m_GameTitle.getGlobalBounds().height / 2.f };
-	sf::Vector2f localBounds{ center.x + m_GameTitle.getLocalBounds().left, center.y + m_GameTitle.getLocalBounds().top };
-	sf::Vector2f rounded{ std::round(localBounds.x), std::round(localBounds.y) };
+	sf::Vector2f center { m_GameTitle.getGlobalBounds().width / 2.f, m_GameTitle.getGlobalBounds().height / 2.f };
+	sf::Vector2f localBounds { center.x + m_GameTitle.getLocalBounds().left, center.y + m_GameTitle.getLocalBounds().top };
+	sf::Vector2f rounded { std::round(localBounds.x), std::round(localBounds.y) };
 	m_GameTitle.setOrigin(rounded);
 	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2, 100);
 
 	m_CountinueButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_CountinueButton.setSize({ 400, 50 });
-	m_CountinueButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f , 300.f});
+	m_CountinueButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 300.f });
 	m_CountinueButton.setString("continue game");
 	m_CountinueButton.setActionTodo([&]() {
 		spdlog::info("Switch to GameState: Starting the game");
@@ -42,7 +42,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 
 	m_SettingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_SettingsButton.setSize({ 400, 50 });
-	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f , 360.f });
+	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 360.f });
 	m_SettingsButton.setString("settings");
 	m_SettingsButton.setActionTodo([&]() {
 		spdlog::debug("Settings button pressed!");
@@ -52,7 +52,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 
 	m_ReturnToMainButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_ReturnToMainButton.setSize({ 400, 50 });
-	m_ReturnToMainButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f , 420.f });
+	m_ReturnToMainButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 420.f });
 	m_ReturnToMainButton.setString("return to main menu");
 	m_ReturnToMainButton.setActionTodo([&]() {
 		spdlog::info("Switch to MenuState: Starting the game");
@@ -61,7 +61,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 
 	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_QuitButton.setSize({ 400, 50 });
-	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2 , 480 });
+	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2, 480 });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.setActionTodo([&]() {
 		spdlog::info("Quit game :(");
@@ -89,7 +89,7 @@ void PauseState::update(const sf::Time& dt)
 	m_ReturnToMainButton.update(dt);
 }
 
-void PauseState::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void PauseState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.clear();
 	target.draw(m_BackgroundSprite);
@@ -121,7 +121,7 @@ void PauseState::handleEvent(const sf::Event& event)
 
 void PauseState::onResume()
 {
-	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing) 
+	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing)
 	{
 		m_BackgroundMusic->play();
 	}

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <bagla-engine/states/StateManager.h>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <bagla-engine/states/StateManager.h>
 
 class Game
 {
@@ -12,6 +12,7 @@ public:
 
 	Game();
 	void run();
+
 private:
 	sf::RenderWindow m_RenderWindow;
 	bgl::StateManager m_StateManager;

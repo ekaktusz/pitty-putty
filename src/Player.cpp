@@ -1,37 +1,33 @@
 #include "Player.h"
+#include "BulletManager.h"
 #include "RigidBodyType.h"
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <algorithm>
 #include <any>
 #include <bagla-engine/animation/Animation.h>
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <bagla-engine/physics/PhysicsWorld.h>
+#include <memory>
 #include <physics/RigidBody.h>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/System/Time.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
 #include <spdlog/spdlog.h>
 #include <string>
-#include <memory>
-#include "BulletManager.h"
 
 Player::Player()
 {
 	m_RigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f);
 	m_RigidBody->setGravityScale(0.f);
-	m_RigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
-		beginContact(other, collisionNormal);
-	});
+	m_RigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { beginContact(other, collisionNormal); });
 
-	m_RigidBody->setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) {
-		endContact(other, collisionNormal);
-	});
+	m_RigidBody->setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { endContact(other, collisionNormal); });
 	m_RigidBody->setUserCustomData(RigidBodyType::Player);
 
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
-	auto idleAnimation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48,48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
+	auto idleAnimation = std::make_unique<bgl::Animation>(idleAnimationTexture, sf::Vector2i(48, 48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
 
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Run.png", "yellow-run");
 	const sf::Texture& runningAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-run");
@@ -55,7 +51,7 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
-	static const sf::Vector2f animationOffset{-10, -10};
+	static const sf::Vector2f animationOffset { -10, -10 };
 	m_AnimationComponent.setPosition(m_Position + animationOffset);
 	m_AnimationComponent.update(dt);
 	updateKeyboard(dt);
@@ -105,9 +101,9 @@ void Player::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::T)
 		{
-			const sf::Vector2f bulletVelocity{ (m_Direction == Direction::RIGHT ? 1 : -1) * 400.f, 0.f };
+			const sf::Vector2f bulletVelocity { (m_Direction == Direction::RIGHT ? 1 : -1) * 400.f, 0.f };
 			const float bulletXPosition = getCenterPosition().x + (m_Direction == Direction::RIGHT ? 1 : -1) * 20;
-			const sf::Vector2f bulletStartingPosition{ bulletXPosition ,  getCenterPosition().y - 5 };
+			const sf::Vector2f bulletStartingPosition { bulletXPosition, getCenterPosition().y - 5 };
 			BulletManager::getInstance().createBullet(bulletStartingPosition, bulletVelocity);
 			spdlog::info("shoot");
 		}
@@ -119,7 +115,7 @@ sf::Vector2f Player::getCenterPosition() const
 	return m_Position + m_RigidBody->getSize() / 2.f;
 }
 
-void Player::setPosition(sf::Vector2f position) 
+void Player::setPosition(sf::Vector2f position)
 {
 	m_Position = position;
 	m_RigidBody->setPosition(position);

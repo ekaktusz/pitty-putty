@@ -3,8 +3,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <bagla-engine/GameObject.h>
-#include <bagla-engine/physics/RigidBody.h>
 #include <bagla-engine/animation/AnimationComponent.h>
+#include <bagla-engine/physics/RigidBody.h>
 
 #include <memory>
 
@@ -14,7 +14,7 @@ public:
 	Player();
 	~Player();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	
+
 	void update(const sf::Time& dt) override;
 	void updateKeyboard(const sf::Time& dt);
 
@@ -34,7 +34,6 @@ private:
 
 	void jump();
 
-
 private:
 	static constexpr float s_Acceleration = 4000 * 1.5;
 	static constexpr float s_MaxSpeed = 200 * 1.5;
@@ -49,7 +48,11 @@ private:
 	bgl::RigidBody* m_RigidBody;
 	bgl::RigidBody* m_CurrentGroundBody;
 
-	enum class Direction {LEFT, RIGHT};
+	enum class Direction
+	{
+		LEFT,
+		RIGHT
+	};
 	Direction m_Direction = Direction::RIGHT;
 
 	bgl::AnimationComponent m_AnimationComponent;

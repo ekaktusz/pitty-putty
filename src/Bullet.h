@@ -28,12 +28,11 @@ public:
 
 	void beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
 
-
 private:
 	sf::Vector2f m_Position;
 	sf::Vector2f m_Size;
 	sf::Vector2f m_Velocity;
-	
+
 	sf::Time m_Duration = sf::seconds(5.f);
 	sf::Clock m_CurrentAge;
 

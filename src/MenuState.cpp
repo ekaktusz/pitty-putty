@@ -1,5 +1,5 @@
-#include "GameState.h"
 #include "MenuState.h"
+#include "GameState.h"
 #include "SettingsState.h"
 
 #include <bagla-engine/asset-manager/AssetManager.h>
@@ -19,7 +19,7 @@
 #include <string>
 #include <type_traits>
 
-MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
+MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
 	bgl::State(stateManager, renderWindow),
 	m_StartButton(renderWindow),
 	m_SettingsButton(renderWindow),
@@ -39,15 +39,15 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_GameTitle.setOutlineColor(sf::Color::Black);
 	m_GameTitle.setOutlineThickness(5);
 
-	sf::Vector2f center{m_GameTitle.getGlobalBounds().width / 2.f, m_GameTitle.getGlobalBounds().height / 2.f};
-	sf::Vector2f localBounds{ center.x + m_GameTitle.getLocalBounds().left, center.y + m_GameTitle.getLocalBounds().top };
-	sf::Vector2f rounded{std::round(localBounds.x), std::round(localBounds.y)};
+	sf::Vector2f center { m_GameTitle.getGlobalBounds().width / 2.f, m_GameTitle.getGlobalBounds().height / 2.f };
+	sf::Vector2f localBounds { center.x + m_GameTitle.getLocalBounds().left, center.y + m_GameTitle.getLocalBounds().top };
+	sf::Vector2f rounded { std::round(localBounds.x), std::round(localBounds.y) };
 	m_GameTitle.setOrigin(rounded);
-	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2.f, 100.f );
+	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2.f, 100.f);
 
 	m_StartButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_StartButton.setSize({ 400, 50 });
-	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_StartButton.getSize().x / 2.f , 300.f });
+	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_StartButton.getSize().x / 2.f, 300.f });
 	m_StartButton.setString("start game");
 	m_StartButton.setCornerRadius(10.f);
 	m_StartButton.setActionTodo([&]() {
@@ -59,7 +59,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	m_SettingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_SettingsButton.setSize({ 400, 50 });
-	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2 , 360 });
+	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2, 360 });
 	m_SettingsButton.setString("settings");
 	m_SettingsButton.setActionTodo([&]() {
 		spdlog::debug("settings button pressed.");
@@ -69,7 +69,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 
 	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	m_QuitButton.setSize({ 400, 50 });
-	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_QuitButton.getSize().x / 2.f , 420.f });
+	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_QuitButton.getSize().x / 2.f, 420.f });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.setActionTodo([&]() {
 		spdlog::info("Quit game :(");
@@ -96,7 +96,7 @@ void MenuState::update(const sf::Time& dt)
 	m_QuitButton.update(dt);
 }
 
-void MenuState::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void MenuState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.clear();
 	target.draw(m_BackgroundSprite);
@@ -105,7 +105,6 @@ void MenuState::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	target.draw(m_SettingsButton);
 	target.draw(m_QuitButton);
 }
-
 
 void MenuState::handleEvent(const sf::Event& event)
 {
@@ -120,12 +119,11 @@ void MenuState::handleEvent(const sf::Event& event)
 
 void MenuState::onResume()
 {
-	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing) 
+	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing)
 	{
 		m_BackgroundMusic->play();
 	}
 }
 
 void MenuState::onPause()
-{
-}
+{}

@@ -2,15 +2,15 @@
 
 #include "Player.h"
 
-#include <bagla-engine/states/State.h>
-#include <bagla-engine/camera/Camera.h>
 #include "StarBackground.h"
 #include <SFML/Graphics/Text.hpp>
+#include <bagla-engine/camera/Camera.h>
+#include <bagla-engine/states/State.h>
 
 namespace bgl
 {
-	class Map;
-	class PhysicsWorld;
+class Map;
+class PhysicsWorld;
 }
 
 class BulletManager;
@@ -22,7 +22,7 @@ public:
 	~GameState();
 
 	void update(const sf::Time& dt) override;
-	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	void handleEvent(const sf::Event& event) override;
 
 	void onResume() override;

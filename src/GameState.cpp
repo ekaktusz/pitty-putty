@@ -1,19 +1,22 @@
 #include "GameState.h"
+
+#include "BulletManager.h"
+#include "Game.h"
+#include "PauseState.h"
+#include "tmxlite/ObjectTypes.hpp"
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include <bagla-engine/asset-manager/AssetManager.h>
 #include <bagla-engine/map/Map.h>
 #include <bagla-engine/map/TileLayer.h>
-#include <bagla-engine/states/StateManager.h>
-#include "PauseState.h"
 #include <bagla-engine/physics/PhysicsWorld.h>
-#include "Game.h"
-#include "tmxlite/ObjectTypes.hpp"
+#include <bagla-engine/states/StateManager.h>
 #include <spdlog/spdlog.h>
-#include "BulletManager.h"
 
-GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) : 
+GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
 	bgl::State(stateManager, renderWindow),
 	m_Camera(renderWindow),
 	m_Map(nullptr),
@@ -25,14 +28,12 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_fpsCounter.setString("buttonString");
 	m_fpsCounter.setPosition(20, 20);
 	m_fpsCounter.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	
+
 	//m_fpsCounter.setFont(;
 }
 
 GameState::~GameState()
-{
-	
-}
+{}
 
 void GameState::update(const sf::Time& dt)
 {
@@ -41,14 +42,14 @@ void GameState::update(const sf::Time& dt)
 	m_Camera.move(offset * dt.asSeconds() * 10.f);
 	m_PhysicsWorld.update(dt);
 	BulletManager::getInstance().update(dt);
-	
+
 	m_starBackground.update(dt);
 
 	m_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
 	//m_Camera.update(dt);
 }
 
-void GameState::draw(sf::RenderTarget &target, sf::RenderStates states)const
+void GameState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.clear();
 	target.draw(m_starBackground);
@@ -78,19 +79,14 @@ void GameState::handleEvent(const sf::Event& event)
 }
 
 void GameState::onResume()
-{
-
-}
+{}
 
 void GameState::onPause()
-{
-
-}
+{}
 
 void GameState::onStart()
 {
 	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
-	
 
 	m_Camera.setWorldBoundaries(0, 0, m_Map->getSize().x, m_Map->getSize().y);
 	m_Camera.attach(m_RenderWindow);
@@ -108,7 +104,7 @@ void GameState::loadAssets()
 sf::Vector2f GameState::getPlayerStartingPosition() const
 {
 	const bgl::ObjectLayer& playerStartingPositionLayer = m_Map->getObjectLayer("starting_pos");
-	
+
 	const tmx::Object& object = playerStartingPositionLayer.getFirstObject();
 
 	return { object.getPosition().x, object.getPosition().y };
