@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <bagla-engine/states/StateManager.h>
+#include <string>
 
 class Game
 {
