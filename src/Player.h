@@ -3,7 +3,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <bagla-engine/GameObject.h>
-#include <bagla-engine/animation/AnimationComponent.h>
+#include <bagla-engine/animation/AnimationContainer.h>
 #include <bagla-engine/physics/RigidBody.h>
 
 #include <memory>
@@ -55,5 +55,5 @@ private:
 	};
 	Direction m_Direction = Direction::RIGHT;
 
-	bgl::AnimationComponent m_AnimationComponent;
+	bgl::AnimationContainer m_AnimationContainer;
 };
