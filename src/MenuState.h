@@ -5,7 +5,6 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <bagla-engine/gui/Button.h>
-#include <bagla-engine/gui/CheckBox.h>
 #include <bagla-engine/gui/Slider.h>
 #include <bagla-engine/states/State.h>
 

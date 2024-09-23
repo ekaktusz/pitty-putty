@@ -14,6 +14,7 @@
 #include <bagla-engine/map/TileLayer.h>
 #include <bagla-engine/physics/PhysicsWorld.h>
 #include <bagla-engine/states/StateManager.h>
+
 #include <spdlog/spdlog.h>
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
@@ -31,8 +32,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	//m_fpsCounter.setFont(;
 }
 
-GameState::~GameState()
-{}
+GameState::~GameState() {}
 
 void GameState::update(const sf::Time& dt)
 {
@@ -77,11 +77,9 @@ void GameState::handleEvent(const sf::Event& event)
 	m_Player1.handleEvent(event);
 }
 
-void GameState::onResume()
-{}
+void GameState::onResume() {}
 
-void GameState::onPause()
-{}
+void GameState::onPause() {}
 
 void GameState::onStart()
 {

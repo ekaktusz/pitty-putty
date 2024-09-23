@@ -1,8 +1,5 @@
 #pragma once
 
-#include <bagla-engine/IGameObject.h>
-#include <bagla-engine/physics/RigidBody.h>
-
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -10,7 +7,10 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 
-class Bullet : public bgl::IGameObject, public sf::Drawable
+#include <bagla-engine/GameObject.h>
+#include <bagla-engine/physics/RigidBody.h>
+
+class Bullet : public bgl::GameObject, public sf::Drawable
 {
 public:
 	Bullet(sf::Vector2f position, sf::Vector2f velocity);

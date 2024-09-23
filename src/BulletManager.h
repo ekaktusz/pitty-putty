@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Bullet.h"
-#include "IGameObject.h"
+#include "GameObject.h"
 
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -16,7 +16,7 @@ class Event;
 class RenderTarget;
 }
 
-class BulletManager : public bgl::IGameObject, public sf::Drawable
+class BulletManager : public bgl::GameObject, public sf::Drawable
 {
 public:
 	static BulletManager& getInstance()

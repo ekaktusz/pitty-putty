@@ -1,19 +1,18 @@
 #include "Bullet.h"
 
-#include <spdlog/spdlog.h>
-
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 
-#include <bagla-engine/physics/PhysicsWorld.h>
-#include <bagla-engine/physics/RigidBody.h>
-
 #include <any>
 #include <string>
 #include <type_traits>
+
+#include <bagla-engine/physics/PhysicsWorld.h>
+#include <bagla-engine/physics/RigidBody.h>
+#include <spdlog/spdlog.h>
 
 Bullet::Bullet(sf::Vector2f position, sf::Vector2f velocity) : m_Position(position), m_BulletShape({ 5.f, 5.f })
 {

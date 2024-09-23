@@ -33,9 +33,9 @@ Player::Player()
 	const sf::Texture& runningAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-run");
 	auto runningAnimation = std::make_unique<bgl::Animation>(runningAnimationTexture, sf::Vector2i(48, 48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
 
-	m_AnimationComponent.addAnimation("idle", std::move(idleAnimation));
-	m_AnimationComponent.addAnimation("running", std::move(runningAnimation));
-	m_AnimationComponent.setScale(1.5f, 1.5f);
+	m_AnimationContainer.addAnimation("idle", std::move(idleAnimation));
+	m_AnimationContainer.addAnimation("running", std::move(runningAnimation));
+	m_AnimationContainer.setScale(1.5f, 1.5f);
 }
 
 Player::~Player()
@@ -45,25 +45,25 @@ Player::~Player()
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(m_AnimationComponent);
+	target.draw(m_AnimationContainer);
 }
 
 void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
 	static const sf::Vector2f animationOffset { -10, -10 };
-	m_AnimationComponent.setPosition(m_Position + animationOffset);
-	m_AnimationComponent.update(dt);
+	m_AnimationContainer.setPosition(m_Position + animationOffset);
+	m_AnimationContainer.update(dt);
 	updateKeyboard(dt);
 
 	if (m_Velocity.x != 0)
 	{
-		m_AnimationComponent.setCurrentAnimation("running");
+		m_AnimationContainer.setCurrentAnimation("running");
 		m_Direction = m_Velocity.x < 0 ? Direction::LEFT : Direction::RIGHT;
 	}
 	else
 	{
-		m_AnimationComponent.setCurrentAnimation("idle");
+		m_AnimationContainer.setCurrentAnimation("idle");
 	}
 
 	applyFriction(dt);
@@ -71,11 +71,11 @@ void Player::update(const sf::Time& dt)
 
 	if (m_Direction == Direction::RIGHT)
 	{
-		m_AnimationComponent.flipHorizontally(false);
+		m_AnimationContainer.flipHorizontally(false);
 	}
 	else
 	{
-		m_AnimationComponent.flipHorizontally(true);
+		m_AnimationContainer.flipHorizontally(true);
 	}
 }
 
