@@ -2,23 +2,25 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <bagla-engine/GameObject.h>
+#include <bagla-engine/IGameObject.h>
 #include <bagla-engine/animation/AnimationComponent.h>
 #include <bagla-engine/physics/RigidBody.h>
 
+#include <bagla-engine/IEventHandler.h>
+
 #include <memory>
 
-class Player : public bgl::GameObject
+class Player : public bgl::IGameObject, public bgl::IEventHandler, public sf::Drawable
 {
 public:
 	Player();
 	~Player();
+	
+	
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
 	void update(const sf::Time& dt) override;
-	void updateKeyboard(const sf::Time& dt);
-
 	void handleEvent(const sf::Event& event) override;
+
 
 	sf::Vector2f getCenterPosition() const;
 	void setPosition(sf::Vector2f position);
@@ -31,6 +33,8 @@ private:
 	void applyFriction(const sf::Time& dt);
 	void beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
 	void endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
+	
+	void updateKeyboard(const sf::Time& dt);
 
 	void jump();
 

@@ -70,9 +70,6 @@ void Bullet::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_BulletShape);
 }
 
-void Bullet::handleEvent(const sf::Event& event)
-{}
-
 bool Bullet::isExpired() const
 {
 	return m_CurrentAge.getElapsedTime() > m_Duration;

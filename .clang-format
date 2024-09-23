@@ -1,7 +1,8 @@
 # Clang version 9.0.0
 Language: Cpp
 AccessModifierOffset: -4
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
 AlwaysBreakTemplateDeclarations: Yes
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
@@ -12,7 +13,6 @@ AllowAllConstructorInitializersOnNextLine: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: false
 BinPackArguments: false
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeTernaryOperators: false
@@ -42,7 +42,6 @@ Standard: Cpp11
 TabWidth: 4
 UseTab: Always
 ColumnLimit: 170
-
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterCaseLabel: false

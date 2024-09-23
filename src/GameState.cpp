@@ -75,7 +75,6 @@ void GameState::handleEvent(const sf::Event& event)
 		}
 	}
 	m_Player1.handleEvent(event);
-	BulletManager::getInstance().handleEvent(event);
 }
 
 void GameState::onResume()

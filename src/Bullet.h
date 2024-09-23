@@ -1,6 +1,6 @@
 #pragma once
 
-#include <bagla-engine/GameObject.h>
+#include <bagla-engine/IGameObject.h>
 #include <bagla-engine/physics/RigidBody.h>
 
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -10,7 +10,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 
-class Bullet : public bgl::GameObject
+class Bullet : public bgl::IGameObject, public sf::Drawable
 {
 public:
 	Bullet(sf::Vector2f position, sf::Vector2f velocity);
@@ -22,7 +22,6 @@ public:
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	void handleEvent(const sf::Event& event) override;
 
 	bool isExpired() const;
 

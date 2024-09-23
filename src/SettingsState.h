@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include <bagla-engine/gui/Button.h>
 #include <bagla-engine/gui/Slider.h>
 #include <bagla-engine/states/State.h>

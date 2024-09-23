@@ -29,13 +29,6 @@ void BulletManager::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 	}
 }
 
-void BulletManager::handleEvent(const sf::Event& event)
-{
-	for (auto& bullet : m_Bullets)
-	{
-		bullet->handleEvent(event);
-	}
-}
 
 void BulletManager::createBullet(sf::Vector2f startingPosition, sf::Vector2f velocity)
 {

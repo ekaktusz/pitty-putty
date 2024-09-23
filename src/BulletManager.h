@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Bullet.h"
-#include "GameObject.h"
+#include "IGameObject.h"
 
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -16,7 +16,7 @@ class Event;
 class RenderTarget;
 }
 
-class BulletManager : public bgl::GameObject
+class BulletManager : public bgl::IGameObject, public sf::Drawable
 {
 public:
 	static BulletManager& getInstance()
@@ -27,7 +27,7 @@ public:
 
 	void update(const sf::Time& dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	void handleEvent(const sf::Event& event) override;
+
 	void createBullet(sf::Vector2f startingPosition, sf::Vector2f velocity);
 
 private:
