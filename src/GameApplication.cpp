@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "GameApplication.h"
 
 #include "MenuState.h"
 
@@ -11,15 +11,15 @@
 #include <memory>
 #include <type_traits>
 
-Game::Game() :
-	m_RenderWindow { sf::VideoMode(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), Game::WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close },
+GameApplication::GameApplication() :
+	m_RenderWindow { sf::VideoMode(GameApplication::WINDOW_WIDTH, GameApplication::WINDOW_HEIGHT), GameApplication::WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close },
 	m_StateManager(m_RenderWindow)
 {
 	std::unique_ptr<MenuState> menuState = std::make_unique<MenuState>(m_StateManager, m_RenderWindow);
 	m_StateManager.pushState(std::move(menuState));
 }
 
-void Game::run()
+void GameApplication::run()
 {
 	sf::Event event;
 	sf::Clock clock;

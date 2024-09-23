@@ -1,11 +1,12 @@
-#include "Game.h"
-#include <iostream>
+#include "GameApplication.h"
+
 #include <memory>
+
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-void setup_logger()
+void initializeLogger()
 {
 	std::vector<spdlog::sink_ptr> sinks;
 
@@ -40,9 +41,8 @@ void setup_logger()
 
 int main()
 {
-
-	setup_logger();
-	Game game;
-	game.run();
+	initializeLogger();
+	GameApplication gameApplication;
+	gameApplication.run();
 	return 0;
 }

@@ -1,7 +1,6 @@
 #include "GameState.h"
 
 #include "BulletManager.h"
-#include "Game.h"
 #include "PauseState.h"
 #include "tmxlite/ObjectTypes.hpp"
 
