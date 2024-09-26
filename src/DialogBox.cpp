@@ -51,26 +51,29 @@ void DialogBox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void DialogBox::update(const sf::Time& dt)
 {
 	m_backgroundBox.setPosition(m_attachedCamera->getPosition() + m_Position);
-	m_dialogText.setPosition(m_attachedCamera->getPosition() + m_Position + sf::Vector2f { 10.f, 10.f });
+	m_dialogText.setPosition(m_attachedCamera->getPosition() + m_Position + sf::Vector2f { X_MARGIN, Y_MARGIN });
 
 	if (m_started)
 	{
 		const float currentProgress = m_clock.getElapsedTime().asSeconds() / DURATION.asSeconds();
-		const size_t currentPosition = std::round(currentProgress * m_dialogString.size());
-		const int currentTextPosition = std::clamp(currentPosition, (size_t) 0, m_dialogString.size());
-		sf::String currentDialogString = m_dialogText.getString();
+		const size_t currentPosition = std::min((size_t) std::round(currentProgress * m_dialogString.size()), m_dialogString.size());
 
-		spdlog::info(" size: " + std::to_string(m_dialogString.size()) + " currentpos:" + std::to_string(currentTextPosition - 1));
-		currentDialogString += m_dialogString[currentTextPosition - 1];
-		m_dialogText.setString(currentDialogString);
-		
-		const float currentTextLengthPixel = m_dialogText.getGlobalBounds().left + m_dialogText.getGlobalBounds().width;
-		const float maxTextLength = m_backgroundBox.getGlobalBounds().left + m_backgroundBox.getGlobalBounds().width;
-
-		if (currentTextLengthPixel > maxTextLength + 10)
+		if (currentPosition > m_displayedText.size())
 		{
-			
+			sf::String newChar = m_dialogString[m_displayedText.size()];
+			float newCharWidth = m_dialogText.getFont()->getGlyph(newChar[0], m_dialogText.getCharacterSize(), false).advance;
+
+			if (m_currentLineWidth + newCharWidth > m_backgroundBox.getSize().x - X_MARGIN)
+			{
+				m_displayedText += '\n';
+				m_currentLineWidth = 0;
+			}
+
+			m_displayedText += newChar;
+			m_currentLineWidth += newCharWidth;
 		}
+
+		m_dialogText.setString(m_displayedText);
 	}
 }
 

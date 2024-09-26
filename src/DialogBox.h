@@ -46,4 +46,10 @@ private:
 
 	const sf::Time DURATION = sf::seconds(3.f);
 	sf::Clock m_clock;
+
+	std::string m_displayedText;
+	float m_currentLineWidth = 0.f;
+
+	const float X_MARGIN = 5.f;
+	const float Y_MARGIN = 5.f;
 };
