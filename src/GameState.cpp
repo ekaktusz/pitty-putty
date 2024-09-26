@@ -43,6 +43,8 @@ void GameState::update(const sf::Time& dt)
 
 	m_starBackground.update(dt);
 
+	m_dialogBoxTest.update(dt);
+
 	m_fpsCounter.setPosition(sf::Vector2f(20.f, 20.f) + m_Camera.getPosition());
 	m_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
 	//m_Camera.update(dt);
@@ -57,6 +59,7 @@ void GameState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_Map->getTileLayer("backlayer"));
 	target.draw(BulletManager::getInstance());
 	target.draw(m_fpsCounter);
+	target.draw(m_dialogBoxTest);
 }
 
 void GameState::handleEvent(const sf::Event& event)
@@ -90,6 +93,12 @@ void GameState::onStart()
 	m_starBackground = StarBackground(m_Map->getSize());
 
 	m_Player1.setPosition(getPlayerStartingPosition());
+
+	m_dialogBoxTest.setSize({ 500.f, 200.f });
+	m_dialogBoxTest.setDialogString("Important: When you use mismatched microphone and external speaker devices, it might cause an echo. Important: When you use mismatched microphone and external speaker devices, it might cause an echo.");
+	m_dialogBoxTest.attachCamera(m_Camera);
+	m_dialogBoxTest.setPosition({ 50.f, 500.f });
+	m_dialogBoxTest.start();
 }
 
 void GameState::loadAssets()

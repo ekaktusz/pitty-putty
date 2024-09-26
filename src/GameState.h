@@ -8,6 +8,8 @@
 
 #include <SFML/Graphics/Text.hpp>
 
+#include "DialogBox.h"
+
 namespace bgl
 {
 class Map;
@@ -48,4 +50,6 @@ private:
 	sf::Text m_fpsCounter;
 
 	StarBackground m_starBackground;
+
+	DialogBox m_dialogBoxTest;
 };
