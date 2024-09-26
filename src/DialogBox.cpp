@@ -7,6 +7,10 @@
 
 #include <bagla-engine/asset-manager/AssetManager.h>
 
+#include <spdlog/spdlog.h>
+
+#include <algorithm>
+
 DialogBox::DialogBox()
 {
 	m_backgroundBox.setFillColor(sf::Color::Black);
@@ -52,8 +56,21 @@ void DialogBox::update(const sf::Time& dt)
 	if (m_started)
 	{
 		const float currentProgress = m_clock.getElapsedTime().asSeconds() / DURATION.asSeconds();
-		const int currentTextPosition = std::round(currentProgress * m_dialogString.size());
-		m_dialogText.setString(m_dialogString.substr(0, currentTextPosition));
+		const size_t currentPosition = std::round(currentProgress * m_dialogString.size());
+		const int currentTextPosition = std::clamp(currentPosition, (size_t) 0, m_dialogString.size());
+		sf::String currentDialogString = m_dialogText.getString();
+
+		spdlog::info(" size: " + std::to_string(m_dialogString.size()) + " currentpos:" + std::to_string(currentTextPosition - 1));
+		currentDialogString += m_dialogString[currentTextPosition - 1];
+		m_dialogText.setString(currentDialogString);
+		
+		const float currentTextLengthPixel = m_dialogText.getGlobalBounds().left + m_dialogText.getGlobalBounds().width;
+		const float maxTextLength = m_backgroundBox.getGlobalBounds().left + m_backgroundBox.getGlobalBounds().width;
+
+		if (currentTextLengthPixel > maxTextLength + 10)
+		{
+			
+		}
 	}
 }
 
