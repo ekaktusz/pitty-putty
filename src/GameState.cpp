@@ -31,7 +31,11 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	//m_fpsCounter.setFont(;
 }
 
-GameState::~GameState() {}
+GameState::~GameState()
+{
+	bgl::AssetManager::getInstance().unloadMap("testmap");
+	m_PhysicsWorld.cleanUp();
+}
 
 void GameState::update(const sf::Time& dt)
 {
