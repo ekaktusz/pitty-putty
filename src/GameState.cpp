@@ -99,7 +99,7 @@ void GameState::onStart()
 	m_Player1.setPosition(getPlayerStartingPosition());
 
 	m_dialogBoxTest.setSize({ 500.f, 200.f });
-	m_dialogBoxTest.setDialogString("Important: When you use mismatched microphone and external speaker devices, it might cause an echo. Important: When you use mismatched microphone and external speaker devices, it might cause an echo.");
+	m_dialogBoxTest.setDialogString("Important: When you use mismatched microphone and external speaker devices, it might cause an echo. Important: When you use mismatched microphone and external speaker devices, it might cause an echo!");
 	m_dialogBoxTest.attachCamera(m_Camera);
 	m_dialogBoxTest.setPosition({ 50.f, 500.f });
 	m_dialogBoxTest.start();

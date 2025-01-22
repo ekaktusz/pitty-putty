@@ -72,8 +72,14 @@ void DialogBox::update(const sf::Time& dt)
 			m_displayedText += newChar;
 			m_currentLineWidth += newCharWidth;
 		}
+		else
+		{
+			m_started = false;
+			// TODO: dialog over
+		}
 
 		m_dialogText.setString(m_displayedText);
+
 	}
 }
 
