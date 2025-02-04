@@ -156,7 +156,7 @@ void Player::applyFriction(const sf::Time& dt)
 
 void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
-	SPDLOG_INFO("Player beginContact");
+	SPDLOG_TRACE("Player beginContact");
 
 	std::any userCustomData = rigidBody->getUserCustomData();
 	if (!userCustomData.has_value())
@@ -178,7 +178,7 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 		return;
 	}
 
-	SPDLOG_INFO("collision started with solid");
+	SPDLOG_TRACE("collision started with solid");
 
 	if (collisionNormal.y < 0)
 	{
@@ -194,7 +194,7 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 
 void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
-	SPDLOG_INFO("Player endContact");
+	SPDLOG_TRACE("Player endContact");
 
 	std::any userCustomData = rigidBody->getUserCustomData();
 	if (!userCustomData.has_value())
@@ -216,7 +216,7 @@ void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 		return;
 	}
 
-	SPDLOG_INFO("collision ended with solid");
+	SPDLOG_TRACE("collision ended with solid");
 	if (m_CurrentGroundBody == rigidBody)
 	{
 		m_Grounded = false;

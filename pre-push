@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import subprocess
+import platform
+
+def get_current_branch():
+    return subprocess.check_output(['git', 'symbolic-ref', '--short', 'HEAD']).decode('utf-8').strip()
+
+def get_staged_cpp_files():
+    files = subprocess.check_output(['git', 'diff', '--name-only', '--cached', '--diff-filter=ACMR']).decode('utf-8')
+    return [f for f in files.splitlines() if f.endswith(('.cpp', '.hpp', '.h', '.cc', '.cxx'))]
+
+def check_formatting(file_path):
+    try:
+        # Read current content
+        with open(file_path, 'r', encoding='utf-8') as f:
+            current_content = f.read()
+
+        # Get formatted content
+        formatted_content = subprocess.check_output(['clang-format', file_path], encoding='utf-8')
+        
+        return current_content == formatted_content
+    except subprocess.CalledProcessError:
+        print(f"Error: Failed to run clang-format on {file_path}")
+        return False
+    except Exception as e:
+        print(f"Error processing {file_path}: {str(e)}")
+        return False
+
+def main():
+    # Only check main branch
+    if get_current_branch() != 'main':
+        sys.exit(0)
+
+    # Get files to check
+    cpp_files = get_staged_cpp_files()
+    if not cpp_files:
+        sys.exit(0)
+
+    # Check if clang-format is available
+    try:
+        subprocess.check_output(['clang-format', '--version'], stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        print("Error: clang-format is not installed or not in PATH")
+        sys.exit(1)
+
+    # Check formatting
+    format_issues = False
+    for file in cpp_files:
+        if not check_formatting(file):
+            print(f"❌ {file} is not properly formatted")
+            format_issues = True
+
+    if format_issues:
+        print("\nSome files need formatting. Please run:")
+        if platform.system() == 'Windows':
+            print("git-clang-format")
+        else:
+            print("git clang-format")
+        print("And commit the changes before pushing.")
+        sys.exit(1)
+
+    sys.exit(0)
+
+if __name__ == '__main__':
+    main()

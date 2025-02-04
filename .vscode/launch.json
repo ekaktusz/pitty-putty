@@ -13,8 +13,7 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "console": "externalTerminal",
-            "preLaunchTask": "build"
+            "console": "externalTerminal"
         },
         {
             "name": "(gdb) Launch",
