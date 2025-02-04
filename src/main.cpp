@@ -34,7 +34,6 @@ void initializeLogger(spdlog::level::level_enum logLevel)
 	// Set as default logger
 	spdlog::set_default_logger(logger);
 
-	
 	spdlog::set_pattern("%H:%M:%S:%e [%^ %l %$] %s:%# %!(): %v");
 
 #ifdef WSL
@@ -45,7 +44,7 @@ void initializeLogger(spdlog::level::level_enum logLevel)
 	logger->flush();
 }
 
-void initializeAssetManager() 
+void initializeAssetManager()
 {
 	bgl::AssetManager::getInstance().setRootPath(std::filesystem::absolute(argv[0]).parent_path().string() + "/");
 }
@@ -53,7 +52,7 @@ void initializeAssetManager()
 int main(int argc, char* argv[])
 {
 	initializeLogger(spdlog::level::debug);
-	
+
 	GameApplication gameApplication;
 	gameApplication.run();
 	return 0;

@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import subprocess
+import platform
+
+def get_staged_cpp_files():
+    """Get a list of staged C++ files"""
+    try:
+        files = subprocess.check_output(
+            ['git', 'diff', '--cached', '--name-only', '--diff-filter=ACMR'],
+            encoding='utf-8'
+        ).splitlines()
+        return [f for f in files if f.endswith(('.cpp', '.hpp', '.h', '.cc', '.cxx'))]
+    except subprocess.CalledProcessError:
+        print("Error: Unable to retrieve staged files.")
+        sys.exit(1)
+
+def check_formatting(file_path):
+    """Check if a file is properly formatted using clang-format"""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            current_content = f.read()
+
+        formatted_content = subprocess.check_output(
+            ['clang-format', file_path], encoding='utf-8'
+        )
+
+        return current_content == formatted_content
+    except subprocess.CalledProcessError:
+        print(f"Error: Failed to run clang-format on {file_path}")
+        return False
+    except Exception as e:
+        print(f"Error processing {file_path}: {str(e)}")
+        return False
+
+def format_file(file_path):
+    """Format a file using clang-format and stage it again"""
+    try:
+        subprocess.run(['clang-format', '-i', file_path], check=True)
+        subprocess.run(['git', 'add', file_path], check=True)
+        print(f"[OK] Formatted and staged: {file_path}")
+    except subprocess.CalledProcessError:
+        print(f"Error: Failed to format {file_path}")
+
+def main():
+    # Get staged C++ files
+    cpp_files = get_staged_cpp_files()
+    if not cpp_files:
+        sys.exit(0)  # No C++ files staged, allow commit
+
+    # Check if clang-format is available
+    try:
+        subprocess.check_output(['clang-format', '--version'], stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        print("Error: clang-format is not installed or not in PATH")
+        sys.exit(1)
+
+    # Check formatting
+    format_issues = []
+    for file in cpp_files:
+        if not check_formatting(file):
+            format_issues.append(file)
+
+    if format_issues:
+        print("\nAuto-formatting the following files:")
+        for file in format_issues:
+            format_file(file)
+
+        print("\nAll files have been formatted and staged. Please re-run `git commit`.")
+        sys.exit(1)  # Prevents committing so the user can verify changes
+
+    sys.exit(0)  # Allow commit if everything is formatted
+
+if __name__ == '__main__':
+    main()

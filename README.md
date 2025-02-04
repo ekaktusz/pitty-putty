@@ -4,8 +4,10 @@ Pitty-Putty is a small demonstration game for [bägla](https://github.com/ekaktu
 
 Lets go!
 
-# Linux/Mac
-cp hooks/pre-push .git/hooks/ && chmod +x .git/hooks/pre-push
+To start working on the repo:
 
-# Windows (from PowerShell)
-Copy-Item hooks/pre-push .git/hooks/
+## Linux/Mac
+cp hooks/pre-commit .git/hooks/ && chmod +x .git/hooks/pre-commit
+
+## Windows (from PowerShell)
+Copy-Item hooks/pre-commit .git/hooks/
