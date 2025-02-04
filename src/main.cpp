@@ -31,6 +31,9 @@ void initializeLogger()
 	// Set as default logger
 	spdlog::set_default_logger(logger);
 
+	
+	spdlog::set_pattern("%H:%M:%S:%e [%^ %l %$] %s:%# %!(): %v");
+
 #ifdef WSL
 	SPDLOG_INFO("Logger initialized (WSL mode - logging to file only)");
 #else
@@ -42,7 +45,6 @@ void initializeLogger()
 int main(int argc, char* argv[])
 {
 	initializeLogger();
-	//spdlog::set_pattern("*** %H:%M:%S [%^ %l %$] %s:%# %!(): %v");
 	SPDLOG_INFO("asd {}", std::filesystem::absolute(argv[0]).string());
 	//SPDLOG_INFO(std::filesystem::absolute(argv[0]));
 	GameApplication gameApplication;
