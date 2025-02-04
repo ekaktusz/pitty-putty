@@ -21,7 +21,7 @@ SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& 
 	m_BackButton(renderWindow),
 	m_Title()
 {
-	spdlog::info("state created");
+	SPDLOG_INFO("state created");
 	bgl::AssetManager::getInstance().loadTexture("../../assets/background/bg_settings.png", "settingsBackground");
 	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("settingsBackground");
 	m_BackgroundSprite.setTexture(m_BackgroundTexture);
@@ -34,7 +34,7 @@ SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& 
 	m_VolumeSlider.setSize({ 300, 30 });
 	m_VolumeSlider.setPosition({ m_RenderWindow.getSize().x / 2.f - m_VolumeSlider.getSize().x / 2.f, 360.f });
 	m_VolumeSlider.setOnProgressChange([&](float progress) {
-		spdlog::info("Progress changed.");
+		SPDLOG_INFO("Progress changed.");
 		m_BackgroundMusic->setVolume(progress * 100);
 	});
 	m_VolumeSlider.setProgress(m_BackgroundMusic->getVolume() / 100.f);

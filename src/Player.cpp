@@ -105,7 +105,7 @@ void Player::handleEvent(const sf::Event& event)
 			const float bulletXPosition = getCenterPosition().x + (m_Direction == Direction::RIGHT ? 1 : -1) * 20;
 			const sf::Vector2f bulletStartingPosition { bulletXPosition, getCenterPosition().y - 5 };
 			BulletManager::getInstance().createBullet(bulletStartingPosition, bulletVelocity);
-			spdlog::info("shoot");
+			SPDLOG_INFO("shoot");
 		}
 	}
 }
@@ -128,7 +128,7 @@ sf::Vector2f Player::getVelocity() const
 
 void Player::syncPhysics()
 {
-	// spdlog::info("vx: " + std::to_string(m_Velocity.x) + " vy: " + std::to_string(m_Velocity.y));
+	// SPDLOG_INFO("vx: " + std::to_string(m_Velocity.x) + " vy: " + std::to_string(m_Velocity.y));
 	m_Position.x = m_RigidBody->getPosition().x;
 	m_Position.y = m_RigidBody->getPosition().y;
 	m_RigidBody->setLinearVelocity({ m_Velocity.x, m_Velocity.y });
@@ -156,29 +156,29 @@ void Player::applyFriction(const sf::Time& dt)
 
 void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
-	spdlog::info("Player beginContact");
+	SPDLOG_INFO("Player beginContact");
 
 	std::any userCustomData = rigidBody->getUserCustomData();
 	if (!userCustomData.has_value())
 	{
-		spdlog::warn("no usercustomdata in collision");
+		SPDLOG_WARN("no usercustomdata in collision");
 		return;
 	}
 
 	if (userCustomData.type() != typeid(std::string))
 	{
-		spdlog::warn("invalid type of custom data");
+		SPDLOG_WARN("invalid type of custom data");
 		return;
 	}
 
 	std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
 	if (userCustomDataString != "solid")
 	{
-		spdlog::info("collision started with not solid");
+		SPDLOG_INFO("collision started with not solid");
 		return;
 	}
 
-	spdlog::info("collision started with solid");
+	SPDLOG_INFO("collision started with solid");
 
 	if (collisionNormal.y < 0)
 	{
@@ -194,29 +194,29 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 
 void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
-	spdlog::info("Player endContact");
+	SPDLOG_INFO("Player endContact");
 
 	std::any userCustomData = rigidBody->getUserCustomData();
 	if (!userCustomData.has_value())
 	{
-		spdlog::warn("no usercustomdata in collision");
+		SPDLOG_WARN("no usercustomdata in collision");
 		return;
 	}
 
 	if (userCustomData.type() != typeid(std::string))
 	{
-		spdlog::warn("invalid type of custom data");
+		SPDLOG_WARN("invalid type of custom data");
 		return;
 	}
 
 	std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
 	if (userCustomDataString != "solid")
 	{
-		spdlog::info("collision started with not solid");
+		SPDLOG_INFO("collision started with not solid");
 		return;
 	}
 
-	spdlog::info("collision ended with solid");
+	SPDLOG_INFO("collision ended with solid");
 	if (m_CurrentGroundBody == rigidBody)
 	{
 		m_Grounded = false;
@@ -225,7 +225,7 @@ void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 
 void Player::jump()
 {
-	spdlog::info("jumped");
+	SPDLOG_INFO("jumped");
 	m_Velocity.y = s_JumpSpeed;
 	m_Grounded = false;
 }

@@ -36,7 +36,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_CountinueButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 300.f });
 	m_CountinueButton.setString("continue game");
 	m_CountinueButton.setActionTodo([&]() {
-		spdlog::info("Switch to GameState: Starting the game");
+		SPDLOG_INFO("Switch to GameState: Starting the game");
 		m_StateManager.popState();
 	});
 
@@ -45,7 +45,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 360.f });
 	m_SettingsButton.setString("settings");
 	m_SettingsButton.setActionTodo([&]() {
-		spdlog::debug("Settings button pressed!");
+		SPDLOG_DEBUG("Settings button pressed!");
 		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(m_StateManager, m_RenderWindow);
 		m_StateManager.pushState(std::move(settingsState));
 	});
@@ -55,7 +55,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_ReturnToMainButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 420.f });
 	m_ReturnToMainButton.setString("return to main menu");
 	m_ReturnToMainButton.setActionTodo([&]() {
-		spdlog::info("Switch to MenuState: Starting the game");
+		SPDLOG_INFO("Switch to MenuState: Starting the game");
 		m_StateManager.resetToFirstState();
 	});
 
@@ -64,7 +64,7 @@ PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& render
 	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2, 480 });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.setActionTodo([&]() {
-		spdlog::info("Quit game :(");
+		SPDLOG_INFO("Quit game :(");
 		m_RenderWindow.close();
 	});
 

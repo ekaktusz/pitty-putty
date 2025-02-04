@@ -1,0 +1,6 @@
+[2025-02-04 21:42:58.109] [info] Logger initialized (logging to console and file)
+[2025-02-04 21:42:58.628] [error] Failed to load texture: ../../assets/background/bg0.png
+[2025-02-04 21:42:58.628] [error] Failed to open music file: ../../assets/music/ludumdare38/track10.wav
+[2025-02-04 21:42:58.629] [error] Failed to load font: ../../assets/fonts/pixel_art_font.ttf
+[2025-02-04 21:42:58.630] [error] Failed to load font: ../../assets/fonts/upheaval.ttf
+[2025-02-04 21:42:58.630] [error] Cant find texture by id: menuBackground

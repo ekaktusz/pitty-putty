@@ -51,7 +51,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_StartButton.setString("start game");
 	m_StartButton.setCornerRadius(10.f);
 	m_StartButton.setActionTodo([&]() {
-		spdlog::info("Switch to GameState: Starting the game");
+		SPDLOG_INFO("Switch to GameState: Starting the game");
 		m_BackgroundMusic->pause();
 		std::unique_ptr<GameState> gameState = std::make_unique<GameState>(m_StateManager, m_RenderWindow);
 		m_StateManager.pushState(std::move(gameState));
@@ -62,7 +62,7 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2, 360 });
 	m_SettingsButton.setString("settings");
 	m_SettingsButton.setActionTodo([&]() {
-		spdlog::debug("settings button pressed.");
+		SPDLOG_DEBUG("settings button pressed.");
 		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(m_StateManager, m_RenderWindow);
 		m_StateManager.pushState(std::move(settingsState));
 	});
@@ -72,17 +72,18 @@ MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_QuitButton.getSize().x / 2.f, 420.f });
 	m_QuitButton.setString("quit game");
 	m_QuitButton.setActionTodo([&]() {
-		spdlog::info("Quit game :(");
+		SPDLOG_INFO("Quit game :(");
 		m_RenderWindow.close();
 	});
 
 	// m_GameTitle.setPosition(350, 10);
 
-	spdlog::info("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
+	SPDLOG_INFO("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
 }
 
 void MenuState::loadAssets()
 {
+	
 	bgl::AssetManager::getInstance().loadTexture("../../assets/background/bg0.png", "menuBackground");
 	bgl::AssetManager::getInstance().loadMusic("../../assets/music/ludumdare38/track10.wav", "menuMusic");
 	bgl::AssetManager::getInstance().loadFont("../../assets/fonts/pixel_art_font.ttf", "pixelFont");

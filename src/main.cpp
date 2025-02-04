@@ -1,10 +1,10 @@
 #include "GameApplication.h"
-
 #include <memory>
-
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
+#include <filesystem>
+#include <string> // Added to fix VCIC001
 
 void initializeLogger()
 {
@@ -32,16 +32,19 @@ void initializeLogger()
 	spdlog::set_default_logger(logger);
 
 #ifdef WSL
-	spdlog::info("Logger initialized (WSL mode - logging to file only)");
+	SPDLOG_INFO("Logger initialized (WSL mode - logging to file only)");
 #else
-	spdlog::info("Logger initialized (logging to console and file)");
+	SPDLOG_INFO("Logger initialized (logging to console and file)");
 #endif
 	logger->flush();
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 	initializeLogger();
+	//spdlog::set_pattern("*** %H:%M:%S [%^ %l %$] %s:%# %!(): %v");
+	SPDLOG_INFO("asd {}", std::filesystem::absolute(argv[0]).string());
+	//SPDLOG_INFO(std::filesystem::absolute(argv[0]));
 	GameApplication gameApplication;
 	gameApplication.run();
 	return 0;

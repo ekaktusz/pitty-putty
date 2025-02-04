@@ -50,7 +50,7 @@ Bullet& Bullet::operator=(Bullet&& otherBullet) noexcept
 
 Bullet::~Bullet()
 {
-	spdlog::info("destroying");
+	SPDLOG_INFO("destroying");
 	if (m_RigidBody != nullptr)
 	{
 		bgl::PhysicsWorld::getInstance().destroyRigidBody(m_RigidBody);
@@ -76,18 +76,18 @@ bool Bullet::isExpired() const
 
 void Bullet::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 {
-	spdlog::info("Bullet beginContact");
+	SPDLOG_INFO("Bullet beginContact");
 
 	std::any userCustomData = rigidBody->getUserCustomData();
 	if (!userCustomData.has_value())
 	{
-		spdlog::warn("no usercustomdata in collision");
+		SPDLOG_WARN("no usercustomdata in collision");
 		return;
 	}
 
 	if (userCustomData.type() != typeid(std::string))
 	{
-		spdlog::warn("invalid type of custom data");
+		SPDLOG_WARN("invalid type of custom data");
 		return;
 	}
 
@@ -95,6 +95,6 @@ void Bullet::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 	if (userCustomDataString == "solid")
 	{
 		m_Duration = sf::seconds(0); // deleting it basically
-		spdlog::info("bullet hit solid obstacle");
+		SPDLOG_INFO("bullet hit solid obstacle");
 	}
 }
