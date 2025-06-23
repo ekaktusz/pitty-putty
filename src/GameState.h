@@ -46,9 +46,9 @@ private:
 
 	bgl::PhysicsWorld& _physicsWorld;
 
-	sf::Text _fpsCounter;
+	mutable sf::Text _fpsCounter;
+	mutable unsigned int _frameCount;
+	mutable sf::Clock _fpsClock;
 
 	StarBackground _starBackground;
-
-	DialogBox _dialogBoxTest;
 };

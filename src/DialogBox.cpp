@@ -59,8 +59,8 @@ void DialogBox::update(const sf::Time& dt)
 
 		if (currentPosition > _displayedText.size())
 		{
-			sf::String newChar = _dialogString[_displayedText.size()];
-			float newCharWidth = _dialogText.getFont()->getGlyph(newChar[0], _dialogText.getCharacterSize(), false).advance;
+			const sf::String newChar = _dialogString[_displayedText.size()];
+			const float newCharWidth = _dialogText.getFont()->getGlyph(newChar[0], _dialogText.getCharacterSize(), false).advance;
 
 			if (_currentLineWidth + newCharWidth > _backgroundBox.getSize().x - X_MARGIN)
 			{

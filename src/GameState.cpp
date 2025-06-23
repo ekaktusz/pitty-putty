@@ -28,7 +28,7 @@ GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWi
 	_fpsCounter.setString("buttonString");
 	_fpsCounter.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 
-	//_fpsCounter.setFont(;
+	_fpsClock.restart();
 }
 
 GameState::~GameState()
@@ -47,10 +47,7 @@ void GameState::update(const sf::Time& dt)
 
 	_starBackground.update(dt);
 
-	_dialogBoxTest.update(dt);
-
 	_fpsCounter.setPosition(sf::Vector2f(20.f, 20.f) + _camera.getPosition());
-	_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
 	//_camera.update(dt);
 }
 
@@ -63,7 +60,14 @@ void GameState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(_map->getTileLayer("backlayer"));
 	target.draw(BulletManager::getInstance());
 	target.draw(_fpsCounter);
-	target.draw(_dialogBoxTest);
+
+	_frameCount++;
+	if (_fpsClock.getElapsedTime().asSeconds() >= 1.f)
+	{
+		_fpsCounter.setString("FPS: " + std::to_string(_frameCount));
+		_frameCount = 0;
+		_fpsClock.restart();
+	}
 }
 
 void GameState::handleEvent(const sf::Event& event)
@@ -97,13 +101,6 @@ void GameState::onStart()
 	_starBackground = StarBackground(_map->getSize());
 
 	_player1.setPosition(getPlayerStartingPosition());
-
-	_dialogBoxTest.setSize({ 500.f, 200.f });
-	_dialogBoxTest.setDialogString(
-		"Important: When you use mismatched microphone and external speaker devices, it might cause an echo. Important: When you use mismatched microphone and external speaker devices, it might cause an echo!");
-	_dialogBoxTest.attachCamera(_camera);
-	_dialogBoxTest.setPosition({ 50.f, 500.f });
-	_dialogBoxTest.start();
 }
 
 void GameState::loadAssets()
