@@ -9,29 +9,27 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-void initializeLogger(spdlog::level::level_enum logLevel)
+void initializeLogger(spdlog::level::level_enum logLevel, std::string_view logFilePath)
 {
 	std::vector<spdlog::sink_ptr> sinks;
 
 	// Create file sink (always used)
-	auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("pitty_putty.log");
+	auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.data());
 	file_sink->set_level(logLevel);
 	file_sink->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%l] %v");
 	sinks.push_back(file_sink);
 
 #ifndef WSL
-	// Create console sink if not running on WSL
+	// in WSL there is an issue with audio errors, which spams the console
 	auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 	console_sink->set_level(logLevel);
 	console_sink->set_pattern("[%^%l%$] %v");
 	sinks.push_back(console_sink);
 #endif
 
-	// Create logger with the appropriate sinks
 	auto logger = std::make_shared<spdlog::logger>("logger", sinks.begin(), sinks.end());
 	logger->set_level(logLevel);
 	logger->flush_on(logLevel);
-	// Set as default logger
 	spdlog::set_default_logger(logger);
 
 	spdlog::set_pattern("%H:%M:%S:%e [%^ %l %$] %s:%# %!(): %v");
@@ -46,7 +44,7 @@ void initializeLogger(spdlog::level::level_enum logLevel)
 
 int main(int argc, char* argv[])
 {
-	initializeLogger(spdlog::level::debug);
+	initializeLogger(spdlog::level::debug, "pitty-putty.log");
 
 	GameApplication gameApplication;
 	gameApplication.run();
