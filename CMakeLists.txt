@@ -15,12 +15,19 @@ project(PittyPutty)
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-file(GLOB SOURCES
+file(GLOB CLIENT_SOURCES
     src/client/*.h
     src/client/*.cpp
 )
 
-add_executable(PittyPutty ${SOURCES})
+file(GLOB SERVER_SOURCES
+    src/server/*.h
+    src/server/*.cpp
+)
+
+add_executable(PittyPutty ${CLIENT_SOURCES})
+add_executable(PittyPuttyServer ${SERVER_SOURCES})
+
 
 # Setup b�gla
 add_subdirectory(vendor/bagla-engine)
@@ -42,6 +49,11 @@ target_link_libraries(PittyPutty PRIVATE
     spdlog::spdlog spdlog::spdlog_header_only
     bagla-engine
     effolkronium_random
+)
+
+target_link_libraries(PittyPuttyServer PRIVATE
+    sfml-system sfml-network
+    spdlog::spdlog spdlog::spdlog_header_only
 )
 
 message(" wsl:  ${WSL}")
