@@ -13,9 +13,9 @@
 void BulletManager::update(const sf::Time& dt)
 {
 
-	std::erase_if(m_Bullets, [](const auto& b) { return b->isExpired(); });
+	std::erase_if(_bullets, [](const auto& b) { return b->isExpired(); });
 
-	for (auto& bullet : m_Bullets)
+	for (auto& bullet : _bullets)
 	{
 		bullet->update(dt);
 	}
@@ -23,14 +23,13 @@ void BulletManager::update(const sf::Time& dt)
 
 void BulletManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (const auto& bullet : m_Bullets)
+	for (const auto& bullet : _bullets)
 	{
 		target.draw(*bullet);
 	}
 }
 
-
 void BulletManager::createBullet(sf::Vector2f startingPosition, sf::Vector2f velocity)
 {
-	m_Bullets.push_back(std::make_unique<Bullet>(startingPosition, velocity));
+	_bullets.push_back(std::make_unique<Bullet>(startingPosition, velocity));
 }

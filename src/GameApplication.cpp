@@ -12,11 +12,11 @@
 #include <type_traits>
 
 GameApplication::GameApplication() :
-	m_RenderWindow { sf::VideoMode(GameApplication::WINDOW_WIDTH, GameApplication::WINDOW_HEIGHT), GameApplication::WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close },
-	m_StateManager(m_RenderWindow)
+	_renderWindow { sf::VideoMode(GameApplication::WINDOW_WIDTH, GameApplication::WINDOW_HEIGHT), GameApplication::WINDOW_NAME, sf::Style::Titlebar | sf::Style::Close },
+	_stateManager(_renderWindow)
 {
-	std::unique_ptr<MenuState> menuState = std::make_unique<MenuState>(m_StateManager, m_RenderWindow);
-	m_StateManager.pushState(std::move(menuState));
+	std::unique_ptr<MenuState> menuState = std::make_unique<MenuState>(_stateManager, _renderWindow);
+	_stateManager.pushState(std::move(menuState));
 }
 
 void GameApplication::run()
@@ -26,19 +26,19 @@ void GameApplication::run()
 	sf::Time timeSinceLastUpdate { sf::Time::Zero };
 	const sf::Time frameTime = sf::seconds(1.f / 60.f); // max fps: 60
 
-	while (m_RenderWindow.isOpen())
+	while (_renderWindow.isOpen())
 	{
 		sf::Time elapsedTime = clock.restart();
 		timeSinceLastUpdate += elapsedTime;
 		while (timeSinceLastUpdate > frameTime)
 		{
 			timeSinceLastUpdate -= frameTime;
-			while (m_RenderWindow.pollEvent(event))
+			while (_renderWindow.pollEvent(event))
 			{
-				m_StateManager.handleEvent(event);
+				_stateManager.handleEvent(event);
 			}
-			m_StateManager.update(frameTime);
+			_stateManager.update(frameTime);
 		}
-		m_StateManager.draw();
+		_stateManager.draw();
 	}
 }

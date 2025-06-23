@@ -36,8 +36,8 @@ private:
 	static constexpr size_t LAYER_COUNT = 5;
 	static constexpr size_t STARS_PER_LAYER = 1000;
 
-	sf::Vector2f m_position;
-	sf::Vector2f m_size;
+	sf::Vector2f _position;
+	sf::Vector2f _size;
 
-	std::array<StarLayer, LAYER_COUNT> m_layers;
+	std::array<StarLayer, LAYER_COUNT> _layers;
 };

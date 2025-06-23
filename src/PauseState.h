@@ -30,14 +30,14 @@ private:
 	void loadAssets();
 
 private:
-	sf::Texture m_BackgroundTexture;
-	sf::Sprite m_BackgroundSprite;
-	sf::Text m_GameTitle;
+	sf::Texture _backgroundTexture;
+	sf::Sprite _backgroundSprite;
+	sf::Text _gameTitle;
 
-	bgl::Button m_CountinueButton;
-	bgl::Button m_SettingsButton;
-	bgl::Button m_QuitButton;
-	bgl::Button m_ReturnToMainButton;
+	bgl::Button _countinueButton;
+	bgl::Button _settingsButton;
+	bgl::Button _quitButton;
+	bgl::Button _returnToMainButton;
 
-	sf::Music* m_BackgroundMusic;
+	sf::Music* _backgroundMusic;
 };

@@ -15,6 +15,6 @@ public:
 	void run();
 
 private:
-	sf::RenderWindow m_RenderWindow;
-	bgl::StateManager m_StateManager;
+	sf::RenderWindow _renderWindow;
+	bgl::StateManager _stateManager;
 };

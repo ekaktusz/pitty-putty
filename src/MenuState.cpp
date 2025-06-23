@@ -21,69 +21,69 @@
 
 MenuState::MenuState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
 	bgl::State(stateManager, renderWindow),
-	m_StartButton(renderWindow),
-	m_SettingsButton(renderWindow),
-	m_QuitButton(renderWindow)
+	_startButton(renderWindow),
+	_settingsButton(renderWindow),
+	_quitButton(renderWindow)
 {
 	loadAssets();
-	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
-	m_BackgroundSprite.setTexture(m_BackgroundTexture);
-	m_BackgroundMusic = &bgl::AssetManager::getInstance().getMusic("menuMusic");
-	m_BackgroundMusic->setVolume(50);
-	m_BackgroundMusic->setLoop(true);
-	m_BackgroundMusic->play();
-	m_GameTitle.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
-	m_GameTitle.setCharacterSize(100);
-	m_GameTitle.setString("Pitty Putty");
-	m_GameTitle.setFillColor(sf::Color::White);
-	m_GameTitle.setOutlineColor(sf::Color::Black);
-	m_GameTitle.setOutlineThickness(5);
+	_backgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
+	_backgroundSprite.setTexture(_backgroundTexture);
+	_backgroundMusic = &bgl::AssetManager::getInstance().getMusic("menuMusic");
+	_backgroundMusic->setVolume(50);
+	_backgroundMusic->setLoop(true);
+	_backgroundMusic->play();
+	_gameTitle.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
+	_gameTitle.setCharacterSize(100);
+	_gameTitle.setString("Pitty Putty");
+	_gameTitle.setFillColor(sf::Color::White);
+	_gameTitle.setOutlineColor(sf::Color::Black);
+	_gameTitle.setOutlineThickness(5);
 
-	sf::Vector2f center { m_GameTitle.getGlobalBounds().width / 2.f, m_GameTitle.getGlobalBounds().height / 2.f };
-	sf::Vector2f localBounds { center.x + m_GameTitle.getLocalBounds().left, center.y + m_GameTitle.getLocalBounds().top };
+	sf::Vector2f center { _gameTitle.getGlobalBounds().width / 2.f, _gameTitle.getGlobalBounds().height / 2.f };
+	sf::Vector2f localBounds { center.x + _gameTitle.getLocalBounds().left, center.y + _gameTitle.getLocalBounds().top };
 	sf::Vector2f rounded { std::round(localBounds.x), std::round(localBounds.y) };
-	m_GameTitle.setOrigin(rounded);
-	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2.f, 100.f);
+	_gameTitle.setOrigin(rounded);
+	_gameTitle.setPosition(_renderWindow.getSize().x / 2.f, 100.f);
 
-	m_StartButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_StartButton.setSize({ 400, 50 });
-	m_StartButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_StartButton.getSize().x / 2.f, 300.f });
-	m_StartButton.setString("start game");
-	m_StartButton.setCornerRadius(10.f);
-	m_StartButton.setActionTodo([&]() {
+	_startButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_startButton.setSize({ 400, 50 });
+	_startButton.setPosition({ _renderWindow.getSize().x / 2.f - _startButton.getSize().x / 2.f, 300.f });
+	_startButton.setString("start game");
+	_startButton.setCornerRadius(10.f);
+	_startButton.setActionTodo([&]() {
 		SPDLOG_INFO("Switch to GameState: Starting the game");
-		m_BackgroundMusic->pause();
-		std::unique_ptr<GameState> gameState = std::make_unique<GameState>(m_StateManager, m_RenderWindow);
-		m_StateManager.pushState(std::move(gameState));
+		_backgroundMusic->pause();
+		std::unique_ptr<GameState> gameState = std::make_unique<GameState>(_stateManager, _renderWindow);
+		_stateManager.pushState(std::move(gameState));
 	});
 
-	m_SettingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_SettingsButton.setSize({ 400, 50 });
-	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_StartButton.getSize().x / 2, 360 });
-	m_SettingsButton.setString("settings");
-	m_SettingsButton.setActionTodo([&]() {
+	_settingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_settingsButton.setSize({ 400, 50 });
+	_settingsButton.setPosition({ _renderWindow.getSize().x / 2 - _startButton.getSize().x / 2, 360 });
+	_settingsButton.setString("settings");
+	_settingsButton.setActionTodo([&]() {
 		SPDLOG_DEBUG("settings button pressed.");
-		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(m_StateManager, m_RenderWindow);
-		m_StateManager.pushState(std::move(settingsState));
+		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(_stateManager, _renderWindow);
+		_stateManager.pushState(std::move(settingsState));
 	});
 
-	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_QuitButton.setSize({ 400, 50 });
-	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_QuitButton.getSize().x / 2.f, 420.f });
-	m_QuitButton.setString("quit game");
-	m_QuitButton.setActionTodo([&]() {
+	_quitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_quitButton.setSize({ 400, 50 });
+	_quitButton.setPosition({ _renderWindow.getSize().x / 2.f - _quitButton.getSize().x / 2.f, 420.f });
+	_quitButton.setString("quit game");
+	_quitButton.setActionTodo([&]() {
 		SPDLOG_INFO("Quit game :(");
-		m_RenderWindow.close();
+		_renderWindow.close();
 	});
 
-	// m_GameTitle.setPosition(350, 10);
+	// _gameTitle.setPosition(350, 10);
 
-	SPDLOG_INFO("sx" + std::to_string(m_RenderWindow.getSize().x) + " sy:" + std::to_string(m_RenderWindow.getSize().y));
+	SPDLOG_INFO("sx" + std::to_string(_renderWindow.getSize().x) + " sy:" + std::to_string(_renderWindow.getSize().y));
 }
 
 void MenuState::loadAssets()
 {
-	
+
 	bgl::AssetManager::getInstance().loadTexture("../../assets/background/bg0.png", "menuBackground");
 	bgl::AssetManager::getInstance().loadMusic("../../assets/music/ludumdare38/track10.wav", "menuMusic");
 	bgl::AssetManager::getInstance().loadFont("../../assets/fonts/pixel_art_font.ttf", "pixelFont");
@@ -92,39 +92,38 @@ void MenuState::loadAssets()
 
 void MenuState::update(const sf::Time& dt)
 {
-	m_StartButton.update(dt);
-	m_SettingsButton.update(dt);
-	m_QuitButton.update(dt);
+	_startButton.update(dt);
+	_settingsButton.update(dt);
+	_quitButton.update(dt);
 }
 
 void MenuState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.clear();
-	target.draw(m_BackgroundSprite);
-	target.draw(m_GameTitle);
-	target.draw(m_StartButton);
-	target.draw(m_SettingsButton);
-	target.draw(m_QuitButton);
+	target.draw(_backgroundSprite);
+	target.draw(_gameTitle);
+	target.draw(_startButton);
+	target.draw(_settingsButton);
+	target.draw(_quitButton);
 }
 
 void MenuState::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::Closed)
 	{
-		m_RenderWindow.close();
+		_renderWindow.close();
 	}
-	m_StartButton.handleEvent(event);
-	m_SettingsButton.handleEvent(event);
-	m_QuitButton.handleEvent(event);
+	_startButton.handleEvent(event);
+	_settingsButton.handleEvent(event);
+	_quitButton.handleEvent(event);
 }
 
 void MenuState::onResume()
 {
-	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing)
+	if (_backgroundMusic->getStatus() != sf::Music::Status::Playing)
 	{
-		m_BackgroundMusic->play();
+		_backgroundMusic->play();
 	}
 }
 
-void MenuState::onPause()
-{}
+void MenuState::onPause() {}

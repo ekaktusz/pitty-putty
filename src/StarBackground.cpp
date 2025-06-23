@@ -1,19 +1,19 @@
 #include "StarBackground.h"
 #include "effolkronium/random.hpp"
 
-StarBackground::StarBackground(sf::Vector2f size) : m_size(size)
+StarBackground::StarBackground(sf::Vector2f size) : _size(size)
 {
 	initializeLayers();
 }
 
 void StarBackground::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (const auto& layer : m_layers)
+	for (const auto& layer : _layers)
 	{
 		sf::VertexArray offsetVertices = layer.vertices;
 		for (size_t i = 0; i < offsetVertices.getVertexCount(); ++i)
 		{
-			offsetVertices[i].position += m_position;
+			offsetVertices[i].position += _position;
 		}
 		target.draw(offsetVertices, states);
 	}
@@ -21,7 +21,7 @@ void StarBackground::draw(sf::RenderTarget& target, sf::RenderStates states) con
 
 void StarBackground::update(const sf::Time& dt)
 {
-	for (auto& layer : m_layers)
+	for (auto& layer : _layers)
 	{
 		updateLayer(layer, dt);
 	}
@@ -29,7 +29,7 @@ void StarBackground::update(const sf::Time& dt)
 
 void StarBackground::setPosition(sf::Vector2f position)
 {
-	m_position = position;
+	_position = position;
 }
 
 static sf::Color getRandomStarColor()
@@ -43,19 +43,19 @@ void StarBackground::initializeLayers()
 {
 	for (size_t i = 0; i < LAYER_COUNT; ++i)
 	{
-		m_layers[i].vertices.setPrimitiveType(sf::Points);
-		m_layers[i].vertices.resize(STARS_PER_LAYER);
-		m_layers[i].velocity.x = 5.0f + 5.0f * i; // Default speed for each layer
-		m_layers[i].velocity.y = 5.0f + 5.0f * i; // Default speed for each layer
-		m_layers[i].size = 1.0f + 0.5f * i;		  // Adjust size for each layer
+		_layers[i].vertices.setPrimitiveType(sf::Points);
+		_layers[i].vertices.resize(STARS_PER_LAYER);
+		_layers[i].velocity.x = 5.0f + 5.0f * i; // Default speed for each layer
+		_layers[i].velocity.y = 5.0f + 5.0f * i; // Default speed for each layer
+		_layers[i].size = 1.0f + 0.5f * i;		 // Adjust size for each layer
 
 		for (size_t j = 0; j < STARS_PER_LAYER; ++j)
 		{
-			const float x = effolkronium::random_static::get(0.f, m_size.x);
-			const float y = effolkronium::random_static::get(0.f, m_size.y);
+			const float x = effolkronium::random_static::get(0.f, _size.x);
+			const float y = effolkronium::random_static::get(0.f, _size.y);
 
-			m_layers[i].vertices[j].position = sf::Vector2f(x, y);
-			m_layers[i].vertices[j].color = getRandomStarColor();
+			_layers[i].vertices[j].position = sf::Vector2f(x, y);
+			_layers[i].vertices[j].color = getRandomStarColor();
 		}
 	}
 }
@@ -68,13 +68,13 @@ void StarBackground::updateLayer(StarLayer& layer, const sf::Time& dt)
 		pos += layer.velocity * dt.asSeconds();
 
 		// Wrap stars around the screen
-		if (pos.x < 0 - m_position.x)
-			pos.x = m_size.x;
-		if (pos.x > m_size.x)
+		if (pos.x < 0 - _position.x)
+			pos.x = _size.x;
+		if (pos.x > _size.x)
 			pos.x = 0;
 		if (pos.y < 0)
-			pos.y = m_size.y;
-		if (pos.y > m_size.y)
+			pos.y = _size.y;
+		if (pos.y > _size.y)
 			pos.y = 0;
 	}
 }

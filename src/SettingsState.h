@@ -30,14 +30,14 @@ public:
 	void handleEvent(const sf::Event& event) override;
 
 private:
-	sf::Music* m_BackgroundMusic;
+	sf::Music* _backgroundMusic;
 
-	bgl::Slider m_VolumeSlider;
+	bgl::Slider _volumeSlider;
 
-	bgl::Button m_BackButton;
+	bgl::Button _backButton;
 
-	sf::Texture m_BackgroundTexture;
-	sf::Sprite m_BackgroundSprite;
+	sf::Texture _backgroundTexture;
+	sf::Sprite _backgroundSprite;
 
-	sf::Text m_Title;
+	sf::Text _title;
 };

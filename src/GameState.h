@@ -17,7 +17,6 @@ class PhysicsWorld;
 class StateManager;
 }
 
-
 class BulletManager;
 
 class GameState : public bgl::State
@@ -40,16 +39,16 @@ private:
 	sf::Vector2f getPlayerStartingPosition() const;
 
 private:
-	bgl::Camera m_Camera;
+	bgl::Camera _camera;
 
-	Player m_Player1;
-	bgl::Map* m_Map;
+	Player _player1;
+	bgl::Map* _map;
 
-	bgl::PhysicsWorld& m_PhysicsWorld;
+	bgl::PhysicsWorld& _physicsWorld;
 
-	sf::Text m_fpsCounter;
+	sf::Text _fpsCounter;
 
-	StarBackground m_starBackground;
+	StarBackground _starBackground;
 
-	DialogBox m_dialogBoxTest;
+	DialogBox _dialogBoxTest;
 };

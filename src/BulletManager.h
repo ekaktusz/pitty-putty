@@ -34,5 +34,5 @@ private:
 	BulletManager() = default;
 
 private:
-	std::vector<std::unique_ptr<Bullet>> m_Bullets;
+	std::vector<std::unique_ptr<Bullet>> _bullets;
 };

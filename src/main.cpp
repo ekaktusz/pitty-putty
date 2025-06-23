@@ -44,11 +44,6 @@ void initializeLogger(spdlog::level::level_enum logLevel)
 	logger->flush();
 }
 
-void initializeAssetManager()
-{
-	bgl::AssetManager::getInstance().setRootPath(std::filesystem::absolute(argv[0]).parent_path().string() + "/");
-}
-
 int main(int argc, char* argv[])
 {
 	initializeLogger(spdlog::level::debug);

@@ -8,72 +8,72 @@
 
 PauseState::PauseState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
 	bgl::State(stateManager, renderWindow),
-	m_CountinueButton(renderWindow),
-	m_SettingsButton(renderWindow),
-	m_QuitButton(renderWindow),
-	m_ReturnToMainButton(renderWindow)
+	_countinueButton(renderWindow),
+	_settingsButton(renderWindow),
+	_quitButton(renderWindow),
+	_returnToMainButton(renderWindow)
 {
 	loadAssets();
-	m_BackgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
-	m_BackgroundSprite.setTexture(m_BackgroundTexture);
-	m_BackgroundMusic = &bgl::AssetManager::getInstance().getMusic("menuMusic");
-	m_BackgroundMusic->play();
-	m_GameTitle.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
-	m_GameTitle.setCharacterSize(100);
-	m_GameTitle.setString("paused");
-	m_GameTitle.setFillColor(sf::Color::White);
-	m_GameTitle.setOutlineColor(sf::Color::Black);
-	m_GameTitle.setOutlineThickness(5);
+	_backgroundTexture = bgl::AssetManager::getInstance().getTexture("menuBackground");
+	_backgroundSprite.setTexture(_backgroundTexture);
+	_backgroundMusic = &bgl::AssetManager::getInstance().getMusic("menuMusic");
+	_backgroundMusic->play();
+	_gameTitle.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
+	_gameTitle.setCharacterSize(100);
+	_gameTitle.setString("paused");
+	_gameTitle.setFillColor(sf::Color::White);
+	_gameTitle.setOutlineColor(sf::Color::Black);
+	_gameTitle.setOutlineThickness(5);
 
-	sf::Vector2f center { m_GameTitle.getGlobalBounds().width / 2.f, m_GameTitle.getGlobalBounds().height / 2.f };
-	sf::Vector2f localBounds { center.x + m_GameTitle.getLocalBounds().left, center.y + m_GameTitle.getLocalBounds().top };
+	sf::Vector2f center { _gameTitle.getGlobalBounds().width / 2.f, _gameTitle.getGlobalBounds().height / 2.f };
+	sf::Vector2f localBounds { center.x + _gameTitle.getLocalBounds().left, center.y + _gameTitle.getLocalBounds().top };
 	sf::Vector2f rounded { std::round(localBounds.x), std::round(localBounds.y) };
-	m_GameTitle.setOrigin(rounded);
-	m_GameTitle.setPosition(m_RenderWindow.getSize().x / 2, 100);
+	_gameTitle.setOrigin(rounded);
+	_gameTitle.setPosition(_renderWindow.getSize().x / 2, 100);
 
-	m_CountinueButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_CountinueButton.setSize({ 400, 50 });
-	m_CountinueButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 300.f });
-	m_CountinueButton.setString("continue game");
-	m_CountinueButton.setActionTodo([&]() {
+	_countinueButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_countinueButton.setSize({ 400, 50 });
+	_countinueButton.setPosition({ _renderWindow.getSize().x / 2.f - _countinueButton.getSize().x / 2.f, 300.f });
+	_countinueButton.setString("continue game");
+	_countinueButton.setActionTodo([&]() {
 		SPDLOG_INFO("Switch to GameState: Starting the game");
-		m_StateManager.popState();
+		_stateManager.popState();
 	});
 
-	m_SettingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_SettingsButton.setSize({ 400, 50 });
-	m_SettingsButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 360.f });
-	m_SettingsButton.setString("settings");
-	m_SettingsButton.setActionTodo([&]() {
+	_settingsButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_settingsButton.setSize({ 400, 50 });
+	_settingsButton.setPosition({ _renderWindow.getSize().x / 2.f - _countinueButton.getSize().x / 2.f, 360.f });
+	_settingsButton.setString("settings");
+	_settingsButton.setActionTodo([&]() {
 		SPDLOG_DEBUG("Settings button pressed!");
-		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(m_StateManager, m_RenderWindow);
-		m_StateManager.pushState(std::move(settingsState));
+		std::unique_ptr<SettingsState> settingsState = std::make_unique<SettingsState>(_stateManager, _renderWindow);
+		_stateManager.pushState(std::move(settingsState));
 	});
 
-	m_ReturnToMainButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_ReturnToMainButton.setSize({ 400, 50 });
-	m_ReturnToMainButton.setPosition({ m_RenderWindow.getSize().x / 2.f - m_CountinueButton.getSize().x / 2.f, 420.f });
-	m_ReturnToMainButton.setString("return to main menu");
-	m_ReturnToMainButton.setActionTodo([&]() {
+	_returnToMainButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_returnToMainButton.setSize({ 400, 50 });
+	_returnToMainButton.setPosition({ _renderWindow.getSize().x / 2.f - _countinueButton.getSize().x / 2.f, 420.f });
+	_returnToMainButton.setString("return to main menu");
+	_returnToMainButton.setActionTodo([&]() {
 		SPDLOG_INFO("Switch to MenuState: Starting the game");
-		m_StateManager.resetToFirstState();
+		_stateManager.resetToFirstState();
 	});
 
-	m_QuitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
-	m_QuitButton.setSize({ 400, 50 });
-	m_QuitButton.setPosition({ m_RenderWindow.getSize().x / 2 - m_CountinueButton.getSize().x / 2, 480 });
-	m_QuitButton.setString("quit game");
-	m_QuitButton.setActionTodo([&]() {
+	_quitButton.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_quitButton.setSize({ 400, 50 });
+	_quitButton.setPosition({ _renderWindow.getSize().x / 2 - _countinueButton.getSize().x / 2, 480 });
+	_quitButton.setString("quit game");
+	_quitButton.setActionTodo([&]() {
 		SPDLOG_INFO("Quit game :(");
-		m_RenderWindow.close();
+		_renderWindow.close();
 	});
 
-	m_RenderWindow.setView(sf::View(static_cast<sf::Vector2f>(m_RenderWindow.getSize() / 2u), static_cast<sf::Vector2f>(m_RenderWindow.getSize())));
+	_renderWindow.setView(sf::View(static_cast<sf::Vector2f>(_renderWindow.getSize() / 2u), static_cast<sf::Vector2f>(_renderWindow.getSize())));
 }
 
 PauseState::~PauseState()
 {
-	m_BackgroundMusic->pause();
+	_backgroundMusic->pause();
 }
 
 void PauseState::loadAssets()
@@ -83,51 +83,51 @@ void PauseState::loadAssets()
 
 void PauseState::update(const sf::Time& dt)
 {
-	m_CountinueButton.update(dt);
-	m_SettingsButton.update(dt);
-	m_QuitButton.update(dt);
-	m_ReturnToMainButton.update(dt);
+	_countinueButton.update(dt);
+	_settingsButton.update(dt);
+	_quitButton.update(dt);
+	_returnToMainButton.update(dt);
 }
 
 void PauseState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.clear();
-	target.draw(m_BackgroundSprite);
-	target.draw(m_GameTitle);
-	target.draw(m_CountinueButton);
-	target.draw(m_SettingsButton);
-	target.draw(m_QuitButton);
-	target.draw(m_ReturnToMainButton);
+	target.draw(_backgroundSprite);
+	target.draw(_gameTitle);
+	target.draw(_countinueButton);
+	target.draw(_settingsButton);
+	target.draw(_quitButton);
+	target.draw(_returnToMainButton);
 }
 
 void PauseState::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::Closed)
 	{
-		m_RenderWindow.close();
+		_renderWindow.close();
 	}
 	else if (event.type == sf::Event::KeyPressed)
 	{
 		if (event.key.code == sf::Keyboard::Escape)
 		{
-			m_StateManager.popState();
+			_stateManager.popState();
 		}
 	}
-	m_CountinueButton.handleEvent(event);
-	m_SettingsButton.handleEvent(event);
-	m_QuitButton.handleEvent(event);
-	m_ReturnToMainButton.handleEvent(event);
+	_countinueButton.handleEvent(event);
+	_settingsButton.handleEvent(event);
+	_quitButton.handleEvent(event);
+	_returnToMainButton.handleEvent(event);
 }
 
 void PauseState::onResume()
 {
-	if (m_BackgroundMusic->getStatus() != sf::Music::Status::Playing)
+	if (_backgroundMusic->getStatus() != sf::Music::Status::Playing)
 	{
-		m_BackgroundMusic->play();
+		_backgroundMusic->play();
 	}
 }
 
 void PauseState::onPause()
 {
-	//m_BackgroundMusic->pause();
+	//_backgroundMusic->pause();
 }

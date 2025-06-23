@@ -18,69 +18,69 @@
 
 GameState::GameState(bgl::StateManager& stateManager, sf::RenderWindow& renderWindow) :
 	bgl::State(stateManager, renderWindow),
-	m_Camera(renderWindow),
-	m_Map(nullptr),
-	m_PhysicsWorld(bgl::PhysicsWorld::getInstance())
+	_camera(renderWindow),
+	_map(nullptr),
+	_physicsWorld(bgl::PhysicsWorld::getInstance())
 {
 	loadAssets();
-	//m_PhysicsWorld.initDebugDraw(renderWindow);
+	//_physicsWorld.initDebugDraw(renderWindow);
 
-	m_fpsCounter.setString("buttonString");
-	m_fpsCounter.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
+	_fpsCounter.setString("buttonString");
+	_fpsCounter.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 
-	//m_fpsCounter.setFont(;
+	//_fpsCounter.setFont(;
 }
 
 GameState::~GameState()
 {
 	bgl::AssetManager::getInstance().unloadMap("testmap");
-	m_PhysicsWorld.cleanUp();
+	_physicsWorld.cleanUp();
 }
 
 void GameState::update(const sf::Time& dt)
 {
-	m_Player1.update(dt);
-	const sf::Vector2f offset = m_Player1.getCenterPosition() - m_Camera.getCenterPosition();
-	m_Camera.move(offset * dt.asSeconds() * 10.f);
-	m_PhysicsWorld.update(dt);
+	_player1.update(dt);
+	const sf::Vector2f offset = _player1.getCenterPosition() - _camera.getCenterPosition();
+	_camera.move(offset * dt.asSeconds() * 10.f);
+	_physicsWorld.update(dt);
 	BulletManager::getInstance().update(dt);
 
-	m_starBackground.update(dt);
+	_starBackground.update(dt);
 
-	m_dialogBoxTest.update(dt);
+	_dialogBoxTest.update(dt);
 
-	m_fpsCounter.setPosition(sf::Vector2f(20.f, 20.f) + m_Camera.getPosition());
-	m_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
-	//m_Camera.update(dt);
+	_fpsCounter.setPosition(sf::Vector2f(20.f, 20.f) + _camera.getPosition());
+	_fpsCounter.setString(std::to_string(1.f / dt.asSeconds()));
+	//_camera.update(dt);
 }
 
 void GameState::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.clear();
-	target.draw(m_starBackground);
-	target.draw(m_PhysicsWorld);
-	target.draw(m_Player1);
-	target.draw(m_Map->getTileLayer("backlayer"));
+	target.draw(_starBackground);
+	target.draw(_physicsWorld);
+	target.draw(_player1);
+	target.draw(_map->getTileLayer("backlayer"));
 	target.draw(BulletManager::getInstance());
-	target.draw(m_fpsCounter);
-	target.draw(m_dialogBoxTest);
+	target.draw(_fpsCounter);
+	target.draw(_dialogBoxTest);
 }
 
 void GameState::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::Closed)
 	{
-		m_RenderWindow.close();
+		_renderWindow.close();
 	}
 	else if (event.type == sf::Event::KeyPressed)
 	{
 		if (event.key.code == sf::Keyboard::Escape)
 		{
-			std::unique_ptr<PauseState> pauseState = std::make_unique<PauseState>(m_StateManager, m_RenderWindow);
-			m_StateManager.pushState(std::move(pauseState));
+			std::unique_ptr<PauseState> pauseState = std::make_unique<PauseState>(_stateManager, _renderWindow);
+			_stateManager.pushState(std::move(pauseState));
 		}
 	}
-	m_Player1.handleEvent(event);
+	_player1.handleEvent(event);
 }
 
 void GameState::onResume() {}
@@ -89,20 +89,21 @@ void GameState::onPause() {}
 
 void GameState::onStart()
 {
-	m_Map = &bgl::AssetManager::getInstance().getMap("testmap");
+	_map = &bgl::AssetManager::getInstance().getMap("testmap");
 
-	m_Camera.setWorldBoundaries(0, 0, m_Map->getSize().x, m_Map->getSize().y);
-	m_Camera.attach(m_RenderWindow);
+	_camera.setWorldBoundaries(0, 0, _map->getSize().x, _map->getSize().y);
+	_camera.attach(_renderWindow);
 
-	m_starBackground = StarBackground(m_Map->getSize());
+	_starBackground = StarBackground(_map->getSize());
 
-	m_Player1.setPosition(getPlayerStartingPosition());
+	_player1.setPosition(getPlayerStartingPosition());
 
-	m_dialogBoxTest.setSize({ 500.f, 200.f });
-	m_dialogBoxTest.setDialogString("Important: When you use mismatched microphone and external speaker devices, it might cause an echo. Important: When you use mismatched microphone and external speaker devices, it might cause an echo!");
-	m_dialogBoxTest.attachCamera(m_Camera);
-	m_dialogBoxTest.setPosition({ 50.f, 500.f });
-	m_dialogBoxTest.start();
+	_dialogBoxTest.setSize({ 500.f, 200.f });
+	_dialogBoxTest.setDialogString(
+		"Important: When you use mismatched microphone and external speaker devices, it might cause an echo. Important: When you use mismatched microphone and external speaker devices, it might cause an echo!");
+	_dialogBoxTest.attachCamera(_camera);
+	_dialogBoxTest.setPosition({ 50.f, 500.f });
+	_dialogBoxTest.start();
 }
 
 void GameState::loadAssets()
@@ -112,7 +113,7 @@ void GameState::loadAssets()
 
 sf::Vector2f GameState::getPlayerStartingPosition() const
 {
-	const bgl::ObjectLayer& playerStartingPositionLayer = m_Map->getObjectLayer("starting_pos");
+	const bgl::ObjectLayer& playerStartingPositionLayer = _map->getObjectLayer("starting_pos");
 
 	const tmx::Object& object = playerStartingPositionLayer.getFirstObject();
 

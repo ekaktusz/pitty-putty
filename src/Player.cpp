@@ -18,12 +18,12 @@
 
 Player::Player()
 {
-	m_RigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f);
-	m_RigidBody->setGravityScale(0.f);
-	m_RigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { beginContact(other, collisionNormal); });
+	_rigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(0, 0, 48 * 1.5 - 20, 48 * 1.5 - 20, true, 1.f);
+	_rigidBody->setGravityScale(0.f);
+	_rigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { beginContact(other, collisionNormal); });
 
-	m_RigidBody->setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { endContact(other, collisionNormal); });
-	m_RigidBody->setUserCustomData(RigidBodyType::Player);
+	_rigidBody->setEndContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { endContact(other, collisionNormal); });
+	_rigidBody->setUserCustomData(RigidBodyType::Player);
 
 	bgl::AssetManager::getInstance().loadTexture("../../assets/spritesheets/characters/Yellow/Gunner_Yellow_Idle.png", "yellow-idle");
 	const sf::Texture& idleAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-idle");
@@ -33,49 +33,49 @@ Player::Player()
 	const sf::Texture& runningAnimationTexture = bgl::AssetManager::getInstance().getTexture("yellow-run");
 	auto runningAnimation = std::make_unique<bgl::Animation>(runningAnimationTexture, sf::Vector2i(48, 48), sf::Vector2i(0, 0), sf::Vector2i(4, 0), sf::seconds(0.1f));
 
-	m_AnimationContainer.addAnimation("idle", std::move(idleAnimation));
-	m_AnimationContainer.addAnimation("running", std::move(runningAnimation));
-	m_AnimationContainer.setScale(1.5f, 1.5f);
+	_animationContainer.addAnimation("idle", std::move(idleAnimation));
+	_animationContainer.addAnimation("running", std::move(runningAnimation));
+	_animationContainer.setScale(1.5f, 1.5f);
 }
 
 Player::~Player()
 {
-	bgl::PhysicsWorld::getInstance().destroyRigidBody(m_RigidBody);
+	bgl::PhysicsWorld::getInstance().destroyRigidBody(_rigidBody);
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(m_AnimationContainer);
+	target.draw(_animationContainer);
 }
 
 void Player::update(const sf::Time& dt)
 {
 	syncPhysics();
 	static const sf::Vector2f animationOffset { -10, -10 };
-	m_AnimationContainer.setPosition(m_Position + animationOffset);
-	m_AnimationContainer.update(dt);
+	_animationContainer.setPosition(_position + animationOffset);
+	_animationContainer.update(dt);
 	updateKeyboard(dt);
 
-	if (m_Velocity.x != 0)
+	if (_velocity.x != 0)
 	{
-		m_AnimationContainer.setCurrentAnimation("running");
-		m_Direction = m_Velocity.x < 0 ? Direction::LEFT : Direction::RIGHT;
+		_animationContainer.setCurrentAnimation("running");
+		_direction = _velocity.x < 0 ? Direction::LEFT : Direction::RIGHT;
 	}
 	else
 	{
-		m_AnimationContainer.setCurrentAnimation("idle");
+		_animationContainer.setCurrentAnimation("idle");
 	}
 
 	applyFriction(dt);
 	applyGravity(dt);
 
-	if (m_Direction == Direction::RIGHT)
+	if (_direction == Direction::RIGHT)
 	{
-		m_AnimationContainer.flipHorizontally(false);
+		_animationContainer.flipHorizontally(false);
 	}
 	else
 	{
-		m_AnimationContainer.flipHorizontally(true);
+		_animationContainer.flipHorizontally(true);
 	}
 }
 
@@ -83,13 +83,13 @@ void Player::updateKeyboard(const sf::Time& dt)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		m_Velocity.x = std::min(m_Velocity.x + s_Acceleration * dt.asSeconds(), s_MaxSpeed);
+		_velocity.x = std::min(_velocity.x + ACCELERATION * dt.asSeconds(), MAX_SPEED);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		m_Velocity.x = std::max(m_Velocity.x - s_Acceleration * dt.asSeconds(), -s_MaxSpeed);
+		_velocity.x = std::max(_velocity.x - ACCELERATION * dt.asSeconds(), -MAX_SPEED);
 	}
-	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && m_Grounded)
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && _Grounded)
 	{
 		jump();
 	}
@@ -101,8 +101,8 @@ void Player::handleEvent(const sf::Event& event)
 	{
 		if (event.key.code == sf::Keyboard::T)
 		{
-			const sf::Vector2f bulletVelocity { (m_Direction == Direction::RIGHT ? 1 : -1) * 400.f, 0.f };
-			const float bulletXPosition = getCenterPosition().x + (m_Direction == Direction::RIGHT ? 1 : -1) * 20;
+			const sf::Vector2f bulletVelocity { (_direction == Direction::RIGHT ? 1 : -1) * 400.f, 0.f };
+			const float bulletXPosition = getCenterPosition().x + (_direction == Direction::RIGHT ? 1 : -1) * 20;
 			const sf::Vector2f bulletStartingPosition { bulletXPosition, getCenterPosition().y - 5 };
 			BulletManager::getInstance().createBullet(bulletStartingPosition, bulletVelocity);
 			SPDLOG_INFO("shoot");
@@ -112,45 +112,45 @@ void Player::handleEvent(const sf::Event& event)
 
 sf::Vector2f Player::getCenterPosition() const
 {
-	return m_Position + m_RigidBody->getSize() / 2.f;
+	return _position + _rigidBody->getSize() / 2.f;
 }
 
 void Player::setPosition(sf::Vector2f position)
 {
-	m_Position = position;
-	m_RigidBody->setPosition(position);
+	_position = position;
+	_rigidBody->setPosition(position);
 }
 
 sf::Vector2f Player::getVelocity() const
 {
-	return m_Velocity;
+	return _velocity;
 }
 
 void Player::syncPhysics()
 {
-	// SPDLOG_INFO("vx: " + std::to_string(m_Velocity.x) + " vy: " + std::to_string(m_Velocity.y));
-	m_Position.x = m_RigidBody->getPosition().x;
-	m_Position.y = m_RigidBody->getPosition().y;
-	m_RigidBody->setLinearVelocity({ m_Velocity.x, m_Velocity.y });
+	// SPDLOG_INFO("vx: " + std::to_string(_velocity.x) + " vy: " + std::to_string(_velocity.y));
+	_position.x = _rigidBody->getPosition().x;
+	_position.y = _rigidBody->getPosition().y;
+	_rigidBody->setLinearVelocity({ _velocity.x, _velocity.y });
 }
 
 void Player::applyGravity(const sf::Time& dt)
 {
-	if (!m_Grounded)
+	if (!_Grounded)
 	{
-		m_Velocity.y -= s_Gravity * dt.asSeconds();
+		_velocity.y -= GRAVITY * dt.asSeconds();
 	}
 }
 
 void Player::applyFriction(const sf::Time& dt)
 {
-	if (m_Velocity.x > 0)
+	if (_velocity.x > 0)
 	{
-		m_Velocity.x = std::max(m_Velocity.x - s_Friction * dt.asSeconds(), 0.f);
+		_velocity.x = std::max(_velocity.x - FRICTION * dt.asSeconds(), 0.f);
 	}
-	else if (m_Velocity.x < 0)
+	else if (_velocity.x < 0)
 	{
-		m_Velocity.x = std::min(m_Velocity.x + s_Friction * dt.asSeconds(), 0.f);
+		_velocity.x = std::min(_velocity.x + FRICTION * dt.asSeconds(), 0.f);
 	}
 }
 
@@ -182,13 +182,13 @@ void Player::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 
 	if (collisionNormal.y < 0)
 	{
-		m_Grounded = true;
-		m_CurrentGroundBody = rigidBody;
-		m_Velocity.y = 0;
+		_Grounded = true;
+		_currentGroundBody = rigidBody;
+		_velocity.y = 0;
 	}
 	else if (collisionNormal.y > 0)
 	{
-		m_Velocity.y = 0;
+		_velocity.y = 0;
 	}
 }
 
@@ -217,15 +217,15 @@ void Player::endContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
 	}
 
 	SPDLOG_TRACE("collision ended with solid");
-	if (m_CurrentGroundBody == rigidBody)
+	if (_currentGroundBody == rigidBody)
 	{
-		m_Grounded = false;
+		_Grounded = false;
 	}
 }
 
 void Player::jump()
 {
 	SPDLOG_INFO("jumped");
-	m_Velocity.y = s_JumpSpeed;
-	m_Grounded = false;
+	_velocity.y = JUMP_SPEED;
+	_Grounded = false;
 }

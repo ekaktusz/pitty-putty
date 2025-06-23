@@ -28,14 +28,14 @@ public:
 	void beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal);
 
 private:
-	sf::Vector2f m_Position;
-	sf::Vector2f m_Size;
-	sf::Vector2f m_Velocity;
+	sf::Vector2f _position;
+	sf::Vector2f _size;
+	sf::Vector2f _velocity;
 
-	sf::Time m_Duration = sf::seconds(5.f);
-	sf::Clock m_CurrentAge;
+	sf::Time _duration = sf::seconds(5.f);
+	sf::Clock _currentAge;
 
-	bgl::RigidBody* m_RigidBody;
+	bgl::RigidBody* _rigidBody;
 
-	sf::RectangleShape m_BulletShape;
+	sf::RectangleShape _bulletshape;
 };

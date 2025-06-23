@@ -37,25 +37,25 @@ private:
 	void jump();
 
 private:
-	static constexpr float s_Acceleration = 4000 * 1.5;
-	static constexpr float s_MaxSpeed = 200 * 1.5;
-	static constexpr float s_Friction = 3500 * 1.5;
-	static constexpr float s_Gravity = 1000 * 1.5;
-	static constexpr float s_JumpSpeed = 500 * 1.5;
+	static constexpr float ACCELERATION = 4000 * 1.5;
+	static constexpr float MAX_SPEED = 200 * 1.5;
+	static constexpr float FRICTION = 3500 * 1.5;
+	static constexpr float GRAVITY = 1000 * 1.5;
+	static constexpr float JUMP_SPEED = 500 * 1.5;
 
-	sf::Vector2f m_Position;
-	sf::Vector2f m_Velocity;
-	bool m_Grounded = false;
+	sf::Vector2f _position;
+	sf::Vector2f _velocity;
+	bool _Grounded = false;
 
-	bgl::RigidBody* m_RigidBody;
-	bgl::RigidBody* m_CurrentGroundBody;
+	bgl::RigidBody* _rigidBody;
+	bgl::RigidBody* _currentGroundBody;
 
 	enum class Direction
 	{
 		LEFT,
 		RIGHT
 	};
-	Direction m_Direction = Direction::RIGHT;
+	Direction _direction = Direction::RIGHT;
 
-	bgl::AnimationContainer m_AnimationContainer;
+	bgl::AnimationContainer _animationContainer;
 };

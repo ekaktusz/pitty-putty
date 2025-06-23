@@ -14,16 +14,16 @@
 #include <bagla-engine/physics/RigidBody.h>
 #include <spdlog/spdlog.h>
 
-Bullet::Bullet(sf::Vector2f position, sf::Vector2f velocity) : m_Position(position), m_BulletShape({ 5.f, 5.f })
+Bullet::Bullet(sf::Vector2f position, sf::Vector2f velocity) : _position(position), _bulletshape({ 5.f, 5.f })
 {
-	m_RigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(position.x, position.y, 5, 5);
-	m_RigidBody->setGravityScale(0);
-	m_RigidBody->setLinearVelocity(velocity);
-	m_RigidBody->setSensor(true);
+	_rigidBody = bgl::PhysicsWorld::getInstance().newRigidBody(position.x, position.y, 5, 5);
+	_rigidBody->setGravityScale(0);
+	_rigidBody->setLinearVelocity(velocity);
+	_rigidBody->setSensor(true);
 
-	m_RigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { beginContact(other, collisionNormal); });
+	_rigidBody->setBeginContact([&](bgl::RigidBody* other, sf::Vector2f collisionNormal) { beginContact(other, collisionNormal); });
 
-	m_BulletShape.setFillColor(sf::Color::Green);
+	_bulletshape.setFillColor(sf::Color::Green);
 }
 
 Bullet::Bullet(Bullet&& otherBullet) noexcept
@@ -35,15 +35,15 @@ Bullet& Bullet::operator=(Bullet&& otherBullet) noexcept
 {
 	if (this != &otherBullet)
 	{
-		m_Position = std::move(otherBullet.m_Position);
-		m_Size = std::move(otherBullet.m_Size);
-		m_Velocity = std::move(otherBullet.m_Velocity);
-		m_Duration = std::move(otherBullet.m_Duration);
-		m_CurrentAge = std::move(otherBullet.m_CurrentAge);
-		m_RigidBody = otherBullet.m_RigidBody;
-		m_BulletShape = std::move(otherBullet.m_BulletShape);
+		_position = std::move(otherBullet._position);
+		_size = std::move(otherBullet._size);
+		_velocity = std::move(otherBullet._velocity);
+		_duration = std::move(otherBullet._duration);
+		_currentAge = std::move(otherBullet._currentAge);
+		_rigidBody = otherBullet._rigidBody;
+		_bulletshape = std::move(otherBullet._bulletshape);
 
-		otherBullet.m_RigidBody = nullptr;
+		otherBullet._rigidBody = nullptr;
 	}
 	return *this;
 }
@@ -51,27 +51,27 @@ Bullet& Bullet::operator=(Bullet&& otherBullet) noexcept
 Bullet::~Bullet()
 {
 	SPDLOG_INFO("destroying");
-	if (m_RigidBody != nullptr)
+	if (_rigidBody != nullptr)
 	{
-		bgl::PhysicsWorld::getInstance().destroyRigidBody(m_RigidBody);
+		bgl::PhysicsWorld::getInstance().destroyRigidBody(_rigidBody);
 	}
 }
 
 void Bullet::update(const sf::Time& dt)
 {
-	m_Position.x = m_RigidBody->getPosition().x;
-	m_Position.y = m_RigidBody->getPosition().y;
-	m_BulletShape.setPosition(m_Position);
+	_position.x = _rigidBody->getPosition().x;
+	_position.y = _rigidBody->getPosition().y;
+	_bulletshape.setPosition(_position);
 }
 
 void Bullet::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(m_BulletShape);
+	target.draw(_bulletshape);
 }
 
 bool Bullet::isExpired() const
 {
-	return m_CurrentAge.getElapsedTime() > m_Duration;
+	return _currentAge.getElapsedTime() > _duration;
 }
 
 void Bullet::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNormal)
@@ -94,7 +94,7 @@ void Bullet::beginContact(bgl::RigidBody* rigidBody, sf::Vector2f collisionNorma
 	std::string userCustomDataString = std::any_cast<std::string>(userCustomData);
 	if (userCustomDataString == "solid")
 	{
-		m_Duration = sf::seconds(0); // deleting it basically
+		_duration = sf::seconds(0); // deleting it basically
 		SPDLOG_INFO("bullet hit solid obstacle");
 	}
 }
