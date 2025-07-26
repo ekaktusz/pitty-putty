@@ -14,17 +14,17 @@ void initializeLogger(spdlog::level::level_enum logLevel, std::string_view logFi
 	std::vector<spdlog::sink_ptr> sinks;
 
 	// Create file sink (always used)
-	auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.data());
-	file_sink->set_level(logLevel);
-	file_sink->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%l] %v");
-	sinks.push_back(file_sink);
+	auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.data());
+	fileSink->set_level(logLevel);
+	fileSink->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%l] %v");
+	sinks.push_back(fileSink);
 
 #ifndef WSL
 	// in WSL there is an issue with audio errors, which spams the console
-	auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-	console_sink->set_level(logLevel);
-	console_sink->set_pattern("[%^%l%$] %v");
-	sinks.push_back(console_sink);
+	auto consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+	consoleSink->set_level(logLevel);
+	consoleSink->set_pattern("[%^%l%$] %v");
+	sinks.push_back(consoleSink);
 #endif
 
 	auto logger = std::make_shared<spdlog::logger>("logger", sinks.begin(), sinks.end());

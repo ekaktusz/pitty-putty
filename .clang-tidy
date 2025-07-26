@@ -1,0 +1,40 @@
+Checks: >
+  -*,
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  modernize-*,
+  readability-*,
+  cppcoreguidelines-*,
+  portability-*,
+  misc-*,
+  hicpp-*,
+  google-*,
+  llvm-*
+
+WarningsAsErrors: ''
+
+CheckOptions:
+  # modernize
+  - { key: modernize-use-nullptr.NullMacros, value: 'NULL' }
+  - { key: modernize-use-trailing-return-type.MinTypeChars, value: '10' }
+  - { key: modernize-loop-convert.MinConfidence, value: reasonable }
+
+  # readability
+  - { key: readability-identifier-naming.VariableCase, value: camelBack }
+  - { key: readability-identifier-naming.FunctionCase, value: camelBack }
+  - { key: readability-identifier-naming.ClassCase, value: CamelCase }
+
+  # cppcoreguidelines
+  - { key: cppcoreguidelines-pro-type-member-init.HabilitateConstructor, value: true }
+
+  # misc
+
+  # performance
+  - { key: performance-inefficient-vector-operation.WarnOnlyForTriviallyCopyable, value: true }
+
+  # hicpp
+  - { key: hicpp-no-array-decay.ArrayDecayThreshold, value: '3' }
+
+FormatStyle: file
+HeaderFilterRegex: '.*'

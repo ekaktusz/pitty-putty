@@ -32,7 +32,7 @@ SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& 
 	_volumeSlider.setFont(bgl::AssetManager::getInstance().getFont("upheaval"));
 	_volumeSlider.setString("volume");
 	_volumeSlider.setSize({ 300, 30 });
-	_volumeSlider.setPosition({ _renderWindow.getSize().x / 2.f - _volumeSlider.getSize().x / 2.f, 360.f });
+	_volumeSlider.setPosition({ renderWindow.getSize().x / 2.f - _volumeSlider.getSize().x / 2.f, 360.f });
 	_volumeSlider.setOnProgressChange([&](float progress) {
 		SPDLOG_INFO("Progress changed.");
 		_backgroundMusic->setVolume(progress * 100);
@@ -43,7 +43,7 @@ SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& 
 	_backButton.setSize({ 50, 50 });
 	_backButton.setPosition({ 30, 30 });
 	_backButton.setString("<");
-	_backButton.setActionTodo([&]() { _stateManager.popState(); });
+	_backButton.setActionTodo([&]() { stateManager.popState(); });
 
 	_title.setFont(bgl::AssetManager::getInstance().getFont("pixelFont"));
 	_title.setCharacterSize(100);
@@ -56,7 +56,7 @@ SettingsState::SettingsState(bgl::StateManager& stateManager, sf::RenderWindow& 
 	sf::Vector2f localBounds { center.x + _title.getLocalBounds().left, center.y + _title.getLocalBounds().top };
 	sf::Vector2f rounded { std::round(localBounds.x), std::round(localBounds.y) };
 	_title.setOrigin(rounded);
-	_title.setPosition(_renderWindow.getSize().x / 2.f, 100.f);
+	_title.setPosition(renderWindow.getSize().x / 2.f, 100.f);
 }
 
 void SettingsState::update(const sf::Time& dt)
